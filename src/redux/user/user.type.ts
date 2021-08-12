@@ -1,0 +1,7 @@
+const UserActionTypes = {
+  GOOGLE_SIGN_IN_START: "GOOGLE_SIGN_IN_START",
+  CHECK_USER_SESSION: "CHECK_USER_SESSION",
+  GOOGLE_SIGN_OUT_START: "GOOGLE_SIGN_OUT_START",
+};
+
+export default UserActionTypes;
