@@ -13,12 +13,12 @@ export function* getSnapshotFromUserAuth(
   additionalData?: any[]
 ): Generator<any, any, any> {
   try {
-    const userRef = yield call(
+    const userDoc = yield call(
       createUserProfileDocument,
       userAuth,
       additionalData
     );
-    const userSnapshot = yield userRef.get();
+    const userSnapshot = yield userDoc.get();
     yield put(logInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
   } catch (error) {
     yield put(authFailure(error));
