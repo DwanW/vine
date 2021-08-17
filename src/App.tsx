@@ -1,4 +1,5 @@
 import React from "react";
+import Nav from "./components/nav/nav.comp";
 import {
   googleSignInStart,
   googleSignOutStart,
@@ -11,7 +12,7 @@ function App() {
 
   return (
     <div>
-      <h1>vine</h1>
+      <Nav />
       <h4>
         current user is : {currentUser ? currentUser.displayName : "null"}
       </h4>
