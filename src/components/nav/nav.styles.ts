@@ -18,9 +18,13 @@ export const LogoContainer = styled(Link)`
   display: inline-block;
 
   img {
-    width: 100%;
-    height: 100%;
+    width: 230%;
+    height: 120%;
     object-position: center;
     object-fit: cover;
+
+    @media (min-width: 640px) {
+      width: 135%;
+    }
   }
 `;

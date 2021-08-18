@@ -3,6 +3,13 @@ import styled from "styled-components";
 export const DateCardContainer = styled.div`
   flex: 1;
   padding: 1rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+
+  @media (min-width: 640px) {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
 `;
 
 export const MainDate = styled.div`

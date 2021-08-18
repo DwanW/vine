@@ -2,9 +2,7 @@ import { ReactElement } from "react";
 import { useCurrentDate } from "../../util/hooks";
 import { DateCardContainer, MainDate, SubDate } from "./date-card.styles";
 
-interface Props {}
-
-export default function DateCard({}: Props): ReactElement {
+export default function DateCard(): ReactElement {
   const { year, month, day, weekday } = useCurrentDate();
   return (
     <DateCardContainer>
