@@ -7,13 +7,20 @@ export const MainNav = styled.nav`
   font-size: 1.25rem;
   line-height: 1.75rem;
   font-family: "Open Sans", sans-serif;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  background-color: #f5f5f5;
 `;
 
 export const LogoContainer = styled(Link)`
   width: 144px;
+  height: 100px;
+  overflow: hidden;
+  display: inline-block;
 
   img {
     width: 100%;
     height: 100%;
+    object-position: center;
+    object-fit: cover;
   }
 `;
