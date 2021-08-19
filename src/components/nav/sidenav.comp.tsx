@@ -1,22 +1,22 @@
 import { Link } from "react-router-dom";
-import { SideNavContainer } from "./sidenav.styles";
+import { SideNavContainer, NavList,NavListItem } from "./sidenav.styles";
 
 interface Props {}
 
 const SideNav = (props: Props) => {
   return (
     <SideNavContainer>
-      <ul>
-        <li>
+      <NavList>
+        <NavListItem>
           <Link to="/">Today</Link>
-        </li>
-        <li>
+        </NavListItem>
+        <NavListItem>
           <Link to="/routine">Routine</Link>
-        </li>
-        <li>
+        </NavListItem>
+        <NavListItem>
           <Link to="/setting">Setting</Link>
-        </li>
-      </ul>
+        </NavListItem>
+      </NavList>
     </SideNavContainer>
   );
 };
