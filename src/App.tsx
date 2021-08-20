@@ -5,6 +5,7 @@ import ErrorBoundary from "./components/errorboundary/errorboundary.comp";
 import { Suspense } from "react";
 import HomePage from "./pages/homepage.comp";
 import { GlobalStyle } from "./globalstyles";
+import MainForm from "./components/form/mainform.comp";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <GlobalStyle />
       <Nav />
       <SideNav />
+      <MainForm />
       <Switch>
         <ErrorBoundary>
           <Suspense fallback={<div>loading..</div>}>

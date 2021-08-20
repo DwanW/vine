@@ -6,7 +6,7 @@ export const WrapperMain = styled.main`
   padding: 0.5rem;
 
   @media (min-width: 640px) {
-    margin-left: 145px;
+    margin: auto 145px;
     width: auto;
   }
 `;
