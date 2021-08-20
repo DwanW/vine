@@ -2,6 +2,10 @@ import { configureStore } from "@reduxjs/toolkit";
 import { userSlice } from "./user/user.slice";
 import createSagaMiddleware from "@redux-saga/core";
 import rootSaga from "./saga";
+import { saveState, loadState } from "../util/localStorage";
+import throttle from "lodash/throttle";
+
+const persistedState = loadState();
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -10,7 +14,15 @@ export const store = configureStore({
     auth: userSlice.reducer,
   },
   middleware: [sagaMiddleware],
+  preloadedState: persistedState,
 });
+
+// save to localStorage throttled to maximum once per second
+store.subscribe(
+  throttle(() => {
+    saveState(store.getState());
+  }, 1000)
+);
 
 sagaMiddleware.run(rootSaga);
 

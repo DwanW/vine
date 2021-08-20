@@ -33,6 +33,9 @@ export const createUserProfileDocument = async (
         email,
         createdAt,
         ...additionalData,
+        categories: [],
+        routines: [],
+        tasks: [],
       });
     } catch (error) {
       console.log("error creating user: ", error.message);

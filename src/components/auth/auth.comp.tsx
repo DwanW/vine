@@ -11,6 +11,8 @@ export default function AuthComp(): ReactElement {
   const currentUser = useAppSelector((state) => state.auth.currentUser);
   const dispatch = useAppDispatch();
 
+  console.log(currentUser);
+
   if (!currentUser) {
     return (
       <AuthContainer>
