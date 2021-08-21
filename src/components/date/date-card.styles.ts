@@ -13,8 +13,13 @@ export const DateCardContainer = styled.div`
 `;
 
 export const MainDate = styled.div`
-  font-size: 2.25rem;
-  line-height: 2.5rem;
+  font-size: 1.5rem;
+  line-height: 2rem;
+
+  @media (min-width: 640px) {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
 `;
 
 export const SubDate = styled.div`

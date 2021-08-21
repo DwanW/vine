@@ -6,6 +6,7 @@ export const TriggerContainer = styled.div`
   bottom: 50px;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   padding: 1rem;
 
   @media (min-width: 640px) {

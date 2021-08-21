@@ -12,8 +12,8 @@ export const MainNav = styled.nav`
 `;
 
 export const LogoContainer = styled(Link)`
-  width: 144px;
-  height: 100px;
+  width: 70px;
+  height: 94px;
   overflow: hidden;
   display: inline-block;
 
@@ -26,5 +26,10 @@ export const LogoContainer = styled(Link)`
     @media (min-width: 640px) {
       width: 135%;
     }
+  }
+
+  @media (min-width: 640px) {
+    width: 144px;
+    height: 100px;
   }
 `;

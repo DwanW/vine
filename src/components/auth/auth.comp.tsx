@@ -28,7 +28,6 @@ export default function AuthComp(): ReactElement {
 
   return (
     <AuthContainer>
-      <div>Welcome!</div>
       <NameContainer>{currentUser.displayName.split(" ")[0]}</NameContainer>
       <AuthButton
         src="assets/icon/logout.svg"
