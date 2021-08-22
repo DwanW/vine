@@ -1,20 +1,42 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import FormButton from "../button/form-button.comp";
-import { TriggerContainer } from "./mainform.styles";
-interface Props {}
+import FormSelect from "./formselect.comp";
+import { MainFormDialog, TriggerContainer } from "./mainform.styles";
 
-function MainForm({}: Props): ReactElement {
+function MainForm(): ReactElement {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const [formType, setFormType] = useState<"task" | "routine" | "">("");
+
+  const handleClose = () => {
+    setIsDialogOpen(false);
+  };
+
+  useEffect(() => {
+    if (!isDialogOpen) {
+      setTimeout(() => setFormType(""), 300);
+    }
+  }, [isDialogOpen]);
+
   return (
-    <TriggerContainer>
-      <FormButton
-        onClick={() => {
-          console.log("this opens modal");
-          return;
-        }}
+    <>
+      <TriggerContainer>
+        <FormButton onClick={() => setIsDialogOpen(true)}>+</FormButton>
+      </TriggerContainer>
+      <MainFormDialog
+        open={isDialogOpen}
+        onClose={handleClose}
+        aria-labelledby="form-dialog"
+        aria-describedby="form-to-add"
       >
-        +
-      </FormButton>
-    </TriggerContainer>
+        {formType === "" ? <FormSelect setFormType={setFormType} /> : null}
+        {formType === "task"
+          ? "task form"
+          : formType === "routine"
+          ? "routine form"
+          : null}
+      </MainFormDialog>
+    </>
   );
 }
 

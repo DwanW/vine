@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Dialog from "@material-ui/core/Dialog";
 
 export const TriggerContainer = styled.div`
   position: fixed;
@@ -18,3 +19,7 @@ export const TriggerContainer = styled.div`
     bottom: auto;
   }
 `;
+
+export const MainFormDialog = styled(Dialog)`
+
+`
