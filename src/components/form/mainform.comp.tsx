@@ -2,6 +2,8 @@ import { ReactElement, useEffect, useState } from "react";
 import FormButton from "../button/form-button.comp";
 import FormSelect from "./formselect.comp";
 import { MainFormDialog, TriggerContainer } from "./mainform.styles";
+import RoutineForm from "./routineform.comp";
+import TaskForm from "./taskform.comp";
 
 function MainForm(): ReactElement {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -30,11 +32,11 @@ function MainForm(): ReactElement {
         aria-describedby="form-to-add"
       >
         {formType === "" ? <FormSelect setFormType={setFormType} /> : null}
-        {formType === "task"
-          ? "task form"
-          : formType === "routine"
-          ? "routine form"
-          : null}
+        {formType === "task" ? (
+          <TaskForm closeForm={handleClose} />
+        ) : formType === "routine" ? (
+          <RoutineForm closeForm={handleClose} />
+        ) : null}
       </MainFormDialog>
     </>
   );
