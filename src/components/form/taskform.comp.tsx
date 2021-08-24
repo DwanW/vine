@@ -1,12 +1,11 @@
 import { ChangeEvent, useState } from "react";
 import { v4 } from "uuid";
 import TextField from "@material-ui/core/TextField";
-import { DatePicker } from "@material-ui/pickers";
 import Checkbox from "@material-ui/core/Checkbox";
 import { TaskFormContainer } from "./taskform.styles";
-import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import ReminderForm from "./reminder.comp";
 import PriorityForm from "./priority.comp";
+import DateInput from "./dateinput.comp";
 
 interface Props {
   closeForm: Function;
@@ -31,11 +30,11 @@ const TaskForm = ({ closeForm }: Props) => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log("this submit task form");
     let id = v4();
     let submitTask = {
       id,
       ...task,
+      createdAt: new Date()
     };
     console.log(submitTask);
     closeForm();
@@ -44,12 +43,6 @@ const TaskForm = ({ closeForm }: Props) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let updatedTask: { [key: string]: any } = { ...task };
     updatedTask[e.target.name] = e.target.value;
-    setTask(updatedTask as TaskObj);
-  };
-
-  const handleDateChange = (date: MaterialUiPickersDate) => {
-    let updatedTask: { [key: string]: any } = { ...task };
-    updatedTask.date = date;
     setTask(updatedTask as TaskObj);
   };
 
@@ -72,14 +65,7 @@ const TaskForm = ({ closeForm }: Props) => {
             autoComplete="off"
           />
         </div>
-        <div>
-          <span>Start Date</span>
-          <DatePicker
-            value={task.date}
-            onChange={handleDateChange}
-            showTodayButton
-          />
-        </div>
+        <DateInput task={task} setTask={setTask} />
         <ReminderForm task={task} setTask={setTask} />
         <PriorityForm task={task} setTask={setTask} />
         <div>
