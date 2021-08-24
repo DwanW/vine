@@ -1,18 +1,18 @@
 import { ChangeEvent, useState } from "react";
 import { v4 } from "uuid";
 import TextField from "@material-ui/core/TextField";
-import { DatePicker, TimePicker } from "@material-ui/pickers";
+import { DatePicker } from "@material-ui/pickers";
 import Checkbox from "@material-ui/core/Checkbox";
 import { TaskFormContainer } from "./taskform.styles";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
-import Dialog from "@material-ui/core/Dialog";
-import dayjs, { Dayjs } from "dayjs";
+import ReminderForm from "./reminder.comp";
+import PriorityForm from "./priority.comp";
 
 interface Props {
   closeForm: Function;
 }
 
-interface TaskObj {
+export interface TaskObj {
   name: string;
   date: Date | undefined;
   reminders: Date[];
@@ -28,13 +28,6 @@ const TaskForm = ({ closeForm }: Props) => {
     priority: 1,
     required: true,
   });
-
-  const [isReminderDialogOpen, setReminderDialog] = useState(false);
-  const [isUpdateReminderOpen, setUpdateReminder] = useState(false);
-
-  const [isPriorityDialogOpen, setPriorityDialog] = useState(false);
-
-  const [time, setTime] = useState<Date | null | Dayjs>(null);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -66,21 +59,6 @@ const TaskForm = ({ closeForm }: Props) => {
     setTask(updatedTask as TaskObj);
   };
 
-  const changePriority = (value: number) => {
-    let updatedTask: { [key: string]: any } = { ...task };
-    updatedTask.priority = value;
-    setTask(updatedTask as TaskObj);
-    setPriorityDialog(false);
-  };
-
-  const addReminder = (time: Date) => {
-    let updatedTask: { [key: string]: any } = { ...task };
-    updatedTask.reminders = [...updatedTask.reminders, time];
-    setTask(updatedTask as TaskObj);
-    setUpdateReminder(false);
-    setReminderDialog(true);
-  };
-
   return (
     <form onSubmit={handleSubmit}>
       <TaskFormContainer>
@@ -100,66 +78,10 @@ const TaskForm = ({ closeForm }: Props) => {
             value={task.date}
             onChange={handleDateChange}
             showTodayButton
-            name="date"
           />
         </div>
-        <div>
-          <span>Reminder {task.reminders.length}</span>
-          <button type="button" onClick={() => setReminderDialog(true)}>
-            Set Reminder
-          </button>
-          <Dialog
-            open={isReminderDialogOpen}
-            onClose={() => setReminderDialog(false)}
-          >
-            {task.reminders.map((date) => dayjs(date).format("HH:mm"))}
-            <button
-              onClick={() => {
-                setReminderDialog(false);
-                setUpdateReminder(true);
-              }}
-            >
-              add reminders
-            </button>
-          </Dialog>
-          <Dialog
-            open={isUpdateReminderOpen}
-            onClose={() => {
-              setUpdateReminder(false);
-              setReminderDialog(true);
-            }}
-          >
-            <TimePicker
-              autoOk
-              label="12 hours"
-              value={time}
-              onChange={(date) => setTime(date)}
-            />
-            <button
-              onClick={() => {
-                setUpdateReminder(false);
-                setReminderDialog(true);
-              }}
-            >
-              cancel
-            </button>
-            <button onClick={() => addReminder(time as Date)}>confirm</button>
-          </Dialog>
-        </div>
-        <div>
-          <span>Priority: {task.priority}</span>
-          <button type="button" onClick={() => setPriorityDialog(true)}>
-            Set Priority
-          </button>
-          <Dialog
-            open={isPriorityDialogOpen}
-            onClose={() => setPriorityDialog(false)}
-          >
-            <button onClick={() => changePriority(2)}>high</button>
-            <button onClick={() => changePriority(1)}>normal</button>
-            <button onClick={() => changePriority(0)}>low</button>
-          </Dialog>
-        </div>
+        <ReminderForm task={task} setTask={setTask} />
+        <PriorityForm task={task} setTask={setTask} />
         <div>
           <label>
             Required
