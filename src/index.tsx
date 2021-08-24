@@ -6,13 +6,17 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DayUtils from "@date-io/dayjs";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <MuiPickersUtilsProvider utils={DayUtils}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </MuiPickersUtilsProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
