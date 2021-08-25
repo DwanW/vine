@@ -1,27 +1,17 @@
 import { DatePicker } from "@material-ui/pickers";
-import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
-import { Dispatch, ReactElement, SetStateAction } from "react";
-import { TaskObj } from "./taskform.comp";
+import { ReactElement } from "react";
 
 interface Props {
-  task: TaskObj;
-  setTask: Dispatch<SetStateAction<TaskObj>>;
+  value: any;
+  handleChange: (prop: any) => void;
+  label: string;
 }
 
-function DateInput({ task, setTask }: Props): ReactElement {
-  const handleDateChange = (date: MaterialUiPickersDate) => {
-    let updatedTask: { [key: string]: any } = { ...task };
-    updatedTask.date = date;
-    setTask(updatedTask as TaskObj);
-  };
+function DateInput({ value, handleChange, label }: Props): ReactElement {
   return (
     <div>
-      <span>Start Date</span>
-      <DatePicker
-        value={task.date}
-        onChange={handleDateChange}
-        showTodayButton
-      />
+      <span>{label}</span>
+      <DatePicker value={value} onChange={handleChange} showTodayButton />
     </div>
   );
 }

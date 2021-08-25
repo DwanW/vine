@@ -1,23 +1,22 @@
 import Dialog from "@material-ui/core/Dialog";
-import { Dispatch, SetStateAction, useState } from "react";
-import { TaskObj } from "./taskform.comp";
+import { useState } from "react";
 
 interface Props {
-  task: TaskObj;
-  setTask: Dispatch<SetStateAction<TaskObj>>;
+  obj: any;
+  setObj: (props: any) => void;
 }
 
-const PriorityForm = ({ task, setTask }: Props) => {
+const PriorityForm = ({ obj, setObj }: Props) => {
   const [isPriorityDialogOpen, setPriorityDialog] = useState(false);
   const changePriority = (value: number) => {
-    let updatedTask: { [key: string]: any } = { ...task };
-    updatedTask.priority = value;
-    setTask(updatedTask as TaskObj);
+    let updatedObj: { [key: string]: any } = { ...obj };
+    updatedObj.priority = value;
+    setObj(updatedObj);
     setPriorityDialog(false);
   };
   return (
     <div>
-      <span>Priority: {task.priority}</span>
+      <span>Priority: {obj.priority}</span>
       <button type="button" onClick={() => setPriorityDialog(true)}>
         Set Priority
       </button>

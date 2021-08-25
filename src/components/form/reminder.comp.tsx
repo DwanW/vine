@@ -1,49 +1,48 @@
 import Dialog from "@material-ui/core/Dialog";
 import dayjs, { Dayjs } from "dayjs";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { TimePicker } from "@material-ui/pickers";
-import { TaskObj } from "./taskform.comp";
 
 interface Props {
-  task: TaskObj;
-  setTask: Dispatch<SetStateAction<TaskObj>>;
+  obj: any;
+  setObj: (props: any) => void;
 }
 
-const ReminderForm = ({ task, setTask }: Props) => {
+const ReminderForm = ({ obj, setObj }: Props) => {
   const [isReminderDialogOpen, setReminderDialog] = useState(false);
   const [isUpdateReminderOpen, setUpdateReminder] = useState(false);
   const [updateIndex, setUpdateIndex] = useState<null | number>(null);
   const [time, setTime] = useState<Date | null | Dayjs>(null);
 
   const addReminder = (time: Date) => {
-    let updatedTask: { [key: string]: any } = { ...task };
-    updatedTask.reminders = [...updatedTask.reminders, time];
-    setTask(updatedTask as TaskObj);
+    let updatedObj = { ...obj };
+    updatedObj.reminders = [...updatedObj.reminders, time];
+    setObj(updatedObj);
     setUpdateReminder(false);
     setReminderDialog(true);
   };
 
   const updateReminder = (time: Date, index: number) => {
-    let updatedTask: { [key: string]: any } = { ...task };
-    updatedTask.reminders[index] = time;
-    setTask(updatedTask as TaskObj);
+    let updatedObj: { [key: string]: any } = { ...obj };
+    updatedObj.reminders[index] = time;
+    setObj(updatedObj);
     setUpdateReminder(false);
     setReminderDialog(true);
   };
 
   const deleteReminder = (idx: number) => {
-    let updatedTask: { [key: string]: any } = { ...task };
-    updatedTask.reminders = updatedTask.reminders.filter(
+    let updatedObj: { [key: string]: any } = { ...obj };
+    updatedObj.reminders = updatedObj.reminders.filter(
       (reminder: any, index: number) => idx !== index
     );
-    setTask(updatedTask as TaskObj);
+    setObj(updatedObj);
     setUpdateReminder(false);
     setReminderDialog(true);
   };
 
   return (
     <div>
-      <span>Reminder {task.reminders.length}</span>
+      <span>Reminder {obj.reminders.length}</span>
       <button type="button" onClick={() => setReminderDialog(true)}>
         Set Reminder
       </button>
@@ -51,7 +50,7 @@ const ReminderForm = ({ task, setTask }: Props) => {
         open={isReminderDialogOpen}
         onClose={() => setReminderDialog(false)}
       >
-        {task.reminders.map((date, idx) => (
+        {obj.reminders.map((date: Date, idx: number) => (
           <div key={idx}>
             <div>
               {dayjs(date).format("HH:mm")}{" "}

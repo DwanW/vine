@@ -7,6 +7,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Radio from "@material-ui/core/Radio";
 import { Checkbox } from "@material-ui/core";
 import dayjs from "dayjs";
+import DateInput from "./dateinput.comp";
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+import ReminderForm from "./reminder.comp";
+import PriorityForm from "./priority.comp";
 
 const steps = [
   "Select Type of Progress",
@@ -65,7 +69,7 @@ const RoutineForm = ({ closeForm }: Props) => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log("submit routine form here");
+    console.log("submit routine form here", routine);
     closeForm();
   };
 
@@ -139,6 +143,17 @@ const RoutineForm = ({ closeForm }: Props) => {
     setRoutine(updatedRoutine as RoutineObj);
   };
 
+  const handleStartDateChange = (date: MaterialUiPickersDate) => {
+    let updatedRoutine: { [key: string]: any } = { ...routine };
+    updatedRoutine.startdate = date;
+    setRoutine(updatedRoutine as RoutineObj);
+  };
+
+  const handleEndDateChange = (date: MaterialUiPickersDate) => {
+    let updatedRoutine: { [key: string]: any } = { ...routine };
+    updatedRoutine.enddate = date;
+    setRoutine(updatedRoutine as RoutineObj);
+  };
   return (
     <form onSubmit={handleSubmit}>
       <Stepper activeStep={activeStep} alternativeLabel>
@@ -217,7 +232,7 @@ const RoutineForm = ({ closeForm }: Props) => {
                   variant="outlined"
                   label="Unit"
                   name="unit"
-                  value={routine.unit}
+                  value={routine.unit !== undefined ? routine.unit : ""}
                   onChange={handleChange}
                   autoComplete="off"
                 />
@@ -342,7 +357,22 @@ const RoutineForm = ({ closeForm }: Props) => {
         </div>
       )}
 
-      {activeStep === 3 && <div>forth step</div>}
+      {activeStep === 3 && (
+        <div>
+          <DateInput
+            value={routine.startdate}
+            handleChange={handleStartDateChange}
+            label="Start date"
+          />
+          <DateInput
+            value={routine.enddate}
+            handleChange={handleEndDateChange}
+            label="End date"
+          />
+          <ReminderForm obj={routine} setObj={setRoutine} />
+          <PriorityForm obj={routine} setObj={setRoutine} />
+        </div>
+      )}
 
       {activeStep !== 0 && (
         <div>

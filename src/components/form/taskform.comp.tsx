@@ -6,6 +6,7 @@ import { TaskFormContainer } from "./taskform.styles";
 import ReminderForm from "./reminder.comp";
 import PriorityForm from "./priority.comp";
 import DateInput from "./dateinput.comp";
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 
 interface Props {
   closeForm: Function;
@@ -34,7 +35,7 @@ const TaskForm = ({ closeForm }: Props) => {
     let submitTask = {
       id,
       ...task,
-      createdAt: new Date()
+      createdAt: new Date(),
     };
     console.log(submitTask);
     closeForm();
@@ -52,6 +53,12 @@ const TaskForm = ({ closeForm }: Props) => {
     setTask(updatedTask as TaskObj);
   };
 
+  const handleDateChange = (date: MaterialUiPickersDate) => {
+    let updatedTask: { [key: string]: any } = { ...task };
+    updatedTask.date = date;
+    setTask(updatedTask as TaskObj);
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <TaskFormContainer>
@@ -65,9 +72,13 @@ const TaskForm = ({ closeForm }: Props) => {
             autoComplete="off"
           />
         </div>
-        <DateInput task={task} setTask={setTask} />
-        <ReminderForm task={task} setTask={setTask} />
-        <PriorityForm task={task} setTask={setTask} />
+        <DateInput
+          value={task.date}
+          handleChange={handleDateChange}
+          label="Start Date"
+        />
+        <ReminderForm obj={task} setObj={setTask} />
+        <PriorityForm obj={task} setObj={setTask} />
         <div>
           <label>
             Required
