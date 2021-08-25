@@ -7,6 +7,8 @@ import ReminderForm from "./reminder.comp";
 import PriorityForm from "./priority.comp";
 import DateInput from "./dateinput.comp";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+import dayjs, { Dayjs } from "dayjs";
+import SnackBar from "@material-ui/core/Snackbar";
 
 interface Props {
   closeForm: Function;
@@ -14,7 +16,7 @@ interface Props {
 
 export interface TaskObj {
   name: string;
-  date: Date | undefined;
+  date: Date | Dayjs | undefined;
   reminders: Date[];
   priority: number;
   required: boolean;
@@ -23,14 +25,24 @@ export interface TaskObj {
 const TaskForm = ({ closeForm }: Props) => {
   const [task, setTask] = useState<TaskObj>({
     name: "",
-    date: undefined,
+    date: dayjs(),
     reminders: [],
     priority: 1,
     required: true,
   });
 
+  // snackbar state
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
+  const [snackMessage, setSnackMessage] = useState("");
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    if (task.name.length === 0) {
+      setSnackBarOpen(true);
+      setSnackMessage("Please name your task");
+      return;
+    }
+
     let id = v4();
     let submitTask = {
       id,
@@ -61,6 +73,12 @@ const TaskForm = ({ closeForm }: Props) => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <SnackBar
+        open={snackBarOpen}
+        onClose={() => setSnackBarOpen(false)}
+        message={snackMessage}
+        anchorOrigin={{ horizontal: "center", vertical: "top" }}
+      />
       <TaskFormContainer>
         <div>
           <TextField
