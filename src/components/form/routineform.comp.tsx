@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AltStepLabel } from "./routineform.styles";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
+import Radio from "@material-ui/core/Radio";
 
 const steps = [
   "Select Type of Progress",
@@ -31,7 +32,7 @@ export interface RoutineObj {
   name: string;
   goal?: string | undefined; //'<3' less than three a day, '=3' exactly 3, '>3' at least 3.
   unit?: string;
-  schedule: string; // everyday is '1234567', somedays of a week is eg: weekends'17', times per period is eg: 3times per week '3w', per month '3m', repeat eg: every 10 days is 'e10'
+  schedule: string; // everyday is '1234567', somedays of a week is eg: weekends's17', times per period is eg: 3times per week '3w', per month '3m', repeat eg: every 10 days is 'e10'
   startdate: Date | undefined;
   enddate: Date | undefined;
   reminders: Date[];
@@ -43,7 +44,7 @@ const RoutineForm = ({ closeForm }: Props) => {
   const [activeStep, setActiveStep] = useState(0);
   const [routine, setRoutine] = useState<RoutineObj>({
     name: "",
-    schedule: "",
+    schedule: "1234567",
     startdate: undefined,
     enddate: undefined,
     reminders: [],
@@ -184,7 +185,56 @@ const RoutineForm = ({ closeForm }: Props) => {
         </div>
       )}
 
-      {activeStep === 2 && <div>third step</div>}
+      {activeStep === 2 && (
+        <div>
+          <div>
+            <Radio
+              checked={routine.schedule === "1234567"}
+              onChange={handleChange}
+              value="1234567"
+              name="step3"
+              inputProps={{ "aria-label": "everyday" }}
+            />
+            <span>EveryDay</span>
+          </div>
+          <div>
+            <Radio
+              checked={
+                routine.schedule.length > 0 && routine.schedule[0] === "s"
+              }
+              onChange={handleChange}
+              value="s"
+              name="step3"
+              inputProps={{ "aria-label": "some days of the week" }}
+            />
+            <span>Some days of the week</span>
+          </div>
+          <div>
+            <Radio
+              checked={
+                routine.schedule.length > 0 && /[mn]/.test(routine.schedule)
+              }
+              onChange={handleChange}
+              value="1w"
+              name="step3"
+              inputProps={{ "aria-label": "some times per period" }}
+            />
+            <span>Some times per period</span>
+          </div>
+          <div>
+            <Radio
+              checked={
+                routine.schedule.length > 0 && routine.schedule[0] === "e"
+              }
+              onChange={handleChange}
+              value="e2"
+              name="step3"
+              inputProps={{ "aria-label": "repeat over a period" }}
+            />
+            <span>Repeat</span>
+          </div>
+        </div>
+      )}
 
       {activeStep === 3 && <div>forth step</div>}
 
