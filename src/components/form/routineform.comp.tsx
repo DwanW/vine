@@ -2,12 +2,20 @@ import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import { useState } from "react";
 import { AltStepLabel } from "./routineform.styles";
+import TextField from "@material-ui/core/TextField";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const steps = [
   "Select Type of Progress",
   "Name your Routine",
   "Select frequency of Routine",
   "Detailed info",
+];
+
+const conditions = [
+  { name: "At least", value: ">" },
+  { name: "Less than", value: "<" },
+  { name: "Exactly", value: "=" },
 ];
 
 interface Props {
@@ -21,7 +29,7 @@ export interface RecordObj {
 
 export interface RoutineObj {
   name: string;
-  goal?: string; //'<3' less than three a day, '=3' exactly 3, '>3' at least 3.
+  goal?: string | undefined; //'<3' less than three a day, '=3' exactly 3, '>3' at least 3.
   unit?: string;
   schedule: string; // everyday is '1234567', somedays of a week is eg: weekends'17', times per period is eg: 3times per week '3w', per month '3m', repeat eg: every 10 days is 'e10'
   startdate: Date | undefined;
@@ -43,10 +51,48 @@ const RoutineForm = ({ closeForm }: Props) => {
     record: [],
   });
 
+  const [isNumeric, setIsNumeric] = useState<boolean | undefined>(undefined);
+
+  const handleBack = () => {
+    if (activeStep === 1) {
+      setIsNumeric(undefined);
+    }
+    setActiveStep(activeStep - 1);
+  };
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
     console.log("submit routine form here");
     closeForm();
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let updatedRoutine: { [key: string]: any } = { ...routine };
+    updatedRoutine[e.target.name] = e.target.value;
+    setRoutine(updatedRoutine as RoutineObj);
+  };
+
+  const handleSelectCondition = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let updatedRoutine: { [key: string]: any } = { ...routine };
+    if (updatedRoutine.goal === undefined || updatedRoutine.goal.length < 2) {
+      updatedRoutine.goal = e.target.value;
+    } else {
+      updatedRoutine.goal = `${e.target.value}${updatedRoutine.goal.slice(1)}`;
+    }
+    console.log(updatedRoutine.goal);
+    setRoutine(updatedRoutine as RoutineObj);
+  };
+
+  const handleGoalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let updatedRoutine: { [key: string]: any } = { ...routine };
+    if (updatedRoutine.goal === undefined) {
+      // set default condition with initial change
+      updatedRoutine.goal = `>${e.target.value}`;
+    } else {
+      updatedRoutine.goal = `${updatedRoutine.goal[0]}${e.target.value}`;
+    }
+    console.log(updatedRoutine.goal);
+    setRoutine(updatedRoutine as RoutineObj);
   };
 
   return (
@@ -61,27 +107,105 @@ const RoutineForm = ({ closeForm }: Props) => {
 
       {activeStep === 0 && (
         <div>
-          <button>With A Yes Or No</button>
-          <button>With A Numeric Value</button>
+          <button
+            onClick={() => {
+              setIsNumeric(false);
+              setActiveStep(activeStep + 1);
+            }}
+          >
+            With A Yes Or No
+          </button>
+          <button
+            onClick={() => {
+              setIsNumeric(true);
+              setActiveStep(activeStep + 1);
+            }}
+          >
+            With A Numeric Value
+          </button>
         </div>
       )}
 
-      <div>
-        <button
-          type="button"
-          onClick={() => setActiveStep(activeStep - 1)}
-          disabled={activeStep === 0}
-        >
-          back
-        </button>
-        {activeStep === steps.length - 1 ? (
-          <input type="submit" value="save" />
-        ) : (
-          <button type="button" onClick={() => setActiveStep(activeStep + 1)}>
-            next
+      {activeStep === 1 && (
+        <div>
+          <div>
+            <TextField
+              variant="outlined"
+              label="Routine"
+              name="name"
+              value={routine.name}
+              onChange={handleChange}
+              autoComplete="off"
+            />
+          </div>
+
+          {isNumeric && (
+            <>
+              <div>
+                <TextField
+                  select
+                  value={routine.goal !== undefined ? routine.goal[0] : ">"}
+                  onChange={handleSelectCondition}
+                  variant="outlined"
+                >
+                  {conditions.map((condition) => (
+                    <MenuItem key={condition.name} value={condition.value}>
+                      {condition.name}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <TextField
+                  variant="outlined"
+                  label="Goal"
+                  name="goal"
+                  type="number"
+                  value={
+                    routine.goal === undefined || routine.goal.length === 1
+                      ? 0
+                      : Number(routine.goal.slice(1))
+                  }
+                  onChange={handleGoalChange}
+                  autoComplete="off"
+                />
+              </div>
+              <div>
+                <TextField
+                  variant="outlined"
+                  label="Unit"
+                  name="unit"
+                  value={routine.unit}
+                  onChange={handleChange}
+                  autoComplete="off"
+                />
+                <span>a day</span>
+              </div>
+            </>
+          )}
+        </div>
+      )}
+
+      {activeStep === 2 && <div>third step</div>}
+
+      {activeStep === 3 && <div>forth step</div>}
+
+      {activeStep !== 0 && (
+        <div>
+          <button
+            type="button"
+            onClick={handleBack}
+            disabled={activeStep === 0}
+          >
+            back
           </button>
-        )}
-      </div>
+          {activeStep === steps.length - 1 ? (
+            <input type="submit" value="save" />
+          ) : (
+            <button type="button" onClick={() => setActiveStep(activeStep + 1)}>
+              next
+            </button>
+          )}
+        </div>
+      )}
     </form>
   );
 };
