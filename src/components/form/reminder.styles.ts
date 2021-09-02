@@ -17,6 +17,10 @@ export const ReminderItemContainer = styled.div`
 export const ButtonGroupContainer = styled.div`
   display: flex;
   justify-content: center;
+
+  & button {
+    margin: 1rem 1rem 0;
+  }
 `;
 
 export const ReminderPickerContainer = styled(DialogContainer)`

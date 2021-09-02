@@ -101,16 +101,15 @@ const TaskForm = ({ closeForm }: Props) => {
         />
         <ReminderForm obj={task} setObj={setTask} />
         <PriorityForm obj={task} setObj={setTask} />
-        <div>
-          <CheckboxContainer>
-            Required
-            <Checkbox
-              checked={task.required}
-              onChange={handleRequireCheckBox}
-              name="required"
-            />
-          </CheckboxContainer>
-        </div>
+
+        <CheckboxContainer>
+          Required
+          <Checkbox
+            checked={task.required}
+            onChange={handleRequireCheckBox}
+            name="required"
+          />
+        </CheckboxContainer>
         <div>
           <button type="button" onClick={() => closeForm()}>
             cancel
