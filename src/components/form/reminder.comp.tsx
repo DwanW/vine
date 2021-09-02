@@ -2,6 +2,7 @@ import Dialog from "@material-ui/core/Dialog";
 import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
 import { TimePicker } from "@material-ui/pickers";
+import { ReminderContainer } from "./reminder.styles";
 
 interface Props {
   obj: any;
@@ -41,7 +42,7 @@ const ReminderForm = ({ obj, setObj }: Props) => {
   };
 
   return (
-    <div>
+    <ReminderContainer>
       <span>Reminder {obj.reminders.length}</span>
       <button type="button" onClick={() => setReminderDialog(true)}>
         Set Reminder
@@ -113,7 +114,7 @@ const ReminderForm = ({ obj, setObj }: Props) => {
           confirm
         </button>
       </Dialog>
-    </div>
+    </ReminderContainer>
   );
 };
 

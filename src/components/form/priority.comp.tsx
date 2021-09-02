@@ -1,5 +1,6 @@
 import Dialog from "@material-ui/core/Dialog";
 import { useState } from "react";
+import { PriorityContainer } from "./priority.styles";
 
 interface Props {
   obj: any;
@@ -15,7 +16,7 @@ const PriorityForm = ({ obj, setObj }: Props) => {
     setPriorityDialog(false);
   };
   return (
-    <div>
+    <PriorityContainer>
       <span>Priority: {obj.priority}</span>
       <button type="button" onClick={() => setPriorityDialog(true)}>
         Set Priority
@@ -28,7 +29,7 @@ const PriorityForm = ({ obj, setObj }: Props) => {
         <button onClick={() => changePriority(1)}>normal</button>
         <button onClick={() => changePriority(0)}>low</button>
       </Dialog>
-    </div>
+    </PriorityContainer>
   );
 };
 

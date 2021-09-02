@@ -2,7 +2,11 @@ import { ChangeEvent, useState } from "react";
 import { v4 } from "uuid";
 import TextField from "@material-ui/core/TextField";
 import Checkbox from "@material-ui/core/Checkbox";
-import { TaskFormContainer } from "./taskform.styles";
+import {
+  CheckboxContainer,
+  InputContainer,
+  TaskFormContainer,
+} from "./taskform.styles";
 import ReminderForm from "./reminder.comp";
 import PriorityForm from "./priority.comp";
 import DateInput from "./dateinput.comp";
@@ -80,7 +84,7 @@ const TaskForm = ({ closeForm }: Props) => {
         anchorOrigin={{ horizontal: "center", vertical: "top" }}
       />
       <TaskFormContainer>
-        <div>
+        <InputContainer>
           <TextField
             variant="outlined"
             label="Task"
@@ -89,7 +93,7 @@ const TaskForm = ({ closeForm }: Props) => {
             onChange={handleChange}
             autoComplete="off"
           />
-        </div>
+        </InputContainer>
         <DateInput
           value={task.date}
           handleChange={handleDateChange}
@@ -98,14 +102,14 @@ const TaskForm = ({ closeForm }: Props) => {
         <ReminderForm obj={task} setObj={setTask} />
         <PriorityForm obj={task} setObj={setTask} />
         <div>
-          <label>
+          <CheckboxContainer>
             Required
             <Checkbox
               checked={task.required}
               onChange={handleRequireCheckBox}
               name="required"
             />
-          </label>
+          </CheckboxContainer>
         </div>
         <div>
           <button type="button" onClick={() => closeForm()}>

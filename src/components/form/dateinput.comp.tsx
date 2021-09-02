@@ -1,5 +1,6 @@
 import { DatePicker } from "@material-ui/pickers";
 import { ReactElement } from "react";
+import { DateInputContainer } from "./dateinput.styles";
 
 interface Props {
   value: any;
@@ -9,10 +10,10 @@ interface Props {
 
 function DateInput({ value, handleChange, label }: Props): ReactElement {
   return (
-    <div>
+    <DateInputContainer>
       <span>{label}</span>
       <DatePicker value={value} onChange={handleChange} showTodayButton />
-    </div>
+    </DateInputContainer>
   );
 }
 
