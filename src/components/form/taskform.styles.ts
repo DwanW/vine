@@ -21,7 +21,14 @@ export const InputContainer = styled.div`
 export const CheckboxContainer = styled.label`
   display: flex;
   align-items: center;
-  & span {
-    margin-left: auto;
+  justify-content: space-between;
+  cursor: pointer;
+  margin: 1rem 0;
+
+  & .PrivateSwitchBase-root-5 {
+    padding: 0;
+  }
+  & .MuiCheckbox-colorSecondary.Mui-checked {
+    color: darkslateblue;
   }
 `;

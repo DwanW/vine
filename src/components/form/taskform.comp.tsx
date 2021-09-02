@@ -13,6 +13,7 @@ import DateInput from "./dateinput.comp";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import dayjs, { Dayjs } from "dayjs";
 import SnackBar from "@material-ui/core/Snackbar";
+import { IconContainer } from "../container/common.styles";
 
 interface Props {
   closeForm: Function;
@@ -103,7 +104,10 @@ const TaskForm = ({ closeForm }: Props) => {
         <PriorityForm obj={task} setObj={setTask} />
 
         <CheckboxContainer>
-          Required
+          <IconContainer>
+            <img src="assets/icon/required.svg" alt="required" />
+            <span>Required</span>
+          </IconContainer>
           <Checkbox
             checked={task.required}
             onChange={handleRequireCheckBox}
