@@ -17,6 +17,20 @@ export const FormFlatButton = styled.button`
   text-transform: uppercase;
   font-size: 14px;
   font-weight: 600;
+  min-width: 100px;
+`;
+
+export const FormFlatSubmit = styled.input`
+  border: darkslateblue 2px solid;
+  background-color: darkslateblue;
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 600;
+  min-width: 100px;
+  color: white;
 `;
 
 export const FormCircleButton = styled.button`
@@ -28,6 +42,21 @@ export const FormCircleButton = styled.button`
   border-radius: 9999px;
   min-width: 24px;
   cursor: pointer;
+`;
+
+export const FormBottomButtonGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+
+  @media (min-width: 640px) {
+    justify-content: center;
+
+    & input,
+    button {
+      margin: 0 1rem;
+    }
+  }
 `;
 
 export const DialogContainer = styled.div`
