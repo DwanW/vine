@@ -1,14 +1,8 @@
 import styled from "styled-components";
+import { DialogContainer } from "../container/common.styles";
 
-export const FormSelectContainer = styled.div`
+export const FormSelectContainer = styled(DialogContainer)`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  width: 80vw;
-  min-height: 200px;
-  padding: 1rem;
-
-  @media (min-width: 640px) {
-    width: 600px;
-  }
 `;

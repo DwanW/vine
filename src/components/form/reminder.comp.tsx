@@ -1,8 +1,21 @@
 import Dialog from "@material-ui/core/Dialog";
 import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
+import SnackBar from "@material-ui/core/Snackbar";
 import { TimePicker } from "@material-ui/pickers";
-import { ReminderContainer } from "./reminder.styles";
+import {
+  ButtonGroupContainer,
+  ReminderContainer,
+  ReminderItemContainer,
+  ReminderPickerContainer,
+} from "./reminder.styles";
+import {
+  DialogContainer,
+  DialogHeader,
+  FormCircleButton,
+  FormFlatButton,
+  IconContainer,
+} from "../container/common.styles";
 
 interface Props {
   obj: any;
@@ -14,9 +27,25 @@ const ReminderForm = ({ obj, setObj }: Props) => {
   const [isUpdateReminderOpen, setUpdateReminder] = useState(false);
   const [updateIndex, setUpdateIndex] = useState<null | number>(null);
   const [time, setTime] = useState<Date | null | Dayjs>(null);
+  const [snackBarOpen, setSnackBarOpen] = useState<boolean>(false);
+  const [snackMessage, setSnackMessage] = useState("");
 
   const addReminder = (time: Date) => {
     let updatedObj = { ...obj };
+    let isRepeat = updatedObj.reminders
+      .map((reminder: Date) => dayjs(reminder).format("HH:mm"))
+      .includes(dayjs(time).format("HH:mm"));
+
+    if (time === null) {
+      setSnackMessage("Please select a time");
+      setSnackBarOpen(true);
+      return;
+    }
+    if (isRepeat) {
+      setSnackMessage("Selected time already exist");
+      setSnackBarOpen(true);
+      return;
+    }
     updatedObj.reminders = [...updatedObj.reminders, time];
     setObj(updatedObj);
     setUpdateReminder(false);
@@ -25,10 +54,20 @@ const ReminderForm = ({ obj, setObj }: Props) => {
 
   const updateReminder = (time: Date, index: number) => {
     let updatedObj: { [key: string]: any } = { ...obj };
+    let isRepeat = updatedObj.reminders
+      .map((reminder: Date) => dayjs(reminder).format("HH:mm"))
+      .includes(dayjs(time).format("HH:mm"));
+    if (isRepeat) {
+      setSnackMessage("Selected time already exist");
+      setSnackBarOpen(true);
+      return;
+    }
+
     updatedObj.reminders[index] = time;
     setObj(updatedObj);
     setUpdateReminder(false);
     setReminderDialog(true);
+    setUpdateIndex(null);
   };
 
   const deleteReminder = (idx: number) => {
@@ -43,42 +82,52 @@ const ReminderForm = ({ obj, setObj }: Props) => {
 
   return (
     <ReminderContainer>
-      <span>Reminder {obj.reminders.length}</span>
-      <button type="button" onClick={() => setReminderDialog(true)}>
-        Set Reminder
-      </button>
+      <IconContainer>
+        <img src="assets/icon/bell.svg" alt="notification bell" />
+        <span>Reminder</span>
+      </IconContainer>
+      <FormCircleButton type="button" onClick={() => setReminderDialog(true)}>
+        {obj.reminders.length}
+      </FormCircleButton>
       <Dialog
         open={isReminderDialogOpen}
-        onClose={() => setReminderDialog(false)}
+        onClose={() => {
+          setReminderDialog(false);
+          setUpdateIndex(null);
+        }}
       >
-        {obj.reminders.map((date: Date, idx: number) => (
-          <div key={idx}>
-            <div>
-              {dayjs(date).format("HH:mm")}{" "}
-              <span>
-                <button
-                  onClick={() => {
-                    setUpdateIndex(idx);
-                    setTime(new Date(date));
-                    setReminderDialog(false);
-                    setUpdateReminder(true);
-                  }}
-                >
-                  update
-                </button>
-                <button onClick={() => deleteReminder(idx)}>delete</button>
-              </span>
-            </div>
-          </div>
-        ))}
-        <button
-          onClick={() => {
-            setReminderDialog(false);
-            setUpdateReminder(true);
-          }}
-        >
-          add reminders
-        </button>
+        <DialogContainer>
+          <DialogHeader>Reminder Notifications</DialogHeader>
+          {obj.reminders.map((date: Date, idx: number) => (
+            <ReminderItemContainer key={idx}>
+              <FormCircleButton
+                onClick={() => {
+                  setUpdateIndex(idx);
+                  setTime(new Date(date));
+                  setReminderDialog(false);
+                  setUpdateReminder(true);
+                }}
+              >
+                <img src="assets/icon/edit.svg" alt="edit button" />
+              </FormCircleButton>
+              <span>{dayjs(date).format("HH:mm")}</span>
+              <FormCircleButton onClick={() => deleteReminder(idx)}>
+                <img src="assets/icon/delete.svg" alt="delete button" />
+              </FormCircleButton>
+            </ReminderItemContainer>
+          ))}
+          <ButtonGroupContainer>
+            <FormFlatButton
+              onClick={() => {
+                setReminderDialog(false);
+                setUpdateReminder(true);
+                setUpdateIndex(null);
+              }}
+            >
+              New reminder
+            </FormFlatButton>
+          </ButtonGroupContainer>
+        </DialogContainer>
       </Dialog>
       <Dialog
         open={isUpdateReminderOpen}
@@ -87,32 +136,46 @@ const ReminderForm = ({ obj, setObj }: Props) => {
           setReminderDialog(true);
         }}
       >
-        <TimePicker
-          autoOk
-          label="12 hours"
-          value={time}
-          onChange={(date) => setTime(date)}
-        />
-        <button
-          onClick={() => {
-            setUpdateReminder(false);
-            setReminderDialog(true);
-          }}
-        >
-          cancel
-        </button>
-        <button
-          onClick={() => {
-            if (updateIndex === null) {
-              addReminder(time as Date);
-            } else {
-              updateReminder(time as Date, updateIndex);
-              setUpdateIndex(null);
-            }
-          }}
-        >
-          confirm
-        </button>
+        <ReminderPickerContainer>
+          <DialogHeader>
+            {updateIndex !== null ? "Update" : "New"} Reminder
+          </DialogHeader>
+          <SnackBar
+            open={snackBarOpen}
+            onClose={() => setSnackBarOpen(false)}
+            message={snackMessage}
+            anchorOrigin={{ horizontal: "center", vertical: "top" }}
+            autoHideDuration={2000}
+          />
+          <TimePicker
+            autoOk
+            label="12 hours"
+            value={time}
+            onChange={(date) => setTime(date)}
+          />
+          <ButtonGroupContainer>
+            <FormFlatButton
+              onClick={() => {
+                setUpdateReminder(false);
+                setReminderDialog(true);
+              }}
+            >
+              cancel
+            </FormFlatButton>
+            <FormFlatButton
+              onClick={() => {
+                if (updateIndex === null) {
+                  addReminder(time as Date);
+                } else {
+                  updateReminder(time as Date, updateIndex);
+                  setUpdateIndex(null);
+                }
+              }}
+            >
+              confirm
+            </FormFlatButton>
+          </ButtonGroupContainer>
+        </ReminderPickerContainer>
       </Dialog>
     </ReminderContainer>
   );
