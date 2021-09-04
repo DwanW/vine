@@ -1,20 +1,14 @@
 import styled from "styled-components";
+import { DialogContainer } from "../container/common.styles";
 
-export const TaskFormContainer = styled.div`
+export const TaskFormContainer = styled(DialogContainer)`
   padding: 2rem;
   display: flex;
   flex-direction: column;
   border-radius: 8px;
-  width: 80vw;
 
   @media (min-width: 640px) {
     width: 600px;
-  }
-`;
-
-export const InputContainer = styled.div`
-  & .MuiTextField-root {
-    width: 100%;
   }
 `;
 

@@ -26,14 +26,16 @@ function RoutineThirdStep({
   return (
     <div>
       <div>
-        <Radio
-          checked={routine.schedule === "1234567"}
-          onChange={handleChange}
-          value="1234567"
-          name="schedule"
-          inputProps={{ "aria-label": "everyday" }}
-        />
-        <span>EveryDay</span>
+        <label>
+          <Radio
+            checked={routine.schedule === "1234567"}
+            onChange={handleChange}
+            value="1234567"
+            name="schedule"
+            inputProps={{ "aria-label": "everyday" }}
+          />
+          Every Day
+        </label>
       </div>
       <div>
         <div>

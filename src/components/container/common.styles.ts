@@ -47,7 +47,8 @@ export const FormCircleButton = styled.button`
 export const FormBottomButtonGroup = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 1rem;
+  margin-top: auto;
+  padding: 1rem 0;
 
   @media (min-width: 640px) {
     justify-content: center;
@@ -60,9 +61,11 @@ export const FormBottomButtonGroup = styled.div`
 `;
 
 export const DialogContainer = styled.div`
-  width: 80vw;
-  min-height: 200px;
+  width: 95vw;
+  min-height: 400px;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
 
   @media (min-width: 640px) {
     width: 600px;
@@ -73,4 +76,41 @@ export const DialogHeader = styled.div`
   text-align: center;
   margin-bottom: 2rem;
   font-weight: 600;
+`;
+
+export const InputContainer = styled.div`
+  margin: 0.5rem 0;
+
+  & .MuiTextField-root {
+    width: 100%;
+  }
+`;
+
+export const FlexColumnContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const InputWithSelectContainer = styled.div`
+  margin: 0.5rem 0;
+  display: flex;
+
+  & .MuiTextField-root {
+    flex: 1;
+  }
+
+  & .first {
+    margin-right: 0.5rem;
+  }
+`;
+
+export const InputWithTextContainer = styled.div`
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+
+  & .MuiTextField-root {
+    width: 40%;
+    margin-right: 0.5rem;
+  }
 `;

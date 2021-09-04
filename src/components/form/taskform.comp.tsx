@@ -4,7 +4,6 @@ import TextField from "@material-ui/core/TextField";
 import Checkbox from "@material-ui/core/Checkbox";
 import {
   CheckboxContainer,
-  InputContainer,
   TaskFormContainer,
 } from "./taskform.styles";
 import ReminderForm from "./reminder.comp";
@@ -18,6 +17,7 @@ import {
   FormFlatButton,
   FormFlatSubmit,
   IconContainer,
+  InputContainer,
 } from "../container/common.styles";
 
 interface Props {

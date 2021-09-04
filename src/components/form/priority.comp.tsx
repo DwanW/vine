@@ -1,10 +1,11 @@
 import Dialog from "@material-ui/core/Dialog";
 import { useState } from "react";
-import { DialogContainer, IconContainer } from "../container/common.styles";
+import { IconContainer } from "../container/common.styles";
 import {
   PriorityButton,
   PriorityButtonGroup,
   PriorityContainer,
+  PriorityDialog,
 } from "./priority.styles";
 
 interface Props {
@@ -44,13 +45,13 @@ const PriorityForm = ({ obj, setObj }: Props) => {
         open={isPriorityDialogOpen}
         onClose={() => setPriorityDialog(false)}
       >
-        <DialogContainer>
+        <PriorityDialog>
           <PriorityButtonGroup>
             <button onClick={() => changePriority(2)}>high</button>
             <button onClick={() => changePriority(1)}>normal</button>
             <button onClick={() => changePriority(0)}>low</button>
           </PriorityButtonGroup>
-        </DialogContainer>
+        </PriorityDialog>
       </Dialog>
     </PriorityContainer>
   );

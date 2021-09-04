@@ -2,6 +2,11 @@ import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import { ReactElement } from "react";
 import { RoutineObj } from "./routineform.comp";
+import {
+  InputContainer,
+  InputWithSelectContainer,
+  InputWithTextContainer,
+} from "../container/common.styles";
 
 const conditions = [
   { name: "At least", value: ">" },
@@ -25,8 +30,8 @@ function RoutineSecondStep({
   handleChange,
 }: Props): ReactElement {
   return (
-    <div>
-      <div>
+    <>
+      <InputContainer>
         <TextField
           variant="outlined"
           label="Routine"
@@ -35,12 +40,13 @@ function RoutineSecondStep({
           onChange={handleChange}
           autoComplete="off"
         />
-      </div>
+      </InputContainer>
 
       {isNumeric && (
         <>
-          <div>
+          <InputWithSelectContainer>
             <TextField
+              className="first"
               select
               value={routine.goal !== undefined ? routine.goal[0] : ">"}
               onChange={handleSelectCondition}
@@ -65,8 +71,8 @@ function RoutineSecondStep({
               onChange={handleGoalChange}
               autoComplete="off"
             />
-          </div>
-          <div>
+          </InputWithSelectContainer>
+          <InputWithTextContainer>
             <TextField
               variant="outlined"
               label="Unit"
@@ -75,11 +81,11 @@ function RoutineSecondStep({
               onChange={handleChange}
               autoComplete="off"
             />
-            <span>a day</span>
-          </div>
+            <span>a day.</span>
+          </InputWithTextContainer>
         </>
       )}
-    </div>
+    </>
   );
 }
 

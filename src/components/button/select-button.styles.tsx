@@ -9,6 +9,7 @@ export const SelectButtonContainer = styled.button`
   display: flex;
   align-items: center;
   cursor: pointer;
+  margin: 0.5rem 0;
 `;
 
 export const SelectButtonImg = styled.img`

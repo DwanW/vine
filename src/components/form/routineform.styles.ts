@@ -9,3 +9,9 @@ export const AltStepLabel = styled(StepLabel)`
     color: #17c7a1;
   }
 `;
+
+export const RoutineStepperContainer = styled.div`
+  & .MuiStepper-root {
+    padding: 24px 0;
+  }
+`;

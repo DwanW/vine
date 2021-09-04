@@ -1,12 +1,18 @@
-import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import { useState } from "react";
-import { AltStepLabel } from "./routineform.styles";
+import { AltStepLabel, RoutineStepperContainer } from "./routineform.styles";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import RoutineFirstStep from "./routinefirst.comp";
 import RoutineSecondStep from "./routinesecond.com";
 import RoutineThirdStep from "./routinethird.comp";
 import RoutineLastStep from "./routinelast.comp";
+import {
+  DialogContainer,
+  FormBottomButtonGroup,
+  FormFlatButton,
+  FormFlatSubmit,
+} from "../container/common.styles";
+import Stepper from "@material-ui/core/Stepper";
 
 const steps = [
   "Select Type of Progress",
@@ -145,70 +151,77 @@ const RoutineForm = ({ closeForm }: Props) => {
   };
   return (
     <form onSubmit={handleSubmit}>
-      <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map((label) => (
-          <Step key={label}>
-            <AltStepLabel>{label}</AltStepLabel>
-          </Step>
-        ))}
-      </Stepper>
+      <DialogContainer>
+        <RoutineStepperContainer>
+          <Stepper activeStep={activeStep} alternativeLabel>
+            {steps.map((label) => (
+              <Step key={label}>
+                <AltStepLabel>{label}</AltStepLabel>
+              </Step>
+            ))}
+          </Stepper>
+        </RoutineStepperContainer>
 
-      {activeStep === 0 && (
-        <RoutineFirstStep
-          setActiveStep={setActiveStep}
-          setIsNumeric={setIsNumeric}
-          activeStep={activeStep}
-        />
-      )}
+        {activeStep === 0 && (
+          <RoutineFirstStep
+            setActiveStep={setActiveStep}
+            setIsNumeric={setIsNumeric}
+            activeStep={activeStep}
+          />
+        )}
 
-      {activeStep === 1 && (
-        <RoutineSecondStep
-          routine={routine}
-          isNumeric={isNumeric}
-          handleSelectCondition={handleSelectCondition}
-          handleGoalChange={handleGoalChange}
-          handleChange={handleChange}
-        />
-      )}
+        {activeStep === 1 && (
+          <RoutineSecondStep
+            routine={routine}
+            isNumeric={isNumeric}
+            handleSelectCondition={handleSelectCondition}
+            handleGoalChange={handleGoalChange}
+            handleChange={handleChange}
+          />
+        )}
 
-      {activeStep === 2 && (
-        <RoutineThirdStep
-          routine={routine}
-          handleChange={handleChange}
-          handleCheckBoxChange={handleCheckBoxChange}
-          handlePerPeriodChange={handlePerPeriodChange}
-          handleSelectPerPeriod={handleSelectPerPeriod}
-          handleRepeat={handleRepeat}
-        />
-      )}
+        {activeStep === 2 && (
+          <RoutineThirdStep
+            routine={routine}
+            handleChange={handleChange}
+            handleCheckBoxChange={handleCheckBoxChange}
+            handlePerPeriodChange={handlePerPeriodChange}
+            handleSelectPerPeriod={handleSelectPerPeriod}
+            handleRepeat={handleRepeat}
+          />
+        )}
 
-      {activeStep === 3 && (
-        <RoutineLastStep
-          routine={routine}
-          handleStartDateChange={handleStartDateChange}
-          handleEndDateChange={handleEndDateChange}
-          setRoutine={setRoutine}
-        />
-      )}
+        {activeStep === 3 && (
+          <RoutineLastStep
+            routine={routine}
+            handleStartDateChange={handleStartDateChange}
+            handleEndDateChange={handleEndDateChange}
+            setRoutine={setRoutine}
+          />
+        )}
 
-      {activeStep !== 0 && (
-        <div>
-          <button
-            type="button"
-            onClick={handleBack}
-            disabled={activeStep === 0}
-          >
-            back
-          </button>
-          {activeStep === steps.length - 1 ? (
-            <input type="submit" value="save" />
-          ) : (
-            <button type="button" onClick={() => setActiveStep(activeStep + 1)}>
-              next
-            </button>
-          )}
-        </div>
-      )}
+        {activeStep !== 0 && (
+          <FormBottomButtonGroup>
+            <FormFlatButton
+              type="button"
+              onClick={handleBack}
+              disabled={activeStep === 0}
+            >
+              back
+            </FormFlatButton>
+            {activeStep === steps.length - 1 ? (
+              <FormFlatSubmit type="submit" value="save" />
+            ) : (
+              <FormFlatButton
+                type="button"
+                onClick={() => setActiveStep(activeStep + 1)}
+              >
+                next
+              </FormFlatButton>
+            )}
+          </FormBottomButtonGroup>
+        )}
+      </DialogContainer>
     </form>
   );
 };

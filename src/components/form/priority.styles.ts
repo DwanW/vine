@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FormFlatButton } from "../container/common.styles";
+import { DialogContainer, FormFlatButton } from "../container/common.styles";
 
 export const PriorityContainer = styled.div`
   display: flex;
@@ -13,8 +13,6 @@ export const PriorityButton = styled(FormFlatButton)`
 
 export const PriorityButtonGroup = styled.div`
   display: flex;
-  margin-top: 50px;
-  height: 50px;
   justify-content: space-around;
   align-items: center;
 
@@ -27,4 +25,8 @@ export const PriorityButtonGroup = styled.div`
     background-color: lightsteelblue;
     border-radius: 9999px;
   }
+`;
+
+export const PriorityDialog = styled(DialogContainer)`
+  justify-content: center;
 `;

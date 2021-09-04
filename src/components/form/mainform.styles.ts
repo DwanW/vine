@@ -21,5 +21,7 @@ export const TriggerContainer = styled.div`
 `;
 
 export const MainFormDialog = styled(Dialog)`
-
-`
+  & .MuiDialog-paper {
+    margin: 0;
+  }
+`;
