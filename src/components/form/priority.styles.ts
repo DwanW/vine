@@ -29,4 +29,9 @@ export const PriorityButtonGroup = styled.div`
 
 export const PriorityDialog = styled(DialogContainer)`
   justify-content: center;
+  width: 85vw;
+
+  @media (min-width: 640px) {
+    width: 600px;
+  }
 `;

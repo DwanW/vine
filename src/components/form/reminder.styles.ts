@@ -28,4 +28,17 @@ export const ReminderPickerContainer = styled(DialogContainer)`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  width: 85vw;
+
+  @media (min-width: 640px) {
+    width: 600px;
+  }
+`;
+
+export const ReminderDialogContainer = styled(DialogContainer)`
+  width: 85vw;
+
+  @media (min-width: 640px) {
+    width: 600px;
+  }
 `;

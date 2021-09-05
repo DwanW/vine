@@ -6,11 +6,11 @@ import { TimePicker } from "@material-ui/pickers";
 import {
   ButtonGroupContainer,
   ReminderContainer,
+  ReminderDialogContainer,
   ReminderItemContainer,
   ReminderPickerContainer,
 } from "./reminder.styles";
 import {
-  DialogContainer,
   DialogHeader,
   FormCircleButton,
   FormFlatButton,
@@ -96,7 +96,7 @@ const ReminderForm = ({ obj, setObj }: Props) => {
           setUpdateIndex(null);
         }}
       >
-        <DialogContainer>
+        <ReminderDialogContainer>
           <DialogHeader>Reminder Notifications</DialogHeader>
           {obj.reminders.map((date: Date, idx: number) => (
             <ReminderItemContainer key={idx}>
@@ -127,7 +127,7 @@ const ReminderForm = ({ obj, setObj }: Props) => {
               New reminder
             </FormFlatButton>
           </ButtonGroupContainer>
-        </DialogContainer>
+        </ReminderDialogContainer>
       </Dialog>
       <Dialog
         open={isUpdateReminderOpen}

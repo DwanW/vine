@@ -9,6 +9,10 @@ import {
   ExpandContainer,
   WeekDayCheckBoxContainer,
 } from "./routinethird.styles";
+import {
+  TwoInputWithTextContainer,
+  TwoTextWithInputContainer,
+} from "../container/common.styles";
 
 interface Props {
   routine: RoutineObj;
@@ -93,26 +97,32 @@ function RoutineThirdStep({
           show={routine.schedule.length > 0 && /[mw]/.test(routine.schedule)}
           maxHeight="150px"
         >
-          <TextField
-            variant="filled"
-            name="schedule"
-            value={parseInt(
-              routine.schedule.slice(0, routine.schedule.length - 1)
-            )}
-            onChange={handlePerPeriodChange}
-            inputProps={{ inputMode: "numeric" }}
-            autoComplete="off"
-          />
-          times per
-          <TextField
-            select
-            value={routine.schedule[routine.schedule.length - 1]}
-            onChange={handleSelectPerPeriod}
-            variant="outlined"
-          >
-            <MenuItem value={"w"}>Week</MenuItem>
-            <MenuItem value={"m"}>Month</MenuItem>
-          </TextField>
+          <TwoInputWithTextContainer>
+            <TextField
+              variant="filled"
+              name="schedule"
+              value={parseInt(
+                routine.schedule.slice(0, routine.schedule.length - 1)
+              )}
+              onChange={handlePerPeriodChange}
+              inputProps={{ inputMode: "numeric" }}
+              autoComplete="off"
+            />
+            <span>times per</span>
+            <TextField
+              select
+              value={
+                routine.schedule.length > 0 && /[mw]/.test(routine.schedule)
+                  ? routine.schedule[routine.schedule.length - 1]
+                  : "w"
+              }
+              onChange={handleSelectPerPeriod}
+              variant="outlined"
+            >
+              <MenuItem value={"w"}>Week</MenuItem>
+              <MenuItem value={"m"}>Month</MenuItem>
+            </TextField>
+          </TwoInputWithTextContainer>
         </ExpandContainer>
       </div>
       <div>
@@ -130,16 +140,18 @@ function RoutineThirdStep({
           show={routine.schedule.length > 0 && routine.schedule[0] === "e"}
           maxHeight="150px"
         >
-          every{" "}
-          <TextField
-            variant="filled"
-            name="schedule"
-            value={parseInt(routine.schedule.slice(1))}
-            onChange={handleRepeat}
-            inputProps={{ inputMode: "numeric" }}
-            autoComplete="off"
-          />{" "}
-          days
+          <TwoTextWithInputContainer>
+            <span>Every</span>
+            <TextField
+              variant="filled"
+              name="schedule"
+              value={parseInt(routine.schedule.slice(1))}
+              onChange={handleRepeat}
+              inputProps={{ inputMode: "numeric" }}
+              autoComplete="off"
+            />
+            <span>days.</span>
+          </TwoTextWithInputContainer>
         </ExpandContainer>
       </div>
     </div>

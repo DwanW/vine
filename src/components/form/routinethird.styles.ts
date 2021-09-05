@@ -13,7 +13,7 @@ export const WeekDayCheckBoxContainer = styled.div`
 export const ExpandContainer = styled.div`
   max-height: ${(props: { show: boolean; maxHeight: string }) =>
     props.show ? props.maxHeight : "0px"};
-  transition: max-height 0.3s;
+  transition: max-height 0.3s ease-out;
   opacity: ${(props: { show: boolean; maxHeight: string }) =>
     props.show ? props.maxHeight : 0};
   transform-origin: top;

@@ -114,3 +114,44 @@ export const InputWithTextContainer = styled.div`
     margin-right: 0.5rem;
   }
 `;
+
+export const TwoInputWithTextContainer = styled.div`
+  margin: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+
+  & span {
+    margin: 0 0.5rem;
+    font-size: 14px;
+  }
+
+  & .MuiTextField-root {
+    width: 100px;
+  }
+  & .MuiFilledInput-input.MuiInputBase-input {
+    font-size: 16px;
+    padding: 12px 12px 10px;
+    text-align: center;
+  }
+
+  & .MuiSelect-outlined.MuiSelect-outlined {
+    padding: 11px 20px 11px 10px;
+    font-size: 14px;
+  }
+`;
+
+export const TwoTextWithInputContainer = styled.div`
+  margin: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  & .MuiTextField-root {
+    width: 100px;
+    margin: 0 0.5rem;
+  }
+
+  & .MuiFilledInput-input.MuiInputBase-input {
+    padding: 12px 12px 10px;
+    text-align: center;
+  }
+`;
