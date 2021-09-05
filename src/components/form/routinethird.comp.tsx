@@ -5,6 +5,10 @@ import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import dayjs from "dayjs";
 import { RoutineObj } from "./routineform.comp";
+import {
+  ExpandContainer,
+  WeekDayCheckBoxContainer,
+} from "./routinethird.styles";
 
 interface Props {
   routine: RoutineObj;
@@ -34,11 +38,11 @@ function RoutineThirdStep({
             name="schedule"
             inputProps={{ "aria-label": "everyday" }}
           />
-          Every Day
+          EveryDay
         </label>
       </div>
       <div>
-        <div>
+        <label>
           <Radio
             checked={routine.schedule.length > 0 && routine.schedule[0] === "s"}
             onChange={handleChange}
@@ -46,30 +50,34 @@ function RoutineThirdStep({
             name="schedule"
             inputProps={{ "aria-label": "some days of the week" }}
           />
-          <span>Some days of the week</span>
-        </div>
-        {routine.schedule.length > 0 && routine.schedule[0] === "s" && (
-          <div>
+          Some days of the week
+        </label>
+        <ExpandContainer
+          show={routine.schedule.length > 0 && routine.schedule[0] === "s"}
+          maxHeight="150px"
+        >
+          <WeekDayCheckBoxContainer>
             {"1234567".split("").map((num) => (
               <Fragment key={num}>
-                <Checkbox
-                  checked={routine.schedule.includes(num)}
-                  value={num}
-                  onChange={handleCheckBoxChange}
-                  inputProps={{ "aria-label": `day checkboxes ${num}` }}
-                />
-                <span>
+                <label>
+                  <Checkbox
+                    checked={routine.schedule.includes(num)}
+                    value={num}
+                    onChange={handleCheckBoxChange}
+                    inputProps={{ "aria-label": `day checkboxes ${num}` }}
+                  />
                   {dayjs()
                     .day(parseInt(num) - 1)
                     .format("dddd")}
-                </span>
+                </label>
               </Fragment>
             ))}
-          </div>
-        )}
+          </WeekDayCheckBoxContainer>
+        </ExpandContainer>
       </div>
+
       <div>
-        <div>
+        <label>
           <Radio
             checked={
               routine.schedule.length > 0 && /[mw]/.test(routine.schedule)
@@ -79,35 +87,36 @@ function RoutineThirdStep({
             name="schedule"
             inputProps={{ "aria-label": "some times per period" }}
           />
-          <span>Some times per period</span>
-        </div>
-        {routine.schedule.length > 0 && /[mw]/.test(routine.schedule) && (
-          <div>
-            <TextField
-              variant="filled"
-              name="schedule"
-              value={parseInt(
-                routine.schedule.slice(0, routine.schedule.length - 1)
-              )}
-              onChange={handlePerPeriodChange}
-              inputProps={{ inputMode: "numeric" }}
-              autoComplete="off"
-            />
-            times per
-            <TextField
-              select
-              value={routine.schedule[routine.schedule.length - 1]}
-              onChange={handleSelectPerPeriod}
-              variant="outlined"
-            >
-              <MenuItem value={"w"}>Week</MenuItem>
-              <MenuItem value={"m"}>Month</MenuItem>
-            </TextField>
-          </div>
-        )}
+          Some times per period
+        </label>
+        <ExpandContainer
+          show={routine.schedule.length > 0 && /[mw]/.test(routine.schedule)}
+          maxHeight="150px"
+        >
+          <TextField
+            variant="filled"
+            name="schedule"
+            value={parseInt(
+              routine.schedule.slice(0, routine.schedule.length - 1)
+            )}
+            onChange={handlePerPeriodChange}
+            inputProps={{ inputMode: "numeric" }}
+            autoComplete="off"
+          />
+          times per
+          <TextField
+            select
+            value={routine.schedule[routine.schedule.length - 1]}
+            onChange={handleSelectPerPeriod}
+            variant="outlined"
+          >
+            <MenuItem value={"w"}>Week</MenuItem>
+            <MenuItem value={"m"}>Month</MenuItem>
+          </TextField>
+        </ExpandContainer>
       </div>
       <div>
-        <div>
+        <label>
           <Radio
             checked={routine.schedule.length > 0 && routine.schedule[0] === "e"}
             onChange={handleChange}
@@ -115,22 +124,23 @@ function RoutineThirdStep({
             name="schedule"
             inputProps={{ "aria-label": "repeat over a period" }}
           />
-          <span>Repeat</span>
-        </div>
-        {routine.schedule.length > 0 && routine.schedule[0] === "e" && (
-          <div>
-            every{" "}
-            <TextField
-              variant="filled"
-              name="schedule"
-              value={parseInt(routine.schedule.slice(1))}
-              onChange={handleRepeat}
-              inputProps={{ inputMode: "numeric" }}
-              autoComplete="off"
-            />{" "}
-            days
-          </div>
-        )}
+          Repeat
+        </label>
+        <ExpandContainer
+          show={routine.schedule.length > 0 && routine.schedule[0] === "e"}
+          maxHeight="150px"
+        >
+          every{" "}
+          <TextField
+            variant="filled"
+            name="schedule"
+            value={parseInt(routine.schedule.slice(1))}
+            onChange={handleRepeat}
+            inputProps={{ inputMode: "numeric" }}
+            autoComplete="off"
+          />{" "}
+          days
+        </ExpandContainer>
       </div>
     </div>
   );

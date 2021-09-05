@@ -60,4 +60,8 @@ button:-moz-focusring,
 [type="submit"]:-moz-focusring {
   outline: 1px dotted ButtonText;
 }
+
+label {
+  cursor: pointer;
+}
 `;
