@@ -4,16 +4,25 @@ import createSagaMiddleware from "@redux-saga/core";
 import rootSaga from "./saga";
 import { saveState, loadState } from "../util/localStorage";
 import throttle from "lodash/throttle";
+import { feedbackSlice } from "./feedback/feedback.slice";
+import logger from "../util/logger";
 
 const persistedState = loadState();
 
 const sagaMiddleware = createSagaMiddleware();
 
+const middleware: any[] = [sagaMiddleware];
+
+if (process.env.NODE_ENV === "development") {
+  middleware.push(logger);
+}
+
 export const store = configureStore({
   reducer: {
     auth: userSlice.reducer,
+    feedback: feedbackSlice.reducer,
   },
-  middleware: [sagaMiddleware],
+  middleware: middleware,
   preloadedState: persistedState,
 });
 
