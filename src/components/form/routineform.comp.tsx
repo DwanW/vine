@@ -13,6 +13,8 @@ import {
   FormFlatSubmit,
 } from "../container/common.styles";
 import Stepper from "@material-ui/core/Stepper";
+import { useAppDispatch } from "../../util/hooks";
+import { openSnackBar } from "../../redux/feedback/feedback.slice";
 
 const steps = [
   "Select Type of Progress",
@@ -54,6 +56,8 @@ const RoutineForm = ({ closeForm }: Props) => {
     record: [],
   });
 
+  const dispatch = useAppDispatch();
+
   const [isNumeric, setIsNumeric] = useState<boolean | undefined>(undefined);
 
   const handleBack = () => {
@@ -61,6 +65,23 @@ const RoutineForm = ({ closeForm }: Props) => {
       setIsNumeric(undefined);
     }
     setActiveStep(activeStep - 1);
+  };
+
+  const handleForward = () => {
+    if (activeStep === 1 && routine.name === "") {
+      dispatch(openSnackBar("Please choose a name"));
+      return;
+    }
+    if (
+      activeStep === 1 &&
+      isNumeric &&
+      (routine.goal === undefined ||
+        (routine.goal.length === 2 && routine.goal[1] === "0"))
+    ) {
+      dispatch(openSnackBar("Please set a goal"));
+      return;
+    }
+    setActiveStep(activeStep + 1);
   };
 
   const handleSubmit = (e: any) => {
@@ -87,7 +108,12 @@ const RoutineForm = ({ closeForm }: Props) => {
   };
 
   const handleGoalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (parseFloat(e.target.value) < 0) {
+      return;
+    }
+
     let updatedRoutine: { [key: string]: any } = { ...routine };
+
     if (updatedRoutine.goal === undefined) {
       // set default condition with initial change
       updatedRoutine.goal = `>${e.target.value}`;
@@ -212,10 +238,7 @@ const RoutineForm = ({ closeForm }: Props) => {
             {activeStep === steps.length - 1 ? (
               <FormFlatSubmit type="submit" value="save" />
             ) : (
-              <FormFlatButton
-                type="button"
-                onClick={() => setActiveStep(activeStep + 1)}
-              >
+              <FormFlatButton type="button" onClick={handleForward}>
                 next
               </FormFlatButton>
             )}

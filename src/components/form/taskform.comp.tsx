@@ -40,8 +40,7 @@ const TaskForm = ({ closeForm }: Props) => {
     priority: 1,
     required: true,
   });
-
-  // snackbar state
+  
   const dispatch = useAppDispatch();
 
   const handleSubmit = (e: any) => {
