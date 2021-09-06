@@ -31,7 +31,6 @@ function RoutineThirdStep({
   handleSelectPerPeriod,
   handleRepeat,
 }: Props): ReactElement {
-  console.log(routine);
   return (
     <div>
       <div>

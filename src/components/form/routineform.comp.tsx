@@ -81,6 +81,11 @@ const RoutineForm = ({ closeForm }: Props) => {
       dispatch(openSnackBar("Please set a goal"));
       return;
     }
+
+    if (activeStep === 2 && routine.schedule === "s") {
+      dispatch(openSnackBar("Please select at least one day"));
+      return;
+    }
     setActiveStep(activeStep + 1);
   };
 
