@@ -2,16 +2,12 @@ import { ChangeEvent, useState } from "react";
 import { v4 } from "uuid";
 import TextField from "@material-ui/core/TextField";
 import Checkbox from "@material-ui/core/Checkbox";
-import {
-  CheckboxContainer,
-  TaskFormContainer,
-} from "./taskform.styles";
+import { CheckboxContainer, TaskFormContainer } from "./taskform.styles";
 import ReminderForm from "./reminder.comp";
 import PriorityForm from "./priority.comp";
 import DateInput from "./dateinput.comp";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import dayjs, { Dayjs } from "dayjs";
-import SnackBar from "@material-ui/core/Snackbar";
 import {
   FormBottomButtonGroup,
   FormFlatButton,
@@ -19,6 +15,10 @@ import {
   IconContainer,
   InputContainer,
 } from "../container/common.styles";
+import { useAppDispatch } from "../../util/hooks";
+import {
+  openSnackBar,
+} from "../../redux/feedback/feedback.slice";
 
 interface Props {
   closeForm: Function;
@@ -42,14 +42,12 @@ const TaskForm = ({ closeForm }: Props) => {
   });
 
   // snackbar state
-  const [snackBarOpen, setSnackBarOpen] = useState(false);
-  const [snackMessage, setSnackMessage] = useState("");
+  const dispatch = useAppDispatch();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (task.name.length === 0) {
-      setSnackBarOpen(true);
-      setSnackMessage("Please name your task");
+      dispatch(openSnackBar("Please name your task"));
       return;
     }
 
@@ -83,12 +81,6 @@ const TaskForm = ({ closeForm }: Props) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <SnackBar
-        open={snackBarOpen}
-        onClose={() => setSnackBarOpen(false)}
-        message={snackMessage}
-        anchorOrigin={{ horizontal: "center", vertical: "top" }}
-      />
       <TaskFormContainer>
         <InputContainer>
           <TextField

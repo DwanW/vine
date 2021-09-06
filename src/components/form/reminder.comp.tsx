@@ -1,7 +1,6 @@
 import Dialog from "@material-ui/core/Dialog";
 import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
-import SnackBar from "@material-ui/core/Snackbar";
 import { TimePicker } from "@material-ui/pickers";
 import {
   ButtonGroupContainer,
@@ -16,6 +15,8 @@ import {
   FormFlatButton,
   IconContainer,
 } from "../container/common.styles";
+import { useAppDispatch } from "../../util/hooks";
+import { openSnackBar } from "../../redux/feedback/feedback.slice";
 
 interface Props {
   obj: any;
@@ -27,8 +28,8 @@ const ReminderForm = ({ obj, setObj }: Props) => {
   const [isUpdateReminderOpen, setUpdateReminder] = useState(false);
   const [updateIndex, setUpdateIndex] = useState<null | number>(null);
   const [time, setTime] = useState<Date | null | Dayjs>(null);
-  const [snackBarOpen, setSnackBarOpen] = useState<boolean>(false);
-  const [snackMessage, setSnackMessage] = useState("");
+
+  const dispatch = useAppDispatch();
 
   const addReminder = (time: Date) => {
     let updatedObj = { ...obj };
@@ -37,13 +38,11 @@ const ReminderForm = ({ obj, setObj }: Props) => {
       .includes(dayjs(time).format("HH:mm"));
 
     if (time === null) {
-      setSnackMessage("Please select a time");
-      setSnackBarOpen(true);
+      dispatch(openSnackBar("Please select a time"));
       return;
     }
     if (isRepeat) {
-      setSnackMessage("Selected time already exist");
-      setSnackBarOpen(true);
+      dispatch(openSnackBar("Selected time already exist"));
       return;
     }
     updatedObj.reminders = [...updatedObj.reminders, time];
@@ -58,8 +57,7 @@ const ReminderForm = ({ obj, setObj }: Props) => {
       .map((reminder: Date) => dayjs(reminder).format("HH:mm"))
       .includes(dayjs(time).format("HH:mm"));
     if (isRepeat) {
-      setSnackMessage("Selected time already exist");
-      setSnackBarOpen(true);
+      dispatch(openSnackBar("Selected time already exist"));
       return;
     }
 
@@ -140,13 +138,6 @@ const ReminderForm = ({ obj, setObj }: Props) => {
           <DialogHeader>
             {updateIndex !== null ? "Update" : "New"} Reminder
           </DialogHeader>
-          <SnackBar
-            open={snackBarOpen}
-            onClose={() => setSnackBarOpen(false)}
-            message={snackMessage}
-            anchorOrigin={{ horizontal: "center", vertical: "top" }}
-            autoHideDuration={2000}
-          />
           <TimePicker
             autoOk
             label="12 hours"

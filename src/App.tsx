@@ -6,14 +6,29 @@ import { Suspense } from "react";
 import HomePage from "./pages/homepage.comp";
 import { GlobalStyle } from "./globalstyles";
 import MainForm from "./components/form/mainform.comp";
+import Snackbar from "@material-ui/core/Snackbar";
+import { useAppDispatch, useAppSelector } from "./util/hooks";
+import { closeSnackBar } from "./redux/feedback/feedback.slice";
 
 function App() {
+  const { snackbarOpen, snackbarMessage } = useAppSelector(
+    (state) => state.feedback
+  );
+
+  const dispatch = useAppDispatch();
+
   return (
     <div>
       <GlobalStyle />
       <Nav />
       <SideNav />
       <MainForm />
+      <Snackbar
+        open={snackbarOpen}
+        onClose={() => dispatch(closeSnackBar())}
+        message={snackbarMessage}
+        anchorOrigin={{ horizontal: "center", vertical: "top" }}
+      />
       <Switch>
         <ErrorBoundary>
           <Suspense fallback={<div>loading..</div>}>
