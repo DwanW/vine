@@ -1,3 +1,4 @@
+import { Dayjs } from "dayjs";
 import DateInput from "./dateinput.comp";
 import PriorityForm from "./priority.comp";
 import ReminderForm from "./reminder.comp";
@@ -26,7 +27,8 @@ const RoutineLastStep = ({
       <DateInput
         value={routine.enddate}
         handleChange={handleEndDateChange}
-        label="End date"
+        label="End date (optional)"
+        minDate={routine.startdate as Dayjs}
       />
       <ReminderForm obj={routine} setObj={setRoutine} />
       <PriorityForm obj={routine} setObj={setRoutine} />

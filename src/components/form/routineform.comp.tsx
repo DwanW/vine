@@ -15,6 +15,7 @@ import {
 import Stepper from "@material-ui/core/Stepper";
 import { useAppDispatch } from "../../util/hooks";
 import { openSnackBar } from "../../redux/feedback/feedback.slice";
+import dayjs, { Dayjs } from "dayjs";
 
 const steps = [
   "Select Type of Progress",
@@ -37,8 +38,8 @@ export interface RoutineObj {
   goal?: string | undefined; //'<3' less than three a day, '=3' exactly 3, '>3' at least 3.
   unit?: string;
   schedule: string; // everyday is '1234567', somedays of a week is eg: weekends's17', times per period is eg: 3times per week '3w', per month '3m', repeat eg: every 10 days is 'e10'
-  startdate: Date | undefined;
-  enddate: Date | undefined;
+  startdate: Date | Dayjs | null;
+  enddate: Date | null;
   reminders: Date[];
   priority: number;
   record: RecordObj[];
@@ -49,8 +50,8 @@ const RoutineForm = ({ closeForm }: Props) => {
   const [routine, setRoutine] = useState<RoutineObj>({
     name: "",
     schedule: "1234567",
-    startdate: undefined,
-    enddate: undefined,
+    startdate: dayjs(),
+    enddate: null,
     reminders: [],
     priority: 1,
     record: [],
@@ -171,6 +172,14 @@ const RoutineForm = ({ closeForm }: Props) => {
 
   const handleStartDateChange = (date: MaterialUiPickersDate) => {
     let updatedRoutine: { [key: string]: any } = { ...routine };
+    if (
+      date &&
+      routine.enddate &&
+      date?.startOf("date").valueOf() >
+        dayjs(routine.enddate).startOf("date").valueOf()
+    ) {
+      updatedRoutine.enddate = null;
+    }
     updatedRoutine.startdate = date;
     setRoutine(updatedRoutine as RoutineObj);
   };

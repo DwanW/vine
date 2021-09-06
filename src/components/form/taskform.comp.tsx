@@ -16,9 +16,7 @@ import {
   InputContainer,
 } from "../container/common.styles";
 import { useAppDispatch } from "../../util/hooks";
-import {
-  openSnackBar,
-} from "../../redux/feedback/feedback.slice";
+import { openSnackBar } from "../../redux/feedback/feedback.slice";
 
 interface Props {
   closeForm: Function;
@@ -26,7 +24,7 @@ interface Props {
 
 export interface TaskObj {
   name: string;
-  date: Date | Dayjs | undefined;
+  date: Date | Dayjs | null;
   reminders: Date[];
   priority: number;
   required: boolean;
@@ -40,7 +38,7 @@ const TaskForm = ({ closeForm }: Props) => {
     priority: 1,
     required: true,
   });
-  
+
   const dispatch = useAppDispatch();
 
   const handleSubmit = (e: any) => {
@@ -73,6 +71,12 @@ const TaskForm = ({ closeForm }: Props) => {
   };
 
   const handleDateChange = (date: MaterialUiPickersDate) => {
+    const now = dayjs().startOf("date");
+    if (date && date.startOf("date").valueOf() < now.valueOf()) {
+      dispatch(openSnackBar("Please select a valid date"));
+      return;
+    }
+
     let updatedTask: { [key: string]: any } = { ...task };
     updatedTask.date = date;
     setTask(updatedTask as TaskObj);
