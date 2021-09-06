@@ -31,6 +31,7 @@ function RoutineThirdStep({
   handleSelectPerPeriod,
   handleRepeat,
 }: Props): ReactElement {
+  console.log(routine);
   return (
     <div>
       <div>
@@ -101,9 +102,13 @@ function RoutineThirdStep({
             <TextField
               variant="filled"
               name="schedule"
-              value={parseInt(
-                routine.schedule.slice(0, routine.schedule.length - 1)
-              )}
+              value={
+                routine.schedule.length > 0 && /[mw]/.test(routine.schedule)
+                  ? parseInt(
+                      routine.schedule.slice(0, routine.schedule.length - 1)
+                    )
+                  : 1
+              }
               onChange={handlePerPeriodChange}
               inputProps={{ inputMode: "numeric" }}
               autoComplete="off"
@@ -145,7 +150,11 @@ function RoutineThirdStep({
             <TextField
               variant="filled"
               name="schedule"
-              value={parseInt(routine.schedule.slice(1))}
+              value={
+                routine.schedule.length > 0 && routine.schedule[0] === "e"
+                  ? parseInt(routine.schedule.slice(1))
+                  : 2
+              }
               onChange={handleRepeat}
               inputProps={{ inputMode: "numeric" }}
               autoComplete="off"
