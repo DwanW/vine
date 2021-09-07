@@ -1,7 +1,6 @@
-import firebase from "firebase/compat/app";
-import "firebase/compat/analytics";
-import "firebase/compat/auth";
-import "firebase/compat/firestore";
+import { initializeApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getFirestore, getDoc, doc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBDEyK7dWxHG_fPlFucujf0V7W-vD0weYs",
@@ -13,22 +12,22 @@ const firebaseConfig = {
   measurementId: "G-C1CS4VR5N0",
 };
 
-firebase.initializeApp(firebaseConfig);
-firebase.analytics();
+const firebaseApp = initializeApp(firebaseConfig);
+// firebase.analytics();
 
 export const createUserProfileDocument = async (
-  userAuth: firebase.User,
+  userAuth: any,
   additionalData?: any[]
 ) => {
   if (!userAuth) return;
-  const userDoc = firestore.doc(`users/${userAuth.uid}`);
-  const snapShot = await userDoc.get();
+  const userDoc = doc(firestore, `users/${userAuth.uid}`);
+  const snapShot = await getDoc(userDoc);
 
   if (!snapShot.exists) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
     try {
-      await userDoc.set({
+      await setDoc(userDoc, {
         displayName,
         email,
         createdAt,
@@ -44,11 +43,11 @@ export const createUserProfileDocument = async (
   return userDoc;
 };
 
-export const auth = firebase.auth();
-export const firestore = firebase.firestore();
+export const auth = getAuth(firebaseApp);
+export const firestore = getFirestore(firebaseApp);
 
-export const googleProvider = new firebase.auth.GoogleAuthProvider();
+export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: "select_account" });
-export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
+export const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
 
-export default firebase;
+export default firebaseApp;
