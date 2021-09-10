@@ -29,10 +29,25 @@ export const userSlice = createSlice({
     authFailure: (state, action: PayloadAction<any>) => {
       state.error = action.payload;
     },
+    addTask: (state, action: PayloadAction<any>) => {
+      state.currentUser.tasks = [...state.currentUser.tasks, action.payload];
+    },
+    addRoutine: (state, action: PayloadAction<any>) => {
+      state.currentUser.routines = [
+        ...state.currentUser.routines,
+        action.payload,
+      ];
+    },
   },
 });
 
-export const { logInSuccess, logOutSuccess, signOutSuccess, authFailure } =
-  userSlice.actions;
+export const {
+  logInSuccess,
+  logOutSuccess,
+  signOutSuccess,
+  authFailure,
+  addTask,
+  addRoutine,
+} = userSlice.actions;
 
 export const selectUser = (state: RootState) => state.user;

@@ -17,6 +17,7 @@ import {
 } from "../container/common.styles";
 import { useAppDispatch } from "../../util/hooks";
 import { openSnackBar } from "../../redux/feedback/feedback.slice";
+import { addTask } from "../../redux/user/user.slice";
 
 interface Props {
   closeForm: Function;
@@ -49,12 +50,12 @@ const TaskForm = ({ closeForm }: Props) => {
     }
 
     let id = v4();
-    let submitTask = {
+    let newTask = {
       id,
       ...task,
       createdAt: new Date(),
     };
-    console.log(submitTask);
+    dispatch(addTask(newTask));
     closeForm();
   };
 

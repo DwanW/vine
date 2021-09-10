@@ -16,6 +16,8 @@ import Stepper from "@material-ui/core/Stepper";
 import { useAppDispatch } from "../../util/hooks";
 import { openSnackBar } from "../../redux/feedback/feedback.slice";
 import dayjs, { Dayjs } from "dayjs";
+import { addRoutine } from "../../redux/user/user.slice";
+import { v4 } from "uuid";
 
 const steps = [
   "Select Type of Progress",
@@ -92,7 +94,13 @@ const RoutineForm = ({ closeForm }: Props) => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log("submit routine form here", routine);
+    let id = v4();
+    let newRoutine = {
+      id,
+      ...routine,
+      createdAt: new Date(),
+    };
+    dispatch(addRoutine(newRoutine));
     closeForm();
   };
 
