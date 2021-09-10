@@ -8,7 +8,7 @@ import AuthButton from "../button/auth-button.comp";
 import { AuthContainer, NameContainer } from "./auth.style";
 
 export default function AuthComp(): ReactElement {
-  const currentUser = useAppSelector((state) => state.auth.currentUser);
+  const currentUser = useAppSelector((state) => state.user.currentUser);
   const dispatch = useAppDispatch();
 
   console.log(currentUser);

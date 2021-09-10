@@ -12,7 +12,7 @@ const INITIAL_STATE: UserState = {
 };
 
 export const userSlice = createSlice({
-  name: "auth",
+  name: "user",
   initialState: INITIAL_STATE,
   reducers: {
     logInSuccess: (state, action: PayloadAction<any>) => {
@@ -35,4 +35,4 @@ export const userSlice = createSlice({
 export const { logInSuccess, logOutSuccess, signOutSuccess, authFailure } =
   userSlice.actions;
 
-export const selectAuth = (state: RootState) => state.auth;
+export const selectUser = (state: RootState) => state.user;
