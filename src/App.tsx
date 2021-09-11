@@ -9,6 +9,8 @@ import MainForm from "./components/form/mainform.comp";
 import Snackbar from "@material-ui/core/Snackbar";
 import { useAppDispatch, useAppSelector } from "./util/hooks";
 import { closeSnackBar } from "./redux/feedback/feedback.slice";
+import RoutinePage from "./pages/routinepage.comp";
+import SettingPage from "./pages/settingpage.comp";
 
 function App() {
   const { snackbarOpen, snackbarMessage } = useAppSelector(
@@ -33,6 +35,8 @@ function App() {
         <ErrorBoundary>
           <Suspense fallback={<div>loading..</div>}>
             <Route exact path="/" component={HomePage} />
+            <Route exact path="/routine" component={RoutinePage} />
+            <Route exact path="/setting" component={SettingPage} />
           </Suspense>
         </ErrorBoundary>
       </Switch>
