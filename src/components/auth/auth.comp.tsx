@@ -13,7 +13,7 @@ export default function AuthComp(): ReactElement {
 
   // console.log(currentUser);
 
-  if (!currentUser) {
+  if (!currentUser.id) {
     return (
       <AuthContainer>
         <AuthButton

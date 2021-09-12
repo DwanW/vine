@@ -7,7 +7,15 @@ interface UserState {
 }
 
 const INITIAL_STATE: UserState = {
-  currentUser: null,
+  currentUser: {
+    categories: [],
+    createdAt: undefined,
+    displayName: undefined,
+    email: undefined,
+    id: undefined,
+    tasks: [],
+    routines: [],
+  },
   error: "",
 };
 
