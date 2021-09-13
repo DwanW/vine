@@ -44,7 +44,7 @@ export interface RoutineObj {
   enddate: Date | null;
   reminders: Date[];
   priority: number;
-  record: RecordObj[];
+  records: RecordObj[];
 }
 
 const RoutineForm = ({ closeForm }: Props) => {
@@ -56,7 +56,7 @@ const RoutineForm = ({ closeForm }: Props) => {
     enddate: null,
     reminders: [],
     priority: 1,
-    record: [],
+    records: [],
   });
 
   const dispatch = useAppDispatch();
