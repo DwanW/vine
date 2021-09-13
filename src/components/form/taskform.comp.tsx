@@ -29,6 +29,7 @@ export interface TaskObj {
   reminders: Date[];
   priority: number;
   required: boolean;
+  isCompleted: boolean;
 }
 
 const TaskForm = ({ closeForm }: Props) => {
@@ -38,6 +39,7 @@ const TaskForm = ({ closeForm }: Props) => {
     reminders: [],
     priority: 1,
     required: true,
+    isCompleted: false,
   });
 
   const dispatch = useAppDispatch();
