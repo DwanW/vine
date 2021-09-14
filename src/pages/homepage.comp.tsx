@@ -1,3 +1,5 @@
+import { ToDoListContainer } from "../components/container/common.styles";
+import ToDoItem from "../components/container/todo.comp";
 import PageWrapper from "../components/pagewrapper/pagewrapper.comp";
 import { useAppSelector } from "../util/hooks";
 import { isToDoItemToday } from "../util/validation";
@@ -10,34 +12,20 @@ const HomePage = (props: Props) => {
   return (
     <PageWrapper>
       {tasks.length || routines.length ? (
-        <div>
-          <div>
-            {tasks
-              .filter((taskObj: any) => isToDoItemToday(taskObj))
-              .map((task: any) => (
-                <div key={task.id}>
-                  <div>icon</div>
-                  <div>
-                    <div>{task.name}</div>
-                    <div>task</div>
-                  </div>
-                </div>
-              ))}
-            {routines
-              .filter((routineObj: any) => isToDoItemToday(routineObj))
-              .map((routine: any) => (
-                <div key={routine.id}>
-                  <div>icon</div>
-                  <div>
-                    <div>{routine.name}</div>
-                    <div>routine</div>
-                  </div>
-                </div>
-              ))}
-          </div>
-        </div>
+        <ToDoListContainer>
+          {tasks
+            .filter((taskObj: any) => isToDoItemToday(taskObj))
+            .map((task: any) => (
+              <ToDoItem key={task.id} todo={task} />
+            ))}
+          {routines
+            .filter((routineObj: any) => isToDoItemToday(routineObj))
+            .map((routine: any) => (
+              <ToDoItem key={routine.id} todo={routine} />
+            ))}
+        </ToDoListContainer>
       ) : (
-        <div>no task has added yet</div>
+        <ToDoListContainer>no task has added yet</ToDoListContainer>
       )}
     </PageWrapper>
   );

@@ -44,9 +44,7 @@ export const isToDoItemToday = (obj: any) => {
       obj.schedule[obj.schedule.length - 1] === "m"
     ) {
       // is num of times per week || month
-      let goal = parseInt(
-        obj.schedule.slice(0, obj.schedule[obj.schedule.length - 1])
-      );
+      let goal = parseInt(obj.schedule.slice(0, -1));
       let checkDateLimit: Dayjs;
       if (obj.schedule[obj.schedule.length - 1] === "w") {
         checkDateLimit = today.startOf("week");
@@ -73,7 +71,6 @@ export const isToDoItemToday = (obj: any) => {
       let dayDiff = today.diff(dayjs(obj.startdate).startOf("date"), "day");
       let dayOffset = dayDiff > period ? dayDiff % period : dayDiff;
       let checkDateLimit = today.subtract(dayOffset, "day");
-      console.log({ period, dayDiff, dayOffset, checkDateLimit });
       const completed = obj.records
         .filter(
           (record: ProgressRecord) =>

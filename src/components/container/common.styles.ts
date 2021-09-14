@@ -155,3 +155,8 @@ export const TwoTextWithInputContainer = styled.div`
     text-align: center;
   }
 `;
+
+export const ToDoListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
