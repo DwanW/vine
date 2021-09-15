@@ -6,17 +6,19 @@ interface UserState {
   error: string | null;
 }
 
+const initialUserObj = {
+  categories: [],
+  createdAt: undefined,
+  displayName: undefined,
+  email: undefined,
+  id: undefined,
+  tasks: [],
+  routines: [],
+};
+
 const INITIAL_STATE: UserState = {
-  currentUser: {
-    categories: [],
-    createdAt: undefined,
-    displayName: undefined,
-    email: undefined,
-    id: undefined,
-    tasks: [],
-    routines: [],
-  },
-  error: "",
+  currentUser: initialUserObj,
+  error: null,
 };
 
 export const userSlice = createSlice({
@@ -28,11 +30,8 @@ export const userSlice = createSlice({
       state.error = null;
     },
     logOutSuccess: (state) => {
-      state.currentUser = null;
+      state.currentUser = initialUserObj;
       state.error = null;
-    },
-    signOutSuccess: (state) => {
-      state.currentUser = null;
     },
     authFailure: (state, action: PayloadAction<any>) => {
       state.error = action.payload;
@@ -49,13 +48,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const {
-  logInSuccess,
-  logOutSuccess,
-  signOutSuccess,
-  authFailure,
-  addTask,
-  addRoutine,
-} = userSlice.actions;
+export const { logInSuccess, logOutSuccess, authFailure, addTask, addRoutine } =
+  userSlice.actions;
 
 export const selectUser = (state: RootState) => state.user;

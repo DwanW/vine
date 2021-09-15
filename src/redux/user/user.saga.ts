@@ -5,7 +5,7 @@ import {
   auth,
   createUserProfileDocument,
 } from "../../firebase/config";
-import { logInSuccess, authFailure, signOutSuccess } from "./user.slice";
+import { logInSuccess, authFailure, logOutSuccess } from "./user.slice";
 import UserActionTypes from "./user.type";
 import { signInWithPopup } from "firebase/auth";
 import { getDoc } from "firebase/firestore";
@@ -43,7 +43,7 @@ export function* onGoogleSignInStart() {
 export function* signOut() {
   try {
     yield auth.signOut();
-    yield put(signOutSuccess());
+    yield put(logOutSuccess());
   } catch (error) {
     yield put(authFailure(error));
   }
