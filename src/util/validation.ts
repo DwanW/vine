@@ -15,13 +15,13 @@ export const isToDoItemToday = (obj: any) => {
   if (obj.hasOwnProperty("date")) {
     // tasks
     if (
-      obj.isRequired &&
+      obj.required &&
       dayjs(obj.date).startOf("date").valueOf() <= today.valueOf() &&
       !obj.isCompleted
     ) {
       return true;
     } else if (
-      !obj.isRequired &&
+      !obj.required &&
       dayjs(obj.date).startOf("date").valueOf() === today.valueOf()
     ) {
       return true;
@@ -104,4 +104,10 @@ const isTodayBetweenStartAndEndDate = (startdate: any, enddate: any) => {
   } else {
     return false;
   }
+};
+
+export const getToDoItemToday = (tasks: any[], routines: any[]) => {
+  let combinedArr = [...tasks, ...routines];
+  let todos = combinedArr.filter((obj: any) => isToDoItemToday(obj));
+  return todos;
 };

@@ -11,7 +11,7 @@ export default function AuthComp(): ReactElement {
   const currentUser = useAppSelector((state) => state.user.currentUser);
   const dispatch = useAppDispatch();
 
-  console.log(currentUser);
+  // console.log(currentUser);
 
   if (!currentUser?.id) {
     return (
