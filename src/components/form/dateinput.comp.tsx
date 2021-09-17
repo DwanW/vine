@@ -1,4 +1,5 @@
-import { DatePicker } from "@material-ui/pickers";
+import DatePicker from "@mui/lab/DatePicker";
+import { TextField } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import { ReactElement } from "react";
 import { IconContainer } from "../container/common.styles";
@@ -26,7 +27,9 @@ function DateInput({
       <DatePicker
         value={value}
         onChange={handleChange}
-        emptyLabel={"Not specified"}
+        renderInput={(props) => (
+          <TextField {...props} label="Date" helperText="Something" />
+        )}
         showTodayButton
         minDate={minDate ? minDate : dayjs()}
       />

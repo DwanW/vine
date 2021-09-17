@@ -6,7 +6,7 @@ import { Suspense } from "react";
 import HomePage from "./pages/homepage.comp";
 import { GlobalStyle } from "./globalstyles";
 import MainForm from "./components/form/mainform.comp";
-import Snackbar from "@material-ui/core/Snackbar";
+import Snackbar from "@mui/material/Snackbar";
 import { useAppDispatch, useAppSelector } from "./util/hooks";
 import { closeSnackBar } from "./redux/feedback/feedback.slice";
 import RoutinePage from "./pages/routinepage.comp";

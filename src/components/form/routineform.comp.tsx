@@ -1,7 +1,6 @@
-import Step from "@material-ui/core/Step";
+import Step from "@mui/material/Step";
 import { useState } from "react";
 import { AltStepLabel, RoutineStepperContainer } from "./routineform.styles";
-import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import RoutineFirstStep from "./routinefirst.comp";
 import RoutineSecondStep from "./routinesecond.com";
 import RoutineThirdStep from "./routinethird.comp";
@@ -12,7 +11,7 @@ import {
   FormFlatButton,
   FormFlatSubmit,
 } from "../container/common.styles";
-import Stepper from "@material-ui/core/Stepper";
+import Stepper from "@mui/material/Stepper";
 import { useAppDispatch } from "../../util/hooks";
 import { openSnackBar } from "../../redux/feedback/feedback.slice";
 import dayjs, { Dayjs } from "dayjs";
@@ -178,7 +177,7 @@ const RoutineForm = ({ closeForm }: Props) => {
     setRoutine(updatedRoutine as RoutineObj);
   };
 
-  const handleStartDateChange = (date: MaterialUiPickersDate) => {
+  const handleStartDateChange = (date: Dayjs) => {
     let updatedRoutine: { [key: string]: any } = { ...routine };
     if (
       date &&
@@ -192,7 +191,7 @@ const RoutineForm = ({ closeForm }: Props) => {
     setRoutine(updatedRoutine as RoutineObj);
   };
 
-  const handleEndDateChange = (date: MaterialUiPickersDate) => {
+  const handleEndDateChange = (date: Dayjs) => {
     let updatedRoutine: { [key: string]: any } = { ...routine };
     updatedRoutine.enddate = date;
     setRoutine(updatedRoutine as RoutineObj);

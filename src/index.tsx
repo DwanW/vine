@@ -6,19 +6,19 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DayUtils from "@date-io/dayjs";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DayUtils from "@mui/lab/AdapterDayjs";
 
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <MuiPickersUtilsProvider utils={DayUtils}>
+      <LocalizationProvider dateAdapter={DayUtils}>
         <BrowserRouter>
           <App />
         </BrowserRouter>
-      </MuiPickersUtilsProvider>
+      </LocalizationProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

@@ -1,4 +1,4 @@
-import StepLabel from "@material-ui/core/StepLabel";
+import StepLabel from "@mui/material/StepLabel";
 import styled from "styled-components";
 
 export const AltStepLabel = styled(StepLabel)`

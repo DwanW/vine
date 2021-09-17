@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Dialog from "@material-ui/core/Dialog";
+import Dialog from "@mui/material/Dialog";
 
 export const TriggerContainer = styled.div`
   position: fixed;

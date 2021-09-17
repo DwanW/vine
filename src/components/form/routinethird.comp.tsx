@@ -1,8 +1,8 @@
 import { Fragment, ReactElement } from "react";
-import Radio from "@material-ui/core/Radio";
-import Checkbox from "@material-ui/core/Checkbox";
-import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
+import Radio from "@mui/material/Radio";
+import Checkbox from "@mui/material/Checkbox";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
 import dayjs from "dayjs";
 import { RoutineObj } from "./routineform.comp";
 import {

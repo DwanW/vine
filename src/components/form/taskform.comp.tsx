@@ -1,12 +1,11 @@
 import { ChangeEvent, useState } from "react";
 import { v4 } from "uuid";
-import TextField from "@material-ui/core/TextField";
-import Checkbox from "@material-ui/core/Checkbox";
+import TextField from "@mui/material/TextField";
+import Checkbox from "@mui/material/Checkbox";
 import { CheckboxContainer, TaskFormContainer } from "./taskform.styles";
 import ReminderForm from "./reminder.comp";
 import PriorityForm from "./priority.comp";
 import DateInput from "./dateinput.comp";
-import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import dayjs, { Dayjs } from "dayjs";
 import {
   FormBottomButtonGroup,
@@ -73,7 +72,7 @@ const TaskForm = ({ closeForm }: Props) => {
     setTask(updatedTask as TaskObj);
   };
 
-  const handleDateChange = (date: MaterialUiPickersDate) => {
+  const handleDateChange = (date: Dayjs) => {
     const now = dayjs().startOf("date");
     if (date && date.startOf("date").valueOf() < now.valueOf()) {
       dispatch(openSnackBar("Please select a valid date"));

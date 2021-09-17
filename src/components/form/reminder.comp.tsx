@@ -1,7 +1,7 @@
-import Dialog from "@material-ui/core/Dialog";
+import Dialog from "@mui/material/Dialog";
 import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
-import { TimePicker } from "@material-ui/pickers";
+import TimePicker from "@mui/lab/TimePicker";
 import {
   ButtonGroupContainer,
   ReminderContainer,
@@ -17,6 +17,7 @@ import {
 } from "../container/common.styles";
 import { useAppDispatch } from "../../util/hooks";
 import { openSnackBar } from "../../redux/feedback/feedback.slice";
+import { TextField } from "@mui/material";
 
 interface Props {
   obj: any;
@@ -139,10 +140,12 @@ const ReminderForm = ({ obj, setObj }: Props) => {
             {updateIndex !== null ? "Update" : "New"} Reminder
           </DialogHeader>
           <TimePicker
-            autoOk
             label="12 hours"
             value={time}
             onChange={(date) => setTime(date)}
+            renderInput={(props) => (
+              <TextField {...props}/>
+            )}
           />
           <ButtonGroupContainer>
             <FormFlatButton
