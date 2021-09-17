@@ -6,7 +6,8 @@
 import dayjs, { Dayjs } from "dayjs";
 
 type ProgressRecord = {
-  createdAt: Dayjs;
+  date: Dayjs;
+  value: number;
   isCompleted: boolean;
 };
 
@@ -43,8 +44,8 @@ export const isToDoItemToday = (obj: any) => {
       obj.schedule[obj.schedule.length - 1] === "w" ||
       obj.schedule[obj.schedule.length - 1] === "m"
     ) {
-      // is num of times per week || month
-      let goal = parseInt(obj.schedule.slice(0, -1));
+      // is num of days of completion per week || month
+      let targetDays = parseInt(obj.schedule.slice(0, -1));
       let checkDateLimit: Dayjs;
       if (obj.schedule[obj.schedule.length - 1] === "w") {
         checkDateLimit = today.startOf("week");
@@ -52,10 +53,10 @@ export const isToDoItemToday = (obj: any) => {
         checkDateLimit = today.startOf("month");
       }
 
-      const recordGoal = obj.records
+      const completedDays = obj.records
         .filter(
           (record: ProgressRecord) =>
-            record.createdAt.valueOf() > checkDateLimit.valueOf()
+            record.date.valueOf() >= checkDateLimit.valueOf()
         )
         .reduce(
           (initial: number, record: ProgressRecord) =>
@@ -63,7 +64,7 @@ export const isToDoItemToday = (obj: any) => {
           0
         );
 
-      if (recordGoal < goal) return true;
+      if (completedDays < targetDays) return true;
       else return false;
     } else if (obj.schedule[0] === "e") {
       // one completion every period
@@ -74,7 +75,7 @@ export const isToDoItemToday = (obj: any) => {
       const completed = obj.records
         .filter(
           (record: ProgressRecord) =>
-            record.createdAt.valueOf() > checkDateLimit.valueOf()
+            record.date.valueOf() >= checkDateLimit.valueOf()
         )
         .some((record: ProgressRecord) => record.isCompleted);
 
@@ -110,4 +111,63 @@ export const getToDoItemToday = (tasks: any[], routines: any[]) => {
   let combinedArr = [...tasks, ...routines];
   let todos = combinedArr.filter((obj: any) => isToDoItemToday(obj));
   return todos;
+};
+
+// return value is numeric
+// current progress is only for display of current date
+export const getCurrentProgressValue = (routineObj: any) => {
+  const todayStart = dayjs().startOf("date");
+  const todayEnd = dayjs().endOf("date");
+
+  if (routineObj.goal === undefined) {
+    // this routine is boolean based
+    console.log("no current progress needed for boolean based");
+    return -1;
+  } else {
+    // this routine is numeric based
+    const currentRecord: ProgressRecord | undefined = routineObj.records.find(
+      (record: ProgressRecord) =>
+        record.date.valueOf() >= todayStart.valueOf() &&
+        record.date.valueOf() < todayEnd.valueOf()
+    );
+    if (!currentRecord) {
+      return -1;
+    } else {
+      return currentRecord.value;
+    }
+  }
+};
+
+// return value is 0: not yet started | 0.5: started | 1: completed
+// this is only numeric based routine
+export const checkCurrentCompletion = (routineObj: any) => {
+  if (routineObj.goal === undefined) {
+    // this routine is boolean based
+    console.log("no current completion check needed for boolean based");
+    return -1;
+  }
+  const currentProgressValue = getCurrentProgressValue(routineObj);
+  const condition = routineObj.goal[0];
+  const goal = parseFloat(routineObj.goal.slice(1));
+
+  switch (condition) {
+    case ">":
+      return currentProgressValue === -1
+        ? 0
+        : currentProgressValue >= goal
+        ? 1
+        : 0.5;
+    case "<":
+      return currentProgressValue === -1
+        ? 0
+        : currentProgressValue < goal
+        ? 1
+        : 0.5;
+    case "=":
+      return currentProgressValue === -1
+        ? 0
+        : currentProgressValue === goal
+        ? 1
+        : 0.5;
+  }
 };

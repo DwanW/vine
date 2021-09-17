@@ -1,4 +1,10 @@
-import { ToDoItemContainer } from "./todo.styles";
+import { IconContainer } from "./common.styles";
+import {
+  ToDoItemContainer,
+  ToDoItemDetail,
+  ToDoItemSubTitle,
+  ToDoItemTitle,
+} from "./todo.styles";
 
 interface Props {
   todo: any;
@@ -8,21 +14,25 @@ const ToDoItem = ({ todo }: Props) => {
   if (todo.hasOwnProperty("records")) {
     return (
       <ToDoItemContainer>
-        <div>type</div>
+        <IconContainer>
+          <img src="assets/icon/routine.svg" alt="todo icon" />
+        </IconContainer>
         <div>
-          <div>{todo.name}</div>
-          <div>routine</div>
+          <ToDoItemTitle>{todo.name}</ToDoItemTitle>
+          <ToDoItemSubTitle>routine</ToDoItemSubTitle>
         </div>
       </ToDoItemContainer>
     );
   }
   return (
     <ToDoItemContainer>
-      <div>type</div>
-      <div>
-        <div>{todo.name}</div>
-        <div>task</div>
-      </div>
+      <IconContainer>
+        <img src="assets/icon/task.svg" alt="todo icon" />
+      </IconContainer>
+      <ToDoItemDetail>
+        <ToDoItemTitle>{todo.name}</ToDoItemTitle>
+        <ToDoItemSubTitle>task</ToDoItemSubTitle>
+      </ToDoItemDetail>
     </ToDoItemContainer>
   );
 };
