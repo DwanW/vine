@@ -122,6 +122,7 @@ function RoutineThirdStep({
               }
               onChange={handleSelectPerPeriod}
               variant="outlined"
+              label="Period"
             >
               <MenuItem value={"w"}>Week</MenuItem>
               <MenuItem value={"m"}>Month</MenuItem>

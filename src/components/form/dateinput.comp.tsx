@@ -27,9 +27,7 @@ function DateInput({
       <DatePicker
         value={value}
         onChange={handleChange}
-        renderInput={(props) => (
-          <TextField {...props} label="Date" helperText="Something" />
-        )}
+        renderInput={(props) => <TextField {...props} label="Pick A Date" />}
         showTodayButton
         minDate={minDate ? minDate : dayjs()}
       />

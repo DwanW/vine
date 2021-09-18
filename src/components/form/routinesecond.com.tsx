@@ -48,6 +48,7 @@ function RoutineSecondStep({
             <TextField
               className="first"
               select
+              label="Condition"
               value={routine.goal !== undefined ? routine.goal[0] : ">"}
               onChange={handleSelectCondition}
               variant="outlined"

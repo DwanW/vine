@@ -2,10 +2,10 @@ import StepLabel from "@mui/material/StepLabel";
 import styled from "styled-components";
 
 export const AltStepLabel = styled(StepLabel)`
-  .MuiStepIcon-root.MuiStepIcon-active {
+  svg.Mui-active {
     color: #17c7a1;
   }
-  .MuiStepIcon-root.MuiStepIcon-completed {
+  svg.Mui-completed {
     color: #17c7a1;
   }
 `;

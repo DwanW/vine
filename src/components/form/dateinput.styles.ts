@@ -7,6 +7,6 @@ export const DateInputContainer = styled.div`
   align-items: center;
 
   & .MuiTextField-root {
-    width: 120px;
+    width: 150px;
   }
 `;
