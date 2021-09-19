@@ -17,6 +17,7 @@ import { openSnackBar } from "../../redux/feedback/feedback.slice";
 import dayjs, { Dayjs } from "dayjs";
 import { addRoutine } from "../../redux/user/user.slice";
 import { v4 } from "uuid";
+import { ProgressRecord } from "../../util/types";
 
 const steps = [
   "Select Type of Progress",
@@ -29,11 +30,6 @@ interface Props {
   closeForm: Function;
 }
 
-export interface RecordObj {
-  date: Date;
-  value: boolean | number;
-}
-
 export interface RoutineObj {
   name: string;
   goal?: string | undefined; //'<3' less than three a day, '=3' exactly 3, '>3' at least 3.
@@ -43,7 +39,7 @@ export interface RoutineObj {
   enddate: Date | null;
   reminders: Date[];
   priority: number;
-  records: RecordObj[];
+  records: ProgressRecord[];
 }
 
 const RoutineForm = ({ closeForm }: Props) => {

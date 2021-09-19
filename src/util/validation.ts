@@ -4,12 +4,7 @@
 // repeat eg: every 10 days is 'e10'
 
 import dayjs, { Dayjs } from "dayjs";
-
-type ProgressRecord = {
-  date: Dayjs;
-  value: number;
-  isCompleted: boolean;
-};
+import { ProgressRecord } from "./types";
 
 export const isToDoItemToday = (obj: any) => {
   const today = dayjs().startOf("date");

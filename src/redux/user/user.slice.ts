@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
 import type { RootState } from "../store";
+import { v4 } from "uuid";
+import { ProgressRecord } from "../../util/types";
 
 interface UserState {
   currentUser: any;
@@ -61,8 +63,37 @@ export const userSlice = createSlice({
       }
       task.isCompleted = !task.isCompleted;
     },
-    addRecord: (state, action: PayloadAction<any>) => {},
-    updateRecord: (state, action: PayloadAction<any>) => {},
+    addRecord: (state, action: PayloadAction<any>) => {
+      const { id, value, isCompleted } = action.payload;
+      let newRecord: ProgressRecord = {
+        recordId: v4(),
+        date: dayjs(),
+        value,
+        isCompleted,
+      };
+      let routine = state.currentUser.routines.find(
+        (routine: any) => routine.id === id
+      );
+      routine.records.push(newRecord);
+    },
+    updateRecord: (state, action: PayloadAction<any>) => {
+      const { id, recordId, value, isCompleted } = action.payload;
+      let routine = state.currentUser.routines.find(
+        (routine: any) => routine.id === id
+      );
+      let record = routine.records.find(
+        (record: ProgressRecord) => record.recordId === recordId
+      );
+      record.value = value;
+      record.isCompleted = isCompleted;
+    },
+    resetRecord: (state, action) => {
+      const id = action.payload;
+      let routine = state.currentUser.routines.find(
+        (routine: any) => routine.id === id
+      );
+      routine.records = [];
+    },
   },
 });
 
