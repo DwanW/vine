@@ -1,5 +1,11 @@
-import { IconContainer } from "./common.styles";
 import {
+  checkCurrentCompletion,
+  getConditionString,
+  getCurrentProgressValue,
+} from "../../util/validation";
+import { EmptyIcon, IconContainer } from "./common.styles";
+import {
+  ToDoInfoContainer,
   ToDoItemContainer,
   ToDoItemDetail,
   ToDoItemSubTitle,
@@ -11,16 +17,34 @@ interface Props {
 }
 
 const ToDoItem = ({ todo }: Props) => {
+  const currentProgress = getCurrentProgressValue(todo);
+  const completionValue = checkCurrentCompletion(todo);
+
   if (todo.hasOwnProperty("records")) {
     return (
       <ToDoItemContainer>
+        <ToDoInfoContainer>
+          <IconContainer>
+            <img src="assets/icon/routine.svg" alt="todo icon" />
+          </IconContainer>
+          <div>
+            <ToDoItemTitle>{`${todo.name} ${getConditionString(
+              todo.goal
+            )}`}</ToDoItemTitle>
+            <ToDoItemSubTitle>{`routine  current: ${
+              currentProgress < 0 ? 0 : currentProgress
+            }`}</ToDoItemSubTitle>
+          </div>
+        </ToDoInfoContainer>
         <IconContainer>
-          <img src="assets/icon/routine.svg" alt="todo icon" />
+          {completionValue === 1 ? (
+            <img src="assets/icon/complete.svg" alt="complete icon" />
+          ) : completionValue === 0.5 ? (
+            <img src="assets/icon/pending.svg" alt="pending icon" />
+          ) : (
+            <EmptyIcon />
+          )}
         </IconContainer>
-        <div>
-          <ToDoItemTitle>{todo.name}</ToDoItemTitle>
-          <ToDoItemSubTitle>routine</ToDoItemSubTitle>
-        </div>
       </ToDoItemContainer>
     );
   }

@@ -9,6 +9,15 @@ export const IconContainer = styled.span`
   }
 `;
 
+export const EmptyIcon = styled.span`
+  margin-right: 0.5rem;
+  padding: 4px;
+  height: 22px;
+  width: 22px;
+  background-color: #b0bec5;
+  border-radius: 9999px;
+`;
+
 export const FormFlatButton = styled.button`
   border: lightsteelblue 2px solid;
   cursor: pointer;

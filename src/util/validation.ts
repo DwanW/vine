@@ -119,55 +119,60 @@ export const getCurrentProgressValue = (routineObj: any) => {
   const todayStart = dayjs().startOf("date");
   const todayEnd = dayjs().endOf("date");
 
+  const currentRecord: ProgressRecord | undefined = routineObj.records.find(
+    (record: ProgressRecord) =>
+      record.date.valueOf() >= todayStart.valueOf() &&
+      record.date.valueOf() < todayEnd.valueOf()
+  );
+
+  if (!currentRecord) {
+    // indicate no record
+    return -1;
+  }
+
   if (routineObj.goal === undefined) {
     // this routine is boolean based
-    console.log("no current progress needed for boolean based");
-    return -1;
+    return currentRecord.isCompleted ? 1 : 0;
   } else {
     // this routine is numeric based
-    const currentRecord: ProgressRecord | undefined = routineObj.records.find(
-      (record: ProgressRecord) =>
-        record.date.valueOf() >= todayStart.valueOf() &&
-        record.date.valueOf() < todayEnd.valueOf()
-    );
-    if (!currentRecord) {
-      return -1;
-    } else {
-      return currentRecord.value;
-    }
+    return currentRecord.value;
   }
 };
 
 // return value is 0: not yet started | 0.5: started | 1: completed
 // this is only numeric based routine
 export const checkCurrentCompletion = (routineObj: any) => {
+  const currentProgressValue = getCurrentProgressValue(routineObj);
   if (routineObj.goal === undefined) {
     // this routine is boolean based
-    console.log("no current completion check needed for boolean based");
-    return -1;
+    return currentProgressValue;
   }
-  const currentProgressValue = getCurrentProgressValue(routineObj);
+
   const condition = routineObj.goal[0];
   const goal = parseFloat(routineObj.goal.slice(1));
 
+  if (currentProgressValue === -1) {
+    // indicate no record
+    return 0;
+  }
+
   switch (condition) {
     case ">":
-      return currentProgressValue === -1
-        ? 0
-        : currentProgressValue >= goal
-        ? 1
-        : 0.5;
+      return currentProgressValue >= goal ? 1 : 0.5;
     case "<":
-      return currentProgressValue === -1
-        ? 0
-        : currentProgressValue < goal
-        ? 1
-        : 0.5;
+      return currentProgressValue < goal ? 1 : 0.5;
     case "=":
-      return currentProgressValue === -1
-        ? 0
-        : currentProgressValue === goal
-        ? 1
-        : 0.5;
+      return currentProgressValue === goal ? 1 : 0.5;
+  }
+};
+
+export const getConditionString = (goal: string) => {
+  switch (goal[0]) {
+    case ">":
+      return `at least ${goal.slice(1)}`;
+    case "<":
+      return `less than ${goal.slice(1)}`;
+    case "=":
+      return `exactly ${goal.slice(1)}`;
   }
 };

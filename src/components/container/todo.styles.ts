@@ -5,6 +5,11 @@ export const ToDoItemContainer = styled.div`
   padding: 1rem;
   margin: 0.5rem 0;
   display: flex;
+  justify-content: space-between;
+`;
+
+export const ToDoInfoContainer = styled.div`
+  display: flex;
 `;
 
 export const ToDoItemDetail = styled.div`
