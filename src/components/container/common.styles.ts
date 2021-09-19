@@ -9,8 +9,15 @@ export const IconContainer = styled.span`
   }
 `;
 
+export const IconButton = styled.button`
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+`;
+
 export const EmptyIcon = styled.span`
-  margin-right: 0.5rem;
   padding: 4px;
   height: 22px;
   width: 22px;

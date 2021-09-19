@@ -18,7 +18,10 @@ export const isToDoItemToday = (obj: any) => {
     if (
       obj.required &&
       dayjs(obj.date).startOf("date").valueOf() <= today.valueOf() &&
-      !obj.isCompleted
+      (!obj.isCompleted ||
+        (obj.isCompleted &&
+          dayjs(obj.completionDate).startOf("date").valueOf() ===
+            today.valueOf()))
     ) {
       return true;
     } else if (

@@ -29,6 +29,7 @@ export interface TaskObj {
   priority: number;
   required: boolean;
   isCompleted: boolean;
+  completionDate: undefined | Dayjs | Date;
 }
 
 const TaskForm = ({ closeForm }: Props) => {
@@ -39,6 +40,7 @@ const TaskForm = ({ closeForm }: Props) => {
     priority: 1,
     required: true,
     isCompleted: false,
+    completionDate: undefined,
   });
 
   const dispatch = useAppDispatch();

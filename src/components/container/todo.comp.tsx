@@ -1,9 +1,11 @@
+import { toggleTaskCompletion } from "../../redux/user/user.slice";
+import { useAppDispatch } from "../../util/hooks";
 import {
   checkCurrentCompletion,
   getConditionString,
   getCurrentProgressValue,
 } from "../../util/validation";
-import { EmptyIcon, IconContainer } from "./common.styles";
+import { EmptyIcon, IconButton, IconContainer } from "./common.styles";
 import {
   ToDoInfoContainer,
   ToDoItemContainer,
@@ -17,6 +19,8 @@ interface Props {
 }
 
 const ToDoItem = ({ todo }: Props) => {
+  const dispatch = useAppDispatch();
+
   if (todo.hasOwnProperty("records")) {
     const currentProgress = getCurrentProgressValue(todo);
     const completionValue = checkCurrentCompletion(todo);
@@ -35,7 +39,7 @@ const ToDoItem = ({ todo }: Props) => {
             } ${todo.unit !== undefined ? todo.unit : ""}`}</ToDoItemSubTitle>
           </div>
         </ToDoInfoContainer>
-        <IconContainer>
+        <IconButton>
           {completionValue === 1 ? (
             <img src="assets/icon/complete.svg" alt="complete icon" />
           ) : completionValue === 0.5 ? (
@@ -43,7 +47,7 @@ const ToDoItem = ({ todo }: Props) => {
           ) : (
             <EmptyIcon />
           )}
-        </IconContainer>
+        </IconButton>
       </ToDoItemContainer>
     );
   }
@@ -58,13 +62,13 @@ const ToDoItem = ({ todo }: Props) => {
           <ToDoItemSubTitle>task</ToDoItemSubTitle>
         </ToDoItemDetail>
       </ToDoInfoContainer>
-      <IconContainer>
+      <IconButton onClick={() => dispatch(toggleTaskCompletion(todo.id))}>
         {todo.isCompleted ? (
           <img src="assets/icon/complete.svg" alt="complete icon" />
         ) : (
           <EmptyIcon />
         )}
-      </IconContainer>
+      </IconButton>
     </ToDoItemContainer>
   );
 };
