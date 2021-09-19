@@ -17,10 +17,9 @@ interface Props {
 }
 
 const ToDoItem = ({ todo }: Props) => {
-  const currentProgress = getCurrentProgressValue(todo);
-  const completionValue = checkCurrentCompletion(todo);
-
   if (todo.hasOwnProperty("records")) {
+    const currentProgress = getCurrentProgressValue(todo);
+    const completionValue = checkCurrentCompletion(todo);
     return (
       <ToDoItemContainer>
         <ToDoInfoContainer>
@@ -50,13 +49,22 @@ const ToDoItem = ({ todo }: Props) => {
   }
   return (
     <ToDoItemContainer>
+      <ToDoInfoContainer>
+        <IconContainer>
+          <img src="assets/icon/task.svg" alt="todo icon" />
+        </IconContainer>
+        <ToDoItemDetail>
+          <ToDoItemTitle>{todo.name}</ToDoItemTitle>
+          <ToDoItemSubTitle>task</ToDoItemSubTitle>
+        </ToDoItemDetail>
+      </ToDoInfoContainer>
       <IconContainer>
-        <img src="assets/icon/task.svg" alt="todo icon" />
+        {todo.isCompleted ? (
+          <img src="assets/icon/complete.svg" alt="complete icon" />
+        ) : (
+          <EmptyIcon />
+        )}
       </IconContainer>
-      <ToDoItemDetail>
-        <ToDoItemTitle>{todo.name}</ToDoItemTitle>
-        <ToDoItemSubTitle>task</ToDoItemSubTitle>
-      </ToDoItemDetail>
     </ToDoItemContainer>
   );
 };
