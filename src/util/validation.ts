@@ -56,10 +56,13 @@ export const isToDoItemToday = (obj: any) => {
         checkDateLimit = today.startOf("month");
       }
 
+      // exclude record not within the period,
+      // and exclude today (we want to show the completion status today)
       const completedDays = obj.records
         .filter(
           (record: ProgressRecord) =>
-            record.date.valueOf() >= checkDateLimit.valueOf()
+            record.date.valueOf() >= checkDateLimit.valueOf() &&
+            record.date.valueOf() < today.valueOf()
         )
         .reduce(
           (initial: number, record: ProgressRecord) =>
@@ -75,10 +78,13 @@ export const isToDoItemToday = (obj: any) => {
       let dayDiff = today.diff(dayjs(obj.startdate).startOf("date"), "day");
       let dayOffset = dayDiff > period ? dayDiff % period : dayDiff;
       let checkDateLimit = today.subtract(dayOffset, "day");
+
+      // exclude today's record for displaying status
       const completed = obj.records
         .filter(
           (record: ProgressRecord) =>
-            record.date.valueOf() >= checkDateLimit.valueOf()
+            record.date.valueOf() >= checkDateLimit.valueOf() &&
+            record.date.valueOf() < today.valueOf()
         )
         .some((record: ProgressRecord) => record.isCompleted);
 
@@ -92,6 +98,7 @@ export const isToDoItemToday = (obj: any) => {
       throw Error("validation error");
     }
   } else {
+    console.log("error, this is neither task or routine");
     return false;
   }
 };

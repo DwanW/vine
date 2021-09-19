@@ -52,7 +52,6 @@ export const userSlice = createSlice({
       const task = state.currentUser.tasks.find(
         (task: any) => task.id === taskId
       );
-      task.isCompleted = !task.isCompleted;
       if (task.isCompleted) {
         // uncheck
         task.completionDate = undefined;
@@ -60,6 +59,7 @@ export const userSlice = createSlice({
         // check
         task.completionDate = dayjs();
       }
+      task.isCompleted = !task.isCompleted;
     },
     addRecord: (state, action: PayloadAction<any>) => {},
     updateRecord: (state, action: PayloadAction<any>) => {},
