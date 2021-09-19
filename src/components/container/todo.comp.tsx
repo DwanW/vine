@@ -27,12 +27,12 @@ const ToDoItem = ({ todo }: Props) => {
             <img src="assets/icon/routine.svg" alt="todo icon" />
           </IconContainer>
           <div>
-            <ToDoItemTitle>{`${todo.name} ${getConditionString(
-              todo.goal
-            )}`}</ToDoItemTitle>
-            <ToDoItemSubTitle>{`routine  current: ${
+            <ToDoItemTitle>{`${todo.name} ${getConditionString(todo.goal)} ${
+              todo.unit !== undefined ? todo.unit : ""
+            }`}</ToDoItemTitle>
+            <ToDoItemSubTitle>{`Routine  current: ${
               currentProgress < 0 ? 0 : currentProgress
-            }`}</ToDoItemSubTitle>
+            } ${todo.unit !== undefined ? todo.unit : ""}`}</ToDoItemSubTitle>
           </div>
         </ToDoInfoContainer>
         <IconContainer>
