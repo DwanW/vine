@@ -104,6 +104,8 @@ export const {
   addTask,
   addRoutine,
   toggleTaskCompletion,
+  addRecord,
+  updateRecord,
 } = userSlice.actions;
 
 export const selectUser = (state: RootState) => state.user;

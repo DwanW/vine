@@ -121,13 +121,8 @@ export const getToDoItemToday = (tasks: any[], routines: any[]) => {
 // return value is numeric
 // current progress is only for display of current date
 export const getCurrentProgressValue = (routineObj: any) => {
-  const todayStart = dayjs().startOf("date");
-  const todayEnd = dayjs().endOf("date");
-
-  const currentRecord: ProgressRecord | undefined = routineObj.records.find(
-    (record: ProgressRecord) =>
-      record.date.valueOf() >= todayStart.valueOf() &&
-      record.date.valueOf() < todayEnd.valueOf()
+  const currentRecord: ProgressRecord | undefined = getTodayRecord(
+    routineObj.records
   );
 
   if (!currentRecord) {
@@ -145,7 +140,7 @@ export const getCurrentProgressValue = (routineObj: any) => {
 };
 
 // return value is 0: not yet started | 0.5: started | 1: completed
-// this is only numeric based routine
+// this is only numeric based routine and calculate after having record.
 export const checkCurrentCompletion = (routineObj: any) => {
   const currentProgressValue = getCurrentProgressValue(routineObj);
   if (routineObj.goal === undefined) {
@@ -172,6 +167,9 @@ export const checkCurrentCompletion = (routineObj: any) => {
 };
 
 export const getConditionString = (goal: string) => {
+  if (!goal) {
+    return "";
+  }
   switch (goal[0]) {
     case ">":
       return `at least ${goal.slice(1)}`;
@@ -179,5 +177,35 @@ export const getConditionString = (goal: string) => {
       return `less than ${goal.slice(1)}`;
     case "=":
       return `exactly ${goal.slice(1)}`;
+  }
+};
+
+export const getTodayRecord = (records: ProgressRecord[]) => {
+  const todayStart = dayjs().startOf("date");
+  const todayEnd = dayjs().endOf("date");
+
+  const todayRecord = records.find(
+    (record: ProgressRecord) =>
+      record.date.valueOf() >= todayStart.valueOf() &&
+      record.date.valueOf() < todayEnd.valueOf()
+  );
+
+  return todayRecord;
+};
+
+// this calculate completion at time the value has been given
+export const evaluateCompletionValue = (goal: string, value: number) => {
+  const condition = goal[0];
+  const targetGoal = parseFloat(goal.slice(1));
+
+  switch (condition) {
+    case ">":
+      return value >= targetGoal;
+    case "<":
+      return value < targetGoal;
+    case "=":
+      return value === targetGoal;
+    default:
+      return false;
   }
 };

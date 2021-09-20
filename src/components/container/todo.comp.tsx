@@ -1,9 +1,14 @@
-import { toggleTaskCompletion } from "../../redux/user/user.slice";
+import {
+  addRecord,
+  toggleTaskCompletion,
+  updateRecord,
+} from "../../redux/user/user.slice";
 import { useAppDispatch } from "../../util/hooks";
 import {
   checkCurrentCompletion,
   getConditionString,
   getCurrentProgressValue,
+  getTodayRecord,
 } from "../../util/validation";
 import { EmptyIcon, IconButton, IconContainer } from "./common.styles";
 import {
@@ -16,14 +21,54 @@ import {
 
 interface Props {
   todo: any;
+  toggleDialog: (todo: any) => void;
 }
 
-const ToDoItem = ({ todo }: Props) => {
+const ToDoItem = ({ todo, toggleDialog }: Props) => {
   const dispatch = useAppDispatch();
 
   if (todo.hasOwnProperty("records")) {
     const currentProgress = getCurrentProgressValue(todo);
     const completionValue = checkCurrentCompletion(todo);
+    const description = `${getConditionString(todo.goal)} ${
+      todo.unit !== undefined ? todo.unit : ""
+    }`;
+
+    const getCurrentValue = () => {
+      return `current: ${currentProgress < 0 ? 0 : currentProgress} ${
+        todo.unit !== undefined ? todo.unit : ""
+      }`;
+    };
+
+    const handleClick = () => {
+      if (todo.goal === undefined) {
+        // boolean based dispatch
+        let todayRecord = getTodayRecord(todo.records);
+        if (todayRecord) {
+          let updatedRecord = {
+            id: todo.id,
+            recordId: todayRecord.recordId,
+            isCompleted: !todayRecord.isCompleted,
+            value: !todayRecord.isCompleted ? 1 : 0,
+          };
+          // update record
+          dispatch(updateRecord(updatedRecord));
+        } else {
+          // add new record
+          dispatch(
+            addRecord({
+              id: todo.id,
+              value: 1,
+              isCompleted: true,
+            })
+          );
+        }
+      } else {
+        // numeric based
+        toggleDialog(todo);
+      }
+    };
+
     return (
       <ToDoItemContainer>
         <ToDoInfoContainer>
@@ -31,15 +76,13 @@ const ToDoItem = ({ todo }: Props) => {
             <img src="assets/icon/routine.svg" alt="todo icon" />
           </IconContainer>
           <div>
-            <ToDoItemTitle>{`${todo.name} ${getConditionString(todo.goal)} ${
-              todo.unit !== undefined ? todo.unit : ""
-            }`}</ToDoItemTitle>
-            <ToDoItemSubTitle>{`Routine  current: ${
-              currentProgress < 0 ? 0 : currentProgress
-            } ${todo.unit !== undefined ? todo.unit : ""}`}</ToDoItemSubTitle>
+            <ToDoItemTitle>{`${todo.name} ${description}`}</ToDoItemTitle>
+            <ToDoItemSubTitle>
+              Routine {todo.goal !== undefined ? getCurrentValue() : ""}
+            </ToDoItemSubTitle>
           </div>
         </ToDoInfoContainer>
-        <IconButton>
+        <IconButton onClick={handleClick}>
           {completionValue === 1 ? (
             <img src="assets/icon/complete.svg" alt="complete icon" />
           ) : completionValue === 0.5 ? (
