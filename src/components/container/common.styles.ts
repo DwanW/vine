@@ -1,3 +1,4 @@
+import { Dialog } from "@mui/material";
 import styled from "styled-components";
 
 export const IconContainer = styled.span`
@@ -85,6 +86,12 @@ export const DialogContainer = styled.div`
 
   @media (min-width: 640px) {
     width: 600px;
+  }
+`;
+
+export const FormDialog = styled(Dialog)`
+  & .MuiDialog-paper {
+    margin: 0;
   }
 `;
 

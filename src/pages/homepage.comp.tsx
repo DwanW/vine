@@ -1,7 +1,14 @@
-import { Dialog } from "@mui/material";
 import { useState } from "react";
-import { ToDoListContainer } from "../components/container/common.styles";
+import {
+  DialogContainer,
+  DialogHeader,
+  FormBottomButtonGroup,
+  FormDialog,
+  FormFlatButton,
+  ToDoListContainer,
+} from "../components/container/common.styles";
 import ToDoItem from "../components/container/todo.comp";
+import GoalInput from "../components/form/goalinput.comp";
 import PageWrapper from "../components/pagewrapper/pagewrapper.comp";
 import { addRecord, updateRecord } from "../redux/user/user.slice";
 import { useAppDispatch, useAppSelector } from "../util/hooks";
@@ -98,15 +105,24 @@ const HomePage = (props: Props) => {
         ) : (
           <ToDoListContainer>no todo has been added yet</ToDoListContainer>
         )}
-        <Dialog
+        <FormDialog
           open={progressDialogOpen}
           onClose={() => setProgressDialogOpen(!progressDialogOpen)}
         >
-          <input type="number" onChange={handleValueChange} value={value} />
-          routine dialog description {getDescription(currentRoutine)}
-          <button onClick={handleCancel}>cancel</button>
-          <button onClick={handleSet}>set</button>
-        </Dialog>
+          <DialogContainer>
+            <DialogHeader>Enter a value</DialogHeader>
+            <GoalInput
+              handleValueChange={handleValueChange}
+              setValue={setValue}
+              description={getDescription(currentRoutine)}
+              value={value}
+            />
+            <FormBottomButtonGroup>
+              <FormFlatButton onClick={handleCancel}>cancel</FormFlatButton>
+              <FormFlatButton onClick={handleSet}>set</FormFlatButton>
+            </FormBottomButtonGroup>
+          </DialogContainer>
+        </FormDialog>
       </>
     </PageWrapper>
   );

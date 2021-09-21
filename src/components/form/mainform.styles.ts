@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Dialog from "@mui/material/Dialog";
 
 export const TriggerContainer = styled.div`
   position: fixed;
@@ -17,11 +16,5 @@ export const TriggerContainer = styled.div`
     border-left: 1px aqua solid;
     right: 10px;
     bottom: auto;
-  }
-`;
-
-export const MainFormDialog = styled(Dialog)`
-  & .MuiDialog-paper {
-    margin: 0;
   }
 `;

@@ -1,7 +1,8 @@
 import { ReactElement, useEffect, useState } from "react";
 import FormButton from "../button/form-button.comp";
+import { FormDialog } from "../container/common.styles";
 import FormSelect from "./formselect.comp";
-import { MainFormDialog, TriggerContainer } from "./mainform.styles";
+import { TriggerContainer } from "./mainform.styles";
 import RoutineForm from "./routineform.comp";
 import TaskForm from "./taskform.comp";
 
@@ -25,7 +26,7 @@ function MainForm(): ReactElement {
       <TriggerContainer>
         <FormButton onClick={() => setIsDialogOpen(true)}>+</FormButton>
       </TriggerContainer>
-      <MainFormDialog
+      <FormDialog
         open={isDialogOpen}
         onClose={handleClose}
         aria-labelledby="form-dialog"
@@ -37,7 +38,7 @@ function MainForm(): ReactElement {
         ) : formType === "routine" ? (
           <RoutineForm closeForm={handleClose} />
         ) : null}
-      </MainFormDialog>
+      </FormDialog>
     </>
   );
 }
