@@ -47,7 +47,11 @@ const HomePage = (props: Props) => {
   };
 
   const handleValueChange = (e: any) => {
-    if (e.target.value >= 0) setValue(e.target.value);
+    if (e.target.value === "") {
+      setValue(0);
+      return;
+    }
+    if (parseFloat(e.target.value) >= 0) setValue(parseFloat(e.target.value));
   };
 
   const handleCancel = () => {
