@@ -1,13 +1,18 @@
+import RoutineList from "../components/container/routineList.comp";
 import PageWrapper from "../components/pagewrapper/pagewrapper.comp";
-// import { useAppSelector } from "../util/hooks";
+import { useAppSelector } from "../util/hooks";
 
 interface Props {}
 
 const RoutinePage = (props: Props) => {
+  const { routines } = useAppSelector((state) => state.user.currentUser);
   return (
     <PageWrapper>
-      this is the Routine page, showing individual routine progress and edit
-      options
+      <>
+        this is the Routine page, showing individual routine progress and edit
+        options
+        <RoutineList routines={routines} />
+      </>
     </PageWrapper>
   );
 };
