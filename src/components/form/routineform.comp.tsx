@@ -140,13 +140,30 @@ const RoutineForm = ({ closeForm }: Props) => {
         .filter((value: string) => value !== e.target.value)
         .join("");
     } else {
-      updatedRoutine.schedule = `${updatedRoutine.schedule}${e.target.value}`;
+      let scheduleArr = updatedRoutine.schedule.slice(1).split("");
+      let sortedSchedule = [...scheduleArr, e.target.value]
+        .sort((a: string, b: string) => parseInt(a) - parseInt(b))
+        .join("");
+      updatedRoutine.schedule = `s${sortedSchedule}`;
     }
     setRoutine(updatedRoutine as RoutineObj);
   };
 
   const handlePerPeriodChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (parseInt(e.target.value) < 1 || isNaN(parseInt(e.target.value))) return;
+    if (parseInt(e.target.value) < 1 || isNaN(parseInt(e.target.value))) {
+      return;
+    }
+    let period = routine.schedule[routine.schedule.length - 1];
+    if (period === "w" && parseInt(e.target.value) > 6) {
+      dispatch(openSnackBar("input must be less than 7"));
+      return;
+    }
+
+    if (period === "m" && parseInt(e.target.value) > 28) {
+      dispatch(openSnackBar("input must be less than 29"));
+      return;
+    }
+
     let updatedRoutine: { [key: string]: any } = { ...routine };
     updatedRoutine.schedule = `${e.target.value}${
       updatedRoutine.schedule[updatedRoutine.schedule.length - 1]
@@ -159,10 +176,17 @@ const RoutineForm = ({ closeForm }: Props) => {
     if (updatedRoutine.schedule.includes(e.target.value)) {
       return;
     }
-    updatedRoutine.schedule = `${updatedRoutine.schedule.slice(
-      0,
-      updatedRoutine.schedule.length - 1
-    )}${e.target.value}`;
+    const times = parseInt(
+      updatedRoutine.schedule.slice(0, updatedRoutine.schedule.length - 1)
+    );
+    let newTimes;
+    if (e.target.value === "m") {
+      newTimes = times > 28 ? 28 : times;
+    } else {
+      newTimes = times > 6 ? 6 : times;
+    }
+
+    updatedRoutine.schedule = `${newTimes}${e.target.value}`;
     setRoutine(updatedRoutine as RoutineObj);
   };
 

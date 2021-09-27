@@ -209,3 +209,64 @@ export const evaluateCompletionValue = (goal: string, value: number) => {
       return false;
   }
 };
+
+// convert to schedule to string
+export const scheduleToString = (schedule: string) => {
+  if (!schedule) {
+    return "";
+  }
+
+  const len = schedule.length;
+  if (schedule === "1234567" || schedule === "s1234567") {
+    return "every day";
+  } else if (schedule[0] === "s") {
+    let days = schedule.slice(1);
+    let newString = days
+      .split("")
+      .map((day) =>
+        dayjs()
+          .day(parseInt(day) - 1)
+          .format("ddd")
+      )
+      .join(" - ");
+    return newString;
+  } else if (schedule[len - 1] === "w" || schedule[len - 1] === "m") {
+    let period = schedule[len - 1];
+
+    return `${schedule.slice(0, -1)} ${
+      schedule.slice(0, -1) === "1" ? "time" : "times"
+    } per ${period === "w" ? "week" : "month"}`;
+  } else if (schedule[0] === "e") {
+    return `every ${schedule.slice(1)} ${
+      schedule.slice(1) === "1" ? "day" : "days"
+    }`;
+  } else {
+    return "date parsing error";
+  }
+};
+
+// calculate highest streak of record
+export const calculateHighestStreak = (
+  records: ProgressRecord[],
+  schedule: string,
+  startDate: Dayjs
+) => {
+  let currentStreak = 0;
+  let maxStreak = 0;
+  let anchorDate: Dayjs | undefined; // date that is used to compare with the record date.
+
+  records.forEach((record) => {
+    if (!anchorDate) {
+      anchorDate = record.date;
+      currentStreak = 1;
+      if (currentStreak > maxStreak) {
+        maxStreak = currentStreak;
+      }
+      return;
+    }
+
+    // logic here
+  });
+
+  return maxStreak;
+};
