@@ -245,8 +245,8 @@ export const scheduleToString = (schedule: string) => {
   }
 };
 
-// calculate highest streak of record
-export const calculateHighestStreak = (
+// calculate completion streak from record
+export const calculateStreak = (
   records: ProgressRecord[],
   schedule: string,
   startDate: Dayjs
@@ -254,19 +254,197 @@ export const calculateHighestStreak = (
   let currentStreak = 0;
   let maxStreak = 0;
   let anchorDate: Dayjs | undefined; // date that is used to compare with the record date.
+  let unit = "day";
+  let compRecords = records.filter((record) => record.isCompleted); // only have completed records.
+  const len = schedule.length;
 
-  records.forEach((record) => {
-    if (!anchorDate) {
-      anchorDate = record.date;
-      currentStreak = 1;
-      if (currentStreak > maxStreak) {
-        maxStreak = currentStreak;
+  if (schedule === "1234567" || schedule === "s1234567") {
+    compRecords.forEach((record) => {
+      if (!anchorDate) {
+        anchorDate = record.date;
+        currentStreak = 1;
+        if (currentStreak > maxStreak) {
+          maxStreak = currentStreak;
+        }
+        return;
+      } else {
+        let isConsecutive =
+          dayjs(anchorDate).add(1, "day").startOf("date").valueOf() ===
+          dayjs(record.date).startOf("date").valueOf();
+
+        anchorDate = record.date;
+
+        if (isConsecutive) {
+          currentStreak += 1;
+        } else {
+          currentStreak = 1;
+        }
+
+        if (currentStreak > maxStreak) {
+          maxStreak = currentStreak;
+        }
       }
-      return;
-    }
+    });
+  } else if (schedule[0] === "s") {
+    compRecords.forEach((record) => {
+      if (!anchorDate) {
+        anchorDate = record.date;
+        currentStreak = 1;
+        if (currentStreak > maxStreak) {
+          maxStreak = currentStreak;
+        }
+        return;
+      } else {
+        let anchorIdx = schedule.indexOf(
+          (dayjs(anchorDate).get("day") + 1).toString()
+        );
+        let nextIdx = anchorIdx === schedule.length - 1 ? 1 : anchorIdx + 1;
+        // days till next work day
+        let dayDiff =
+          nextIdx > anchorIdx
+            ? parseInt(schedule[nextIdx]) - parseInt(schedule[anchorIdx])
+            : 7 - parseInt(schedule[anchorIdx]) + parseInt(schedule[nextIdx]);
+        let isConsecutive =
+          dayjs(anchorDate).add(dayDiff, "day").startOf("date").valueOf() ===
+          dayjs(record.date).startOf("date").valueOf();
 
-    // logic here
-  });
+        anchorDate = record.date;
 
-  return maxStreak;
+        if (isConsecutive) {
+          currentStreak += 1;
+        } else {
+          currentStreak = 1;
+        }
+
+        if (currentStreak > maxStreak) {
+          maxStreak = currentStreak;
+        }
+      }
+    });
+  } else if (schedule[len - 1] === "w") {
+    unit = "week";
+    const target = parseInt(schedule.slice(0, -1));
+    let count = 0;
+    compRecords.forEach((record) => {
+      if (!anchorDate) {
+        anchorDate = record.date;
+        count = 1;
+        if (count === target) {
+          currentStreak = 1;
+        }
+        if (currentStreak > maxStreak) {
+          maxStreak = currentStreak;
+        }
+        return;
+      } else {
+        let isSamePeriod =
+          dayjs(record.date).startOf("week").valueOf() ===
+          dayjs(anchorDate).startOf("week").valueOf();
+
+        anchorDate = record.date;
+
+        if (isSamePeriod) {
+          count += 1;
+        } else {
+          count = 1;
+          let isConsecutive =
+            dayjs(anchorDate).add(1, "week").startOf("week").valueOf() ===
+            dayjs(record.date).startOf("week").valueOf();
+
+          if (!isConsecutive) {
+            currentStreak = 0;
+          }
+        }
+
+        if (count === target) {
+          currentStreak += 1;
+        }
+
+        if (currentStreak > maxStreak) {
+          maxStreak = currentStreak;
+        }
+      }
+    });
+  } else if (schedule[len - 1] === "m") {
+    unit = "month";
+    const target = parseInt(schedule.slice(0, -1));
+    let count = 0;
+    compRecords.forEach((record) => {
+      if (!anchorDate) {
+        anchorDate = record.date;
+        count = 1;
+        if (count === target) {
+          currentStreak = 1;
+        }
+        if (currentStreak > maxStreak) {
+          maxStreak = currentStreak;
+        }
+        return;
+      } else {
+        let isSamePeriod =
+          dayjs(record.date).startOf("month").valueOf() ===
+          dayjs(anchorDate).startOf("month").valueOf();
+
+        anchorDate = record.date;
+
+        if (isSamePeriod) {
+          count += 1;
+        } else {
+          count = 1;
+          let isConsecutive =
+            dayjs(anchorDate).add(1, "month").startOf("month").valueOf() ===
+            dayjs(record.date).startOf("month").valueOf();
+
+          if (!isConsecutive) {
+            currentStreak = 0;
+          }
+        }
+
+        if (count === target) {
+          currentStreak += 1;
+        }
+
+        if (currentStreak > maxStreak) {
+          maxStreak = currentStreak;
+        }
+      }
+    });
+  } else if (schedule[0] === "e") {
+    const period = parseInt(schedule.slice(1)); // days of a period
+    compRecords.forEach((record) => {
+      if (!anchorDate) {
+        anchorDate = record.date;
+        currentStreak = 1;
+        if (currentStreak > maxStreak) {
+          maxStreak = currentStreak;
+        }
+        return;
+      } else {
+        let anchorDiff = dayjs(startDate).diff(dayjs(anchorDate), "day"); //this will floor the decimals
+        let recordDiff = dayjs(startDate).diff(dayjs(record.date), "day");
+
+        let isConsecutive =
+          Math.floor(anchorDiff / period) + 1 ===
+          Math.floor(recordDiff / period);
+
+        anchorDate = record.date;
+
+        if (isConsecutive) {
+          currentStreak += 1;
+        } else {
+          currentStreak = 1;
+        }
+
+        if (currentStreak > maxStreak) {
+          maxStreak = currentStreak;
+        }
+      }
+    });
+  }
+  return { maxStreak, currentStreak, unit };
+};
+
+// calculate percentage completion from record
+export const calculateCompletion = (records: ProgressRecord[]) => {
+  //TODO:
 };
