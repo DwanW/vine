@@ -461,8 +461,6 @@ export const calculateCompletion = (
   let totalDays = Math.ceil(dayjs(today).diff(startDate, "day", true));
   let completedDays = compRecords.length;
 
-  console.log(totalDays);
-
   if (schedule === "1234567" || schedule === "s1234567") {
     return completedDays / totalDays;
   } else if (schedule[0] === "s") {

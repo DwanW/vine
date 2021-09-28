@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import {
   calculateCompletion,
   calculateStreak,
@@ -34,8 +35,8 @@ const RoutineItem = ({ routine }: Props) => {
           ) * 100}{" "}
           %
         </span>{" "}
-        <span>light graph link</span>
-        <span>statistics</span>
+        <NavLink to={`/light/${routine.id}`}>light graph</NavLink>
+        <NavLink to={`/stats/${routine.id}`}>statistics</NavLink>
         <span>menu button (delete) (edit)</span>
       </div>
     </RoutineItemContainer>

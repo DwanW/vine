@@ -11,6 +11,8 @@ import { useAppDispatch, useAppSelector } from "./util/hooks";
 import { closeSnackBar } from "./redux/feedback/feedback.slice";
 import RoutinePage from "./pages/routinepage.comp";
 import SettingPage from "./pages/settingpage.comp";
+import StatsPage from "./pages/statpage.comp";
+import LightPage from "./pages/lightpage.comp";
 
 function App() {
   const { snackbarOpen, snackbarMessage } = useAppSelector(
@@ -37,6 +39,8 @@ function App() {
             <Route exact path="/" component={HomePage} />
             <Route exact path="/routine" component={RoutinePage} />
             <Route exact path="/setting" component={SettingPage} />
+            <Route path="/stats/:id" component={StatsPage} />
+            <Route path="/light/:id" component={LightPage} />
           </Suspense>
         </ErrorBoundary>
       </Switch>
