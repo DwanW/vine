@@ -56,8 +56,8 @@ export const isToDoItemToday = (obj: any) => {
       const completedDays = obj.records
         .filter(
           (record: ProgressRecord) =>
-            record.date.valueOf() >= checkDateLimit.valueOf() &&
-            record.date.valueOf() < today.valueOf()
+            dayjs(record.date).valueOf() >= checkDateLimit.valueOf() &&
+            dayjs(record.date).valueOf() < today.valueOf()
         )
         .reduce(
           (initial: number, record: ProgressRecord) =>
@@ -78,8 +78,8 @@ export const isToDoItemToday = (obj: any) => {
       const completed = obj.records
         .filter(
           (record: ProgressRecord) =>
-            record.date.valueOf() >= checkDateLimit.valueOf() &&
-            record.date.valueOf() < today.valueOf()
+            dayjs(record.date).valueOf() >= checkDateLimit.valueOf() &&
+            dayjs(record.date).valueOf() < today.valueOf()
         )
         .some((record: ProgressRecord) => record.isCompleted);
 
@@ -186,8 +186,8 @@ export const getTodayRecord = (records: ProgressRecord[]) => {
 
   const todayRecord = records.find(
     (record: ProgressRecord) =>
-      record.date.valueOf() >= todayStart.valueOf() &&
-      record.date.valueOf() < todayEnd.valueOf()
+      dayjs(record.date).valueOf() >= todayStart.valueOf() &&
+      dayjs(record.date).valueOf() < todayEnd.valueOf()
   );
 
   return todayRecord;
