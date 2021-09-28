@@ -450,7 +450,7 @@ export const calculateCompletion = (
   schedule: string,
   startDate: Dayjs
 ) => {
-  const yesterday = dayjs().subtract(1, "day").endOf("date");
+  const today = dayjs().endOf("date");
   const len = schedule.length;
   const compRecords = records.filter((record) => record.isCompleted);
 
@@ -458,17 +458,105 @@ export const calculateCompletion = (
     return 0;
   }
 
+  let totalDays = dayjs(startDate).diff(today, "day");
+  let completedDays = compRecords.length;
+
   if (schedule === "1234567" || schedule === "s1234567") {
-    let totalDays = dayjs(startDate).diff(yesterday);
-    let completedDays = compRecords.length;
     return completedDays / totalDays;
   } else if (schedule[0] === "s") {
-    //TODO:
+    let totalWeeks = Math.floor(totalDays / 7);
+    let remainderDays = totalDays % 7;
+    let startingDay = (dayjs(startDate).get("day") + 1).toString();
+    const week = "1234567";
+    let remainderString = "";
+    let dayIdx = week.indexOf(startingDay); // initial is the same as starting day
+    for (let i = 0; i < remainderDays; i++) {
+      remainderString += week[dayIdx];
+      dayIdx++;
+      if (dayIdx > 6) {
+        dayIdx = 0;
+      }
+    }
+    let workDays = totalWeeks * ((schedule.length - 1) / 7);
+    remainderString.split("").forEach((stringNum) => {
+      if (schedule.includes(stringNum)) {
+        workDays++;
+      }
+    });
+
+    return completedDays / workDays;
   } else if (schedule[len - 1] === "w") {
-    //TODO:
+    let totalWeeks = Math.ceil(dayjs(startDate).diff(today, "week", true));
+    const target = parseInt(schedule.slice(0, -1));
+    let count = 0;
+    let anchorDate: Dayjs | undefined;
+    let completedWeek = 0;
+    compRecords.forEach((record) => {
+      if (!anchorDate) {
+        anchorDate = record.date;
+        count = 1;
+        if (count === target) {
+          completedWeek = 1;
+        }
+        return;
+      } else {
+        let isSamePeriod =
+          dayjs(record.date).startOf("week").valueOf() ===
+          dayjs(anchorDate).startOf("week").valueOf();
+
+        anchorDate = record.date;
+
+        if (isSamePeriod) {
+          count += 1;
+        } else {
+          count = 1;
+        }
+
+        if (count === target) {
+          completedWeek += 1;
+        }
+      }
+    });
+
+    return completedWeek / totalWeeks;
   } else if (schedule[len - 1] === "m") {
-    //TODO:
+    let totalMonths = Math.ceil(dayjs(startDate).diff(today, "month", true));
+    const target = parseInt(schedule.slice(0, -1));
+    let count = 0;
+    let anchorDate: Dayjs | undefined;
+    let completedMonth = 0;
+    compRecords.forEach((record) => {
+      if (!anchorDate) {
+        anchorDate = record.date;
+        count = 1;
+        if (count === target) {
+          completedMonth = 1;
+        }
+        return;
+      } else {
+        let isSamePeriod =
+          dayjs(record.date).startOf("month").valueOf() ===
+          dayjs(anchorDate).startOf("month").valueOf();
+
+        anchorDate = record.date;
+
+        if (isSamePeriod) {
+          count += 1;
+        } else {
+          count = 1;
+        }
+
+        if (count === target) {
+          completedMonth += 1;
+        }
+      }
+    });
+
+    return completedMonth / totalMonths;
   } else if (schedule[0] === "e") {
-    //TODO:
+    let period = parseInt(schedule.slice(1));
+    let numOfPeriods = Math.ceil(totalDays / period);
+
+    return completedDays / numOfPeriods;
   }
 };
