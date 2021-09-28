@@ -445,6 +445,30 @@ export const calculateStreak = (
 };
 
 // calculate percentage completion from record
-export const calculateCompletion = (records: ProgressRecord[]) => {
-  //TODO:
+export const calculateCompletion = (
+  records: ProgressRecord[],
+  schedule: string,
+  startDate: Dayjs
+) => {
+  const yesterday = dayjs().subtract(1, "day").endOf("date");
+  const len = schedule.length;
+  const compRecords = records.filter((record) => record.isCompleted);
+
+  if (compRecords.length === 0) {
+    return 0;
+  }
+
+  if (schedule === "1234567" || schedule === "s1234567") {
+    let totalDays = dayjs(startDate).diff(yesterday);
+    let completedDays = compRecords.length;
+    return completedDays / totalDays;
+  } else if (schedule[0] === "s") {
+    //TODO:
+  } else if (schedule[len - 1] === "w") {
+    //TODO:
+  } else if (schedule[len - 1] === "m") {
+    //TODO:
+  } else if (schedule[0] === "e") {
+    //TODO:
+  }
 };
