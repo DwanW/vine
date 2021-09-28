@@ -420,8 +420,8 @@ export const calculateStreak = (
         }
         return;
       } else {
-        let anchorDiff = dayjs(startDate).diff(dayjs(anchorDate), "day"); //this will floor the decimals
-        let recordDiff = dayjs(startDate).diff(dayjs(record.date), "day");
+        let anchorDiff = dayjs(anchorDate).diff(dayjs(startDate), "day"); //this will floor the decimals
+        let recordDiff = dayjs(record.date).diff(dayjs(startDate), "day");
 
         let isConsecutive =
           Math.floor(anchorDiff / period) + 1 ===
@@ -458,8 +458,10 @@ export const calculateCompletion = (
     return 0;
   }
 
-  let totalDays = dayjs(startDate).diff(today, "day");
+  let totalDays = Math.ceil(dayjs(today).diff(startDate, "day", true));
   let completedDays = compRecords.length;
+
+  console.log(totalDays);
 
   if (schedule === "1234567" || schedule === "s1234567") {
     return completedDays / totalDays;
@@ -486,7 +488,7 @@ export const calculateCompletion = (
 
     return completedDays / workDays;
   } else if (schedule[len - 1] === "w") {
-    let totalWeeks = Math.ceil(dayjs(startDate).diff(today, "week", true));
+    let totalWeeks = Math.ceil(dayjs(today).diff(startDate, "week", true));
     const target = parseInt(schedule.slice(0, -1));
     let count = 0;
     let anchorDate: Dayjs | undefined;
@@ -520,7 +522,7 @@ export const calculateCompletion = (
 
     return completedWeek / totalWeeks;
   } else if (schedule[len - 1] === "m") {
-    let totalMonths = Math.ceil(dayjs(startDate).diff(today, "month", true));
+    let totalMonths = Math.ceil(dayjs(today).diff(startDate, "month", true));
     const target = parseInt(schedule.slice(0, -1));
     let count = 0;
     let anchorDate: Dayjs | undefined;
@@ -556,7 +558,8 @@ export const calculateCompletion = (
   } else if (schedule[0] === "e") {
     let period = parseInt(schedule.slice(1));
     let numOfPeriods = Math.ceil(totalDays / period);
-
     return completedDays / numOfPeriods;
+  } else {
+    return 0;
   }
 };

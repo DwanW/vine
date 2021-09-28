@@ -1,4 +1,8 @@
-import { calculateStreak, scheduleToString } from "../../util/validation";
+import {
+  calculateCompletion,
+  calculateStreak,
+  scheduleToString,
+} from "../../util/validation";
 import { RoutineItemContainer } from "./routineItem.styles";
 
 interface Props {
@@ -21,7 +25,16 @@ const RoutineItem = ({ routine }: Props) => {
             ).maxStreak
           }
         </span>{" "}
-        <span>completion:</span> <span>light graph link</span>
+        <span>
+          completion:{" "}
+          {calculateCompletion(
+            routine.records,
+            routine.schedule,
+            routine.startdate
+          ) * 100}{" "}
+          %
+        </span>{" "}
+        <span>light graph link</span>
         <span>statistics</span>
         <span>menu button (delete) (edit)</span>
       </div>
