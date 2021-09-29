@@ -4,7 +4,7 @@
 // repeat eg: every 10 days is 'e10'
 
 import dayjs, { Dayjs } from "dayjs";
-import { ProgressRecord } from "./types";
+import { LightData, ProgressRecord } from "./types";
 
 export const isToDoItemToday = (obj: any) => {
   const today = dayjs().startOf("date");
@@ -119,7 +119,7 @@ export const getToDoItemToday = (tasks: any[], routines: any[]) => {
 };
 
 // return value is numeric
-// current progress is only for display of current date
+// current progress is only for goal value of current date
 export const getCurrentProgressValue = (routineObj: any) => {
   const currentRecord: ProgressRecord | undefined = getTodayRecord(
     routineObj.records
@@ -560,4 +560,63 @@ export const calculateCompletion = (
   } else {
     return 0;
   }
+};
+
+export const isLeapYear = (date: Dayjs) => {
+  const year = date.get("year");
+  return year % 4 === 0;
+};
+
+export const composeLightGraphData = (records: ProgressRecord[]) => {
+  let now = dayjs();
+  let currentYearRecords = records.filter(
+    (record) =>
+      dayjs(record.date).valueOf() >= now.startOf("year").valueOf() &&
+      dayjs(record.date).valueOf() <= now.endOf("year").valueOf() &&
+      record.isCompleted
+  );
+
+  // initial data
+  let data: LightData = [
+    { name: "Jan", records: [], lightString: "", days: 31 },
+    {
+      name: "Feb",
+      records: [],
+      lightString: "",
+      days: isLeapYear(now) ? 29 : 28,
+    },
+    { name: "Mar", records: [], lightString: "", days: 31 },
+    { name: "Apr", records: [], lightString: "", days: 30 },
+    { name: "May", records: [], lightString: "", days: 31 },
+    { name: "Jun", records: [], lightString: "", days: 30 },
+    { name: "Jul", records: [], lightString: "", days: 31 },
+    { name: "Aug", records: [], lightString: "", days: 31 },
+    { name: "Sep", records: [], lightString: "", days: 30 },
+    { name: "Oct", records: [], lightString: "", days: 31 },
+    { name: "Nov", records: [], lightString: "", days: 30 },
+    { name: "Dec", records: [], lightString: "", days: 31 },
+  ];
+
+  currentYearRecords.forEach((record) => {
+    let recordDate = dayjs(record.date);
+    let monthIdx = recordDate.get("month");
+    let dateNum = recordDate.get("date");
+    data[monthIdx].records.push(dateNum);
+  });
+
+  for (let i = 0; i < 12; i++) {
+    for (let j = 1; j <= data[i].days; j++) {
+      // for each day, check if there's record in that day.
+      let exist = data[i].records.includes(j);
+
+      // if record exist, push "1" to lightString, else, push "0"
+      if (exist) {
+        data[i].lightString += "1";
+      } else {
+        data[i].lightString += "0";
+      }
+    }
+  }
+
+  return data;
 };

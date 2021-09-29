@@ -6,3 +6,12 @@ export type ProgressRecord = {
   value: number;
   isCompleted: boolean;
 };
+
+export type LightMonthData = {
+  name: string;
+  records: number[];
+  lightString: string;
+  days: number;
+};
+
+export type LightData = LightMonthData[];
