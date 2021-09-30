@@ -641,3 +641,15 @@ export const composeLineGraphData = (
 
   return lineGraphData;
 };
+
+export const composePieGraphData = (
+  records: ProgressRecord[],
+  schedule: string,
+  startDate: Dayjs
+) => {
+  const completionDecimal = calculateCompletion(records, schedule, startDate);
+  return [
+    { name: "completed", percentage: completionDecimal * 100 },
+    { name: "uncompleted", percentage: (1 - completionDecimal) * 100 },
+  ];
+};

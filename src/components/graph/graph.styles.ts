@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const LineGraphContainer = styled.div`
+export const GraphContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

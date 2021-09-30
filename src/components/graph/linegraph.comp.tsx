@@ -8,7 +8,7 @@ import {
   Label,
 } from "recharts";
 import { composeLineGraphData } from "../../util/validation";
-import { LineGraphContainer } from "./graph.styles";
+import { GraphContainer } from "./graph.styles";
 
 interface Props {
   routine: any;
@@ -17,7 +17,7 @@ interface Props {
 const LineGraph = ({ routine }: Props) => {
   const { records, startdate } = routine;
   return (
-    <LineGraphContainer>
+    <GraphContainer>
       <h4>Cumulative Progress</h4>
       <LineChart
         width={500}
@@ -43,7 +43,7 @@ const LineGraph = ({ routine }: Props) => {
         </YAxis>
         <Tooltip />
       </LineChart>
-    </LineGraphContainer>
+    </GraphContainer>
   );
 };
 
