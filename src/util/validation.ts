@@ -620,3 +620,24 @@ export const composeLightGraphData = (records: ProgressRecord[]) => {
 
   return data;
 };
+
+export const composeLineGraphData = (
+  records: ProgressRecord[],
+  startDate: Dayjs
+) => {
+  let lineGraphData: any[] = [];
+  let cumulativeValue = 0;
+  const startTime = dayjs(startDate).startOf("date");
+
+  records.forEach((record) => {
+    cumulativeValue += record.value;
+    let newRecord = {
+      ...record,
+      value: cumulativeValue,
+      date: dayjs(record.date).diff(startTime, "day"),
+    };
+    lineGraphData.push(newRecord);
+  });
+
+  return lineGraphData;
+};
