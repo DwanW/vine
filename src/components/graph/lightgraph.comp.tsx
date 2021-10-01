@@ -1,5 +1,9 @@
 import { composeLightGraphData } from "../../util/validation";
-import { ColumnContainer, LightGraphContainer } from "./lightgraph.styles";
+import {
+  ColumnContainer,
+  Light,
+  LightGraphContainer,
+} from "./lightgraph.styles";
 
 interface Props {
   routine: any;
@@ -20,7 +24,7 @@ const LightGraph = ({ routine }: Props) => {
             <h4>{monthData.name}</h4>
             <div>
               {monthData.lightString.split("").map((str, idx) => (
-                <div key={monthData.name + idx}>{str}</div>
+                <Light key={monthData.name + idx} on={str === "1"} />
               ))}
             </div>
           </ColumnContainer>
@@ -30,7 +34,7 @@ const LightGraph = ({ routine }: Props) => {
   };
   return (
     <div>
-      <h2>lightgraph</h2>
+      <h4>{routine.name}</h4>
       <div>{renderData()}</div>
     </div>
   );

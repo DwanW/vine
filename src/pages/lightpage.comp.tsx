@@ -10,7 +10,6 @@ const LightPage = (props: Props) => {
   return (
     <PageWrapper>
       <div>
-        this is the light page, showing light graph of the routine
         <LightGraph routine={routine} />
       </div>
     </PageWrapper>

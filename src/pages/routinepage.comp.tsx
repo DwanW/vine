@@ -9,8 +9,6 @@ const RoutinePage = (props: Props) => {
   return (
     <PageWrapper>
       <>
-        this is the Routine page, showing individual routine progress and edit
-        options
         <RoutineList routines={routines} />
       </>
     </PageWrapper>
