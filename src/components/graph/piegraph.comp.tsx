@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Cell, Pie, PieChart, Sector, Tooltip } from "recharts";
+import { Cell, Pie, PieChart, Sector, ResponsiveContainer } from "recharts";
 import { composePieGraphData } from "../../util/validation";
 import { GraphContainer } from "./graph.styles";
 
@@ -16,7 +16,7 @@ const renderActiveShape = (props: any) => {
     fill,
     payload,
     percent,
-    value,
+    // value,
   } = props;
   const sin = Math.sin(-RADIAN * midAngle);
   const cos = Math.cos(-RADIAN * midAngle);
@@ -59,7 +59,7 @@ const renderActiveShape = (props: any) => {
         y={ey}
         textAnchor={textAnchor}
         fill="#333"
-      >{`Progress: ${payload.name}`}</text>
+      >{`${payload.name}`}</text>
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
@@ -67,7 +67,7 @@ const renderActiveShape = (props: any) => {
         textAnchor={textAnchor}
         fill="#999"
       >
-        {`(Percentage: ${(percent * 100).toFixed(2)}%)`}
+        {`(${(percent * 100).toFixed(2)}%)`}
       </text>
     </g>
   );
@@ -86,26 +86,28 @@ const PieGraph = ({ routine }: Props) => {
   return (
     <GraphContainer>
       <h4>Progress Completion</h4>
-      <PieChart width={730} height={250}>
-        <Pie
-          data={composePieGraphData(
-            routine.records,
-            routine.schedule,
-            routine.startdate
-          )}
-          activeIndex={activeIndex}
-          activeShape={renderActiveShape}
-          dataKey="percentage"
-          nameKey="name"
-          cx="50%"
-          cy="50%"
-          outerRadius={100}
-          onMouseEnter={onPieEnter}
-        >
-          <Cell key="completed" fill="#66bb6a" />
-          <Cell key="uncompleted" fill="#bdbdbd" />
-        </Pie>
-      </PieChart>
+      <ResponsiveContainer width={"100%"} height={300}>
+        <PieChart width={400} height={250}>
+          <Pie
+            data={composePieGraphData(
+              routine.records,
+              routine.schedule,
+              routine.startdate
+            )}
+            activeIndex={activeIndex}
+            activeShape={renderActiveShape}
+            dataKey="percentage"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            outerRadius={100}
+            onMouseEnter={onPieEnter}
+          >
+            <Cell key="completed" fill="#66bb6a" />
+            <Cell key="uncompleted" fill="#bdbdbd" />
+          </Pie>
+        </PieChart>
+      </ResponsiveContainer>
     </GraphContainer>
   );
 };

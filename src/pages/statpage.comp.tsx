@@ -11,9 +11,7 @@ const StatsPage = (props: Props) => {
   return (
     <PageWrapper>
       <>
-        <h4>
-          this is the stats page, showing different data graph of the routine
-        </h4>
+        <h4>Routine: {routine.name}</h4>
         <LineGraph routine={routine} />
         <PieGraph routine={routine} />
       </>
