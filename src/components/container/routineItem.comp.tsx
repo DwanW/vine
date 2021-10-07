@@ -1,4 +1,4 @@
-import { Menu, MenuItem } from "@mui/material";
+import { Menu, MenuItem, Tooltip } from "@mui/material";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
@@ -7,7 +7,7 @@ import {
   scheduleToString,
 } from "../../util/validation";
 import { IconButton } from "./common.styles";
-import { RoutineItemContainer } from "./routineItem.styles";
+import { ActionContainer, LightBar, RoutineItemContainer } from "./routineItem.styles";
 
 interface Props {
   routine: any;
@@ -26,39 +26,48 @@ const RoutineItem = ({ routine }: Props) => {
 
   return (
     <RoutineItemContainer>
-      <div>{routine.name}</div>
-      <div>{scheduleToString(routine.schedule)}</div>
       <div>
-        <span>
-          Highest Streak:{" "}
-          {
-            calculateStreak(
-              routine.records,
-              routine.schedule,
-              routine.startdate
-            ).maxStreak
-          }
-        </span>{" "}
-        <span>
-          Completion:{" "}
-          {calculateCompletion(
-            routine.records,
-            routine.schedule,
-            routine.startdate
-          ) * 100}{" "}
-          %
-        </span>{" "}
+        <LightBar />
+        <div>{routine.name}</div>
+        <div>{scheduleToString(routine.schedule)}</div>
         <div>
+          <div>
+            Highest Streak:{" "}
+            {
+              calculateStreak(
+                routine.records,
+                routine.schedule,
+                routine.startdate
+              ).maxStreak
+            }
+          </div>{" "}
+          <div>
+            Completion:{" "}
+            {(
+              calculateCompletion(
+                routine.records,
+                routine.schedule,
+                routine.startdate
+              ) * 100
+            ).toFixed(2)}{" "}
+            %
+          </div>
+        </div>
+      </div>
+      <ActionContainer>
+        <Tooltip title="Light graph" arrow>
           <NavLink to={`/light/${routine.id}`}>
             <img src="assets/icon/light.svg" alt="lightgraph button" />
           </NavLink>
+        </Tooltip>
+        <Tooltip title="View Stats" arrow>
           <NavLink to={`/stats/${routine.id}`}>
             <img src="assets/icon/stats.svg" alt="stats button" />
           </NavLink>
-          <IconButton onClick={handleClick}>
-            <img src="assets/icon/vert.svg" alt="stats button" />
-          </IconButton>
-        </div>
+        </Tooltip>
+        <IconButton onClick={handleClick}>
+          <img src="assets/icon/vert.svg" alt="more button" />
+        </IconButton>
         <Menu
           id="menu"
           aria-labelledby="menu-list"
@@ -87,7 +96,7 @@ const RoutineItem = ({ routine }: Props) => {
             </IconButton>
           </MenuItem>
         </Menu>
-      </div>
+      </ActionContainer>
     </RoutineItemContainer>
   );
 };

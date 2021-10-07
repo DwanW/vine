@@ -24,7 +24,7 @@ const LightGraph = ({ routine }: Props) => {
             <h4>{monthData.name}</h4>
             <div>
               {monthData.lightString.split("").map((str, idx) => (
-                <Light key={monthData.name + idx} on={str === "1"} />
+                <Light key={monthData.name + idx} lightOn={str === "1"} />
               ))}
             </div>
           </ColumnContainer>
