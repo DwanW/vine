@@ -49,6 +49,11 @@ export const userSlice = createSlice({
         action.payload,
       ];
     },
+    deleteRoutine: (state, action: PayloadAction<any>) => {
+      state.currentUser.routines = state.currentUser.routines.filter(
+        (routine: any) => routine.id !== action.payload
+      );
+    },
     toggleTaskCompletion: (state, action: PayloadAction<any>) => {
       const taskId = action.payload;
       const task = state.currentUser.tasks.find(
@@ -103,6 +108,7 @@ export const {
   authFailure,
   addTask,
   addRoutine,
+  deleteRoutine,
   toggleTaskCompletion,
   addRecord,
   updateRecord,

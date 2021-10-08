@@ -8,17 +8,25 @@ import { GlobalStyle } from "./globalstyles";
 import MainForm from "./components/form/mainform.comp";
 import Snackbar from "@mui/material/Snackbar";
 import { useAppDispatch, useAppSelector } from "./util/hooks";
-import { closeSnackBar } from "./redux/feedback/feedback.slice";
+import {
+  closeSnackBar,
+  closeConfirmDialog,
+} from "./redux/feedback/feedback.slice";
 import RoutinePage from "./pages/routinepage.comp";
 import SettingPage from "./pages/settingpage.comp";
 import StatsPage from "./pages/statpage.comp";
 import LightPage from "./pages/lightpage.comp";
 import UpdatePage from "./pages/updatepage.comp";
+import Confirm from "./components/container/comfirm.comp";
 
 function App() {
-  const { snackbarOpen, snackbarMessage } = useAppSelector(
-    (state) => state.feedback
-  );
+  const {
+    snackbarOpen,
+    snackbarMessage,
+    confirmOpen,
+    confirmActionMsg,
+    confirmFunc,
+  } = useAppSelector((state) => state.feedback);
 
   const dispatch = useAppDispatch();
 
@@ -28,6 +36,12 @@ function App() {
       <Nav />
       <SideNav />
       <MainForm />
+      <Confirm
+        open={confirmOpen}
+        message={confirmActionMsg}
+        dispatch={confirmFunc}
+        onClose={() => dispatch(closeConfirmDialog())}
+      />
       <Snackbar
         open={snackbarOpen}
         onClose={() => dispatch(closeSnackBar())}

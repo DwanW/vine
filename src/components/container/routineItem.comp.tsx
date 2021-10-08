@@ -1,12 +1,14 @@
-import { Dialog, Menu, MenuItem, Tooltip } from "@mui/material";
+import { Menu, MenuItem, Tooltip } from "@mui/material";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { openConfirmDialog } from "../../redux/feedback/feedback.slice";
+import { deleteRoutine } from "../../redux/user/user.slice";
+import { useAppDispatch } from "../../util/hooks";
 import {
   calculateCompletion,
   calculateStreak,
   scheduleToString,
 } from "../../util/validation";
-import { IconButton } from "./common.styles";
 import {
   ActionContainer,
   Bar,
@@ -28,11 +30,25 @@ const RoutineItem = ({ routine }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
+  const dispatch = useAppDispatch();
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleDelete = () => {
+    setAnchorEl(null);
+    dispatch(
+      openConfirmDialog({
+        message: `Permanently Delete ${routine.name}.`,
+        confirmFunc: () => {
+          dispatch(deleteRoutine(routine.id));
+        },
+      })
+    );
   };
 
   return (
@@ -105,7 +121,7 @@ const RoutineItem = ({ routine }: Props) => {
               </MenuButton>
             </NavLink>
           </MenuItem>
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={handleDelete}>
             <MenuButton>
               <img src="assets/icon/delete.svg" alt="delete button" />
               <span>Delete</span>
