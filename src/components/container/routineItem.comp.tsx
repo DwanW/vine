@@ -7,7 +7,17 @@ import {
   scheduleToString,
 } from "../../util/validation";
 import { IconButton } from "./common.styles";
-import { ActionContainer, LightBar, RoutineItemContainer } from "./routineItem.styles";
+import {
+  ActionContainer,
+  Bar,
+  ItemHeader,
+  ItemSubInfo,
+  LightBar,
+  MoreButton,
+  RoutineItemContainer,
+  StatsContainer,
+  StatsInfo,
+} from "./routineItem.styles";
 
 interface Props {
   routine: any;
@@ -28,31 +38,34 @@ const RoutineItem = ({ routine }: Props) => {
     <RoutineItemContainer>
       <div>
         <LightBar />
-        <div>{routine.name}</div>
-        <div>{scheduleToString(routine.schedule)}</div>
-        <div>
+        <ItemHeader>{routine.name}</ItemHeader>
+        <ItemSubInfo>{scheduleToString(routine.schedule)}</ItemSubInfo>
+        <StatsContainer>
+          <Bar />
           <div>
-            Highest Streak:{" "}
-            {
-              calculateStreak(
-                routine.records,
-                routine.schedule,
-                routine.startdate
-              ).maxStreak
-            }
-          </div>{" "}
-          <div>
-            Completion:{" "}
-            {(
-              calculateCompletion(
-                routine.records,
-                routine.schedule,
-                routine.startdate
-              ) * 100
-            ).toFixed(2)}{" "}
-            %
+            <StatsInfo>
+              Highest Streak:{" "}
+              {
+                calculateStreak(
+                  routine.records,
+                  routine.schedule,
+                  routine.startdate
+                ).maxStreak
+              }
+            </StatsInfo>{" "}
+            <StatsInfo>
+              Completion:{" "}
+              {(
+                calculateCompletion(
+                  routine.records,
+                  routine.schedule,
+                  routine.startdate
+                ) * 100
+              ).toFixed(2)}{" "}
+              %
+            </StatsInfo>
           </div>
-        </div>
+        </StatsContainer>
       </div>
       <ActionContainer>
         <Tooltip title="Light graph" arrow>
@@ -65,9 +78,9 @@ const RoutineItem = ({ routine }: Props) => {
             <img src="assets/icon/stats.svg" alt="stats button" />
           </NavLink>
         </Tooltip>
-        <IconButton onClick={handleClick}>
+        <MoreButton onClick={handleClick}>
           <img src="assets/icon/vert.svg" alt="more button" />
-        </IconButton>
+        </MoreButton>
         <Menu
           id="menu"
           aria-labelledby="menu-list"
@@ -76,11 +89,11 @@ const RoutineItem = ({ routine }: Props) => {
           onClose={handleClose}
           anchorOrigin={{
             vertical: "top",
-            horizontal: "left",
+            horizontal: "right",
           }}
           transformOrigin={{
             vertical: "top",
-            horizontal: "left",
+            horizontal: "right",
           }}
         >
           <MenuItem onClick={handleClose}>
