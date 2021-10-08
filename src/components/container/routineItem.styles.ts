@@ -63,4 +63,14 @@ export const MoreButton = styled.button`
   background-color: transparent;
   border: none;
   padding: 0;
+  cursor: pointer;
+`;
+
+export const MenuButton = styled.div`
+  display: flex;
+  align-items: center;
+
+  & img {
+    margin-right: 0.5rem;
+  }
 `;

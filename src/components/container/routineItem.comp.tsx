@@ -13,6 +13,7 @@ import {
   ItemHeader,
   ItemSubInfo,
   LightBar,
+  MenuButton,
   MoreButton,
   RoutineItemContainer,
   StatsContainer,
@@ -97,16 +98,16 @@ const RoutineItem = ({ routine }: Props) => {
           }}
         >
           <MenuItem onClick={handleClose}>
-            <IconButton>
+            <MenuButton>
               <img src="assets/icon/edit.svg" alt="edit button" />
               <span>Edit</span>
-            </IconButton>
+            </MenuButton>
           </MenuItem>
           <MenuItem onClick={handleClose}>
-            <IconButton>
+            <MenuButton>
               <img src="assets/icon/delete.svg" alt="delete button" />
               <span>Delete</span>
-            </IconButton>
+            </MenuButton>
           </MenuItem>
         </Menu>
       </ActionContainer>
