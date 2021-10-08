@@ -13,6 +13,7 @@ import RoutinePage from "./pages/routinepage.comp";
 import SettingPage from "./pages/settingpage.comp";
 import StatsPage from "./pages/statpage.comp";
 import LightPage from "./pages/lightpage.comp";
+import UpdatePage from "./pages/updatepage.comp";
 
 function App() {
   const { snackbarOpen, snackbarMessage } = useAppSelector(
@@ -41,6 +42,7 @@ function App() {
             <Route exact path="/setting" component={SettingPage} />
             <Route path="/stats/:id" component={StatsPage} />
             <Route path="/light/:id" component={LightPage} />
+            <Route path="/update/:id" component={UpdatePage} />
           </Suspense>
         </ErrorBoundary>
       </Switch>

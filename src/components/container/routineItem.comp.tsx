@@ -1,4 +1,4 @@
-import { Menu, MenuItem, Tooltip } from "@mui/material";
+import { Dialog, Menu, MenuItem, Tooltip } from "@mui/material";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
@@ -98,10 +98,12 @@ const RoutineItem = ({ routine }: Props) => {
           }}
         >
           <MenuItem onClick={handleClose}>
-            <MenuButton>
-              <img src="assets/icon/edit.svg" alt="edit button" />
-              <span>Edit</span>
-            </MenuButton>
+            <NavLink to={`/update/${routine.id}`}>
+              <MenuButton>
+                <img src="assets/icon/edit.svg" alt="edit button" />
+                <span>Edit</span>
+              </MenuButton>
+            </NavLink>
           </MenuItem>
           <MenuItem onClick={handleClose}>
             <MenuButton>
