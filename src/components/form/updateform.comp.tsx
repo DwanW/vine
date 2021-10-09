@@ -1,6 +1,4 @@
 import dayjs, { Dayjs } from "dayjs";
-import { useState } from "react";
-import { RoutineObj } from "../../util/types";
 import DateInput from "./dateinput.comp";
 import PriorityForm from "./priority.comp";
 import ReminderForm from "./reminder.comp";
@@ -10,35 +8,20 @@ interface Props {
 }
 
 const UpdateForm = ({ routine }: Props) => {
-  const [routineCopy, setRoutineCopy] = useState({
-    ...routine,
-    name: routine.name,
-    schedule: routine.schedule,
-    startdate: routine.startdate,
-    enddate: routine.enddate,
-    reminders: [...routine.reminders],
-    priority: routine.priority,
-    records: [...routine.records],
-  });
-
-  const handleStartDateChange = (date: Dayjs) => {
-    let updatedRoutine: { [key: string]: any } = { ...routineCopy };
-    if (
-      date &&
-      routineCopy.enddate &&
-      date?.startOf("date").valueOf() >
-        dayjs(routineCopy.enddate).startOf("date").valueOf()
-    ) {
-      updatedRoutine.enddate = null;
-    }
-    updatedRoutine.startdate = date;
-    setRoutineCopy(updatedRoutine as RoutineObj);
+  const updateStartDate = (date: Dayjs) => {
+    // TODO: custom dispatch logic
   };
 
-  const handleEndDateChange = (date: Dayjs) => {
-    let updatedRoutine: { [key: string]: any } = { ...routineCopy };
-    updatedRoutine.enddate = date;
-    setRoutineCopy(updatedRoutine as RoutineObj);
+  const updateEndDate = (date: Dayjs) => {
+    // TODO: custom dispatch logic
+  };
+
+  const updateReminder = () => {
+    // TODO: custom dispatch logic
+  };
+
+  const updatePriority = () => {
+    // TODO: custom dispatch logic
   };
   return (
     <div>
@@ -48,17 +31,20 @@ const UpdateForm = ({ routine }: Props) => {
       </div>
       <DateInput
         value={routine.startdate}
-        handleChange={handleStartDateChange}
+        handleChange={updateStartDate}
         label="Start date"
       />
       <DateInput
         value={routine.enddate}
-        handleChange={handleEndDateChange}
+        handleChange={updateEndDate}
         label="End date (optional)"
         minDate={dayjs(routine.startdate)}
       />
-      <ReminderForm obj={routine} setObj={setRoutineCopy} />
-      <PriorityForm obj={routine} setObj={setRoutineCopy} />
+      <ReminderForm
+        reminders={routine.reminders}
+        setReminders={updateReminder}
+      />
+      <PriorityForm obj={routine} setObj={updatePriority} />
       <div>restart record</div>
       <div>delete routine</div>
     </div>

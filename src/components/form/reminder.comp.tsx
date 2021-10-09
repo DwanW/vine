@@ -20,11 +20,11 @@ import { openSnackBar } from "../../redux/feedback/feedback.slice";
 import { TextField } from "@mui/material";
 
 interface Props {
-  obj: any;
-  setObj: (props: any) => void;
+  reminders: any[];
+  setReminders: (props: any) => void;
 }
 
-const ReminderForm = ({ obj, setObj }: Props) => {
+const ReminderForm = ({ reminders, setReminders }: Props) => {
   const [isReminderDialogOpen, setReminderDialog] = useState(false);
   const [isUpdateReminderOpen, setUpdateReminder] = useState(false);
   const [updateIndex, setUpdateIndex] = useState<null | number>(null);
@@ -33,8 +33,8 @@ const ReminderForm = ({ obj, setObj }: Props) => {
   const dispatch = useAppDispatch();
 
   const addReminder = (time: Date) => {
-    let updatedObj = { ...obj };
-    let isRepeat = updatedObj.reminders
+    let updatedReminders = [...reminders];
+    let isRepeat = updatedReminders
       .map((reminder: Date) => dayjs(reminder).format("HH:mm"))
       .includes(dayjs(time).format("HH:mm"));
 
@@ -46,15 +46,15 @@ const ReminderForm = ({ obj, setObj }: Props) => {
       dispatch(openSnackBar("Selected time already exist"));
       return;
     }
-    updatedObj.reminders = [...updatedObj.reminders, time];
-    setObj(updatedObj);
+    updatedReminders = [...updatedReminders, time];
+    setReminders(updatedReminders);
     setUpdateReminder(false);
     setReminderDialog(true);
   };
 
   const updateReminder = (time: Date, index: number) => {
-    let updatedObj: { [key: string]: any } = { ...obj };
-    let isRepeat = updatedObj.reminders
+    let updatedReminders = [...reminders];
+    let isRepeat = updatedReminders
       .map((reminder: Date) => dayjs(reminder).format("HH:mm"))
       .includes(dayjs(time).format("HH:mm"));
     if (isRepeat) {
@@ -62,19 +62,19 @@ const ReminderForm = ({ obj, setObj }: Props) => {
       return;
     }
 
-    updatedObj.reminders[index] = time;
-    setObj(updatedObj);
+    updatedReminders[index] = time;
+    setReminders(updatedReminders);
     setUpdateReminder(false);
     setReminderDialog(true);
     setUpdateIndex(null);
   };
 
   const deleteReminder = (idx: number) => {
-    let updatedObj: { [key: string]: any } = { ...obj };
-    updatedObj.reminders = updatedObj.reminders.filter(
+    let updatedReminders = [...reminders];
+    updatedReminders = updatedReminders.filter(
       (reminder: any, index: number) => idx !== index
     );
-    setObj(updatedObj);
+    setReminders(updatedReminders);
     setUpdateReminder(false);
     setReminderDialog(true);
   };
@@ -86,7 +86,7 @@ const ReminderForm = ({ obj, setObj }: Props) => {
         <span>Reminder</span>
       </IconContainer>
       <FormCircleButton type="button" onClick={() => setReminderDialog(true)}>
-        {obj.reminders.length}
+        {reminders.length}
       </FormCircleButton>
       <Dialog
         open={isReminderDialogOpen}
@@ -97,7 +97,7 @@ const ReminderForm = ({ obj, setObj }: Props) => {
       >
         <ReminderDialogContainer>
           <DialogHeader>Reminder Notifications</DialogHeader>
-          {obj.reminders.map((date: Date, idx: number) => (
+          {reminders.map((date: Date, idx: number) => (
             <ReminderItemContainer key={idx}>
               <FormCircleButton
                 onClick={() => {
@@ -143,9 +143,7 @@ const ReminderForm = ({ obj, setObj }: Props) => {
             label="12 hours"
             value={time}
             onChange={(date) => setTime(date)}
-            renderInput={(props) => (
-              <TextField {...props}/>
-            )}
+            renderInput={(props) => <TextField {...props} />}
           />
           <ButtonGroupContainer>
             <FormFlatButton

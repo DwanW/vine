@@ -204,6 +204,12 @@ const RoutineForm = ({ closeForm }: Props) => {
     updatedRoutine.enddate = date;
     setRoutine(updatedRoutine as RoutineObj);
   };
+
+  const handleRemindersChange = (reminders: any[]) => {
+    let updatedRoutine: { [key: string]: any } = { ...routine };
+    updatedRoutine.reminders = reminders;
+    setRoutine(updatedRoutine as RoutineObj);
+  };
   return (
     <form onSubmit={handleSubmit}>
       <DialogContainer>
@@ -252,6 +258,7 @@ const RoutineForm = ({ closeForm }: Props) => {
             handleStartDateChange={handleStartDateChange}
             handleEndDateChange={handleEndDateChange}
             setRoutine={setRoutine}
+            setReminders={handleRemindersChange}
           />
         )}
 

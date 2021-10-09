@@ -86,6 +86,12 @@ const TaskForm = ({ closeForm }: Props) => {
     setTask(updatedTask as TaskObj);
   };
 
+  const handleRemindersChange = (reminders: any[]) => {
+    let updatedTask: { [key: string]: any } = { ...task };
+    updatedTask.reminders = reminders;
+    setTask(updatedTask as TaskObj);
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <TaskFormContainer>
@@ -104,7 +110,10 @@ const TaskForm = ({ closeForm }: Props) => {
           handleChange={handleDateChange}
           label="Start Date"
         />
-        <ReminderForm obj={task} setObj={setTask} />
+        <ReminderForm
+          reminders={task.reminders}
+          setReminders={handleRemindersChange}
+        />
         <PriorityForm obj={task} setObj={setTask} />
 
         <CheckboxContainer>
