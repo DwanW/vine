@@ -44,7 +44,7 @@ const UpdateForm = ({ routine }: Props) => {
         reminders={routine.reminders}
         setReminders={updateReminder}
       />
-      <PriorityForm obj={routine} setObj={updatePriority} />
+      <PriorityForm priority={routine.priority} setPriority={updatePriority} />
       <div>restart record</div>
       <div>delete routine</div>
     </div>

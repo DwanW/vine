@@ -8,7 +8,7 @@ interface Props {
   routine: RoutineObj;
   handleStartDateChange: (props: any) => void;
   handleEndDateChange: (props: any) => void;
-  setRoutine: (props: any) => void;
+  setPriority: (props: any) => void;
   setReminders: (props: any) => void;
 }
 
@@ -16,7 +16,7 @@ const RoutineLastStep = ({
   routine,
   handleStartDateChange,
   handleEndDateChange,
-  setRoutine,
+  setPriority,
   setReminders,
 }: Props) => {
   return (
@@ -33,7 +33,7 @@ const RoutineLastStep = ({
         minDate={dayjs(routine.startdate)}
       />
       <ReminderForm reminders={routine.reminders} setReminders={setReminders} />
-      <PriorityForm obj={routine} setObj={setRoutine} />
+      <PriorityForm priority={routine.priority} setPriority={setPriority} />
     </div>
   );
 };

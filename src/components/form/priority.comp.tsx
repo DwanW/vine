@@ -9,16 +9,14 @@ import {
 } from "./priority.styles";
 
 interface Props {
-  obj: any;
-  setObj: (props: any) => void;
+  priority: number;
+  setPriority: (props: any) => void;
 }
 
-const PriorityForm = ({ obj, setObj }: Props) => {
+const PriorityForm = ({ priority, setPriority }: Props) => {
   const [isPriorityDialogOpen, setPriorityDialog] = useState(false);
   const changePriority = (value: number) => {
-    let updatedObj: { [key: string]: any } = { ...obj };
-    updatedObj.priority = value;
-    setObj(updatedObj);
+    setPriority(value);
     setPriorityDialog(false);
   };
 
@@ -39,7 +37,7 @@ const PriorityForm = ({ obj, setObj }: Props) => {
         <span>Priority</span>
       </IconContainer>
       <PriorityButton type="button" onClick={() => setPriorityDialog(true)}>
-        <span>{convertPriorityToString(obj.priority)}</span>
+        <span>{convertPriorityToString(priority)}</span>
       </PriorityButton>
       <Dialog
         open={isPriorityDialogOpen}

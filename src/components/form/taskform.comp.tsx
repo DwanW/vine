@@ -92,6 +92,12 @@ const TaskForm = ({ closeForm }: Props) => {
     setTask(updatedTask as TaskObj);
   };
 
+  const handlePriorityChange = (priority: number) => {
+    let updatedTask: { [key: string]: any } = { ...task };
+    updatedTask.priority = priority;
+    setTask(updatedTask as TaskObj);
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <TaskFormContainer>
@@ -114,7 +120,10 @@ const TaskForm = ({ closeForm }: Props) => {
           reminders={task.reminders}
           setReminders={handleRemindersChange}
         />
-        <PriorityForm obj={task} setObj={setTask} />
+        <PriorityForm
+          priority={task.priority}
+          setPriority={handlePriorityChange}
+        />
 
         <CheckboxContainer>
           <IconContainer>
