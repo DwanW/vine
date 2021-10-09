@@ -93,7 +93,10 @@ export const isToDoItemToday = (obj: any) => {
       throw Error("validation error");
     }
   } else {
-    console.log("error, this is neither task or routine");
+    console.log({
+      message: "this routine is outside the date range, or not valid",
+      obj,
+    });
     return false;
   }
 };

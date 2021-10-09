@@ -1,8 +1,8 @@
-import { Dayjs } from "dayjs";
+import dayjs from "dayjs";
+import { RoutineObj } from "../../util/types";
 import DateInput from "./dateinput.comp";
 import PriorityForm from "./priority.comp";
 import ReminderForm from "./reminder.comp";
-import { RoutineObj } from "./routineform.comp";
 
 interface Props {
   routine: RoutineObj;
@@ -28,7 +28,7 @@ const RoutineLastStep = ({
         value={routine.enddate}
         handleChange={handleEndDateChange}
         label="End date (optional)"
-        minDate={routine.startdate as Dayjs}
+        minDate={dayjs(routine.startdate)}
       />
       <ReminderForm obj={routine} setObj={setRoutine} />
       <PriorityForm obj={routine} setObj={setRoutine} />

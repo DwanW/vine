@@ -1,12 +1,12 @@
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import { ReactElement } from "react";
-import { RoutineObj } from "./routineform.comp";
 import {
   InputContainer,
   InputWithSelectContainer,
   InputWithTextContainer,
 } from "../container/common.styles";
+import { RoutineObj } from "../../util/types";
 
 const conditions = [
   { name: "At least", value: ">" },

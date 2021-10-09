@@ -4,7 +4,6 @@ import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import dayjs from "dayjs";
-import { RoutineObj } from "./routineform.comp";
 import {
   ExpandContainer,
   WeekDayCheckBoxContainer,
@@ -13,6 +12,7 @@ import {
   TwoInputWithTextContainer,
   TwoTextWithInputContainer,
 } from "../container/common.styles";
+import { RoutineObj } from "../../util/types";
 
 interface Props {
   routine: RoutineObj;
