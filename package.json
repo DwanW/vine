@@ -11,12 +11,12 @@
     "@reduxjs/toolkit": "^1.6.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.2",
-    "@testing-library/user-event": "^13.4.1",
+    "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.0.2",
     "@types/node": "^16.11.1",
     "@types/react": "^17.0.30",
-    "@types/react-dom": "^17.0.9",
-    "@types/react-redux": "^7.1.19",
+    "@types/react-dom": "^17.0.10",
+    "@types/react-redux": "^7.1.20",
     "dayjs": "^1.10.7",
     "firebase": "^9.1.3",
     "lodash": "^4.17.21",
@@ -27,7 +27,7 @@
     "react-scripts": "4.0.3",
     "recharts": "^2.1.5",
     "redux-saga": "^1.1.3",
-    "styled-components": "^5.3.1",
+    "styled-components": "^5.3.3",
     "typescript": "^4.4.4",
     "uuid": "^8.3.2",
     "web-vitals": "^2.1.2",
@@ -65,7 +65,7 @@
     ]
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.175",
+    "@types/lodash": "^4.14.176",
     "@types/react-router-dom": "^5.3.1",
     "@types/styled-components": "^5.1.15",
     "@types/uuid": "^8.3.1"
