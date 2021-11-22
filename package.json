@@ -3,22 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@emotion/react": "^11.5.0",
-    "@emotion/styled": "^11.3.0",
-    "@mui/lab": "^5.0.0-alpha.53",
-    "@mui/material": "^5.0.6",
+    "@emotion/react": "^11.6.0",
+    "@emotion/styled": "^11.6.0",
+    "@mui/lab": "^5.0.0-alpha.55",
+    "@mui/material": "^5.1.1",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@5.0.3",
     "@reduxjs/toolkit": "^1.6.2",
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.0.2",
-    "@types/node": "^16.11.6",
-    "@types/react": "^17.0.34",
+    "@types/jest": "^27.0.3",
+    "@types/node": "^16.11.9",
+    "@types/react": "^17.0.36",
     "@types/react-dom": "^17.0.11",
     "@types/react-redux": "^7.1.20",
     "dayjs": "^1.10.7",
-    "firebase": "^9.3.0",
+    "firebase": "^9.5.0",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -28,14 +28,14 @@
     "recharts": "^2.1.6",
     "redux-saga": "^1.1.3",
     "styled-components": "^5.3.3",
-    "typescript": "^4.4.4",
+    "typescript": "^4.5.2",
     "uuid": "^8.3.2",
     "web-vitals": "^2.1.2",
-    "workbox-core": "^6.3.0",
-    "workbox-expiration": "^6.3.0",
-    "workbox-precaching": "^6.3.0",
-    "workbox-routing": "^6.3.0",
-    "workbox-strategies": "^6.3.0"
+    "workbox-core": "^6.4.1",
+    "workbox-expiration": "^6.4.1",
+    "workbox-precaching": "^6.4.1",
+    "workbox-routing": "^6.4.1",
+    "workbox-strategies": "^6.4.1"
   },
   "resolutions": {
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
@@ -65,9 +65,9 @@
     ]
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.176",
+    "@types/lodash": "^4.14.177",
     "@types/react-router-dom": "^5.3.2",
     "@types/styled-components": "^5.1.15",
-    "@types/uuid": "^8.3.1"
+    "@types/uuid": "^8.3.3"
   }
 }
